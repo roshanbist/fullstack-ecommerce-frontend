@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <nav className='md:flex-1 md:mx-10' ref={navRef}>
-      <span className='md:hidden'>
+      <span className='md:hidden cursor-pointer text-[20px]'>
         {isMobile ? (
           <FontAwesomeIcon icon={faXmark} onClick={() => setIsMobile(false)} />
         ) : (
