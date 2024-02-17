@@ -1,12 +1,52 @@
+import React from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { footerMenuLinks, socialMediaLinks } from '../../constants';
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
-    <footer className='bg-gray-700 py-12'>
+    <footer className='bg-gray-700 py-12 text-center text-white'>
       <div className='max-container'>
-        <div className='flex justify-between'>
-          {/* div one for help with menu NKDP */}
-          {/* another corner get in touch social icon and contact number */}
-          {/* separator line and one corner copyright and another corner terms and condition
-          in one corner it can be like.. this project is done for thiss... purpose check this github... */}
+        <div>
+          <h4 className='text-xl font-bold capitalize mb-4'>Help</h4>
+          <ul className='flex flex-wrap gap-3 md:gap-5 justify-center mb-5'>
+            {footerMenuLinks.map((menu) => (
+              <li key={menu.label}>
+                <Link
+                  className='text-white hover:text-brown-50 transition-colors ease-in-out duration-300'
+                  to={menu.href}
+                >
+                  {menu.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 className='text-xl font-bold capitalize mb-4'>Follow Us</h4>
+          <ul className='flex gap-5 justify-center mb-5 text-[28px]'>
+            {socialMediaLinks.map((item, index) => (
+              <li key={index}>
+                <FontAwesomeIcon icon={item.icon} />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className='border-b h-[2px] border-gray-300 mb-8'></div>
+        <div className='text-sm'>
+          <p>
+            This website is developed as part of Integrify Frontend Project for
+            educational purpose by{' '}
+            <Link
+              target='_blank'
+              rel='noreferrer'
+              to='https://github.com/roshanbist'
+              className='text-brown-50 hover:text-white transition-colors ease-in-out duration-300'
+            >
+              Roshan
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

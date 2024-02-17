@@ -4,9 +4,9 @@ const ProductHighlights = () => {
   return (
     <section className='py-12'>
       <div className='max-container'>
-        <h1 className='text-2xl text-brown-50 mb-5 uppercase text-center font-bold'>
+        <h2 className='text-xl sm:text-2xl text-brown-50 mb-5 uppercase text-center font-bold'>
           Products Highlight
-        </h1>
+        </h2>
         <span className='block w-[120px] h-[2px] bg-brown-50 mx-auto mb-5'></span>
         <p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat

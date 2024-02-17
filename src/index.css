@@ -13,13 +13,17 @@
   scroll-behavior: smooth;
 }
 
-/* html {
-  background: #000;
-} */
+html {
+  background: #383733;
+}
 
-/* body {
+body {
   background: #fff;
-} */
+}
+
+body.mobile-nav {
+  overflow: hidden;
+}
 
 @layer components {
   .max-container {

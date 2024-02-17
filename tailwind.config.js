@@ -18,12 +18,12 @@ module.exports = {
       },
 
       colors: {
-        text: '#2D2C36',
+        text: '#2d2c36',
         // 'brown-50': '#966b3a',
         // 'brown-80': '#70502c',
+        'brown-20': '#dab384',
         'brown-50': '#a3651d',
         'brown-80': '#804d11',
-        'brown-20': '#dab384',
 
         // 'light-white': '#f0f1f1',
         'light-white': '#ece6db',
