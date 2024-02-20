@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
-import { ProductInitialState, ProductType } from '../../misc/type';
+import { ProductInitialState, ProductType } from '../../types/Product';
 
 const URL = 'https://api.escuelajs.co/api/v1/products';
 

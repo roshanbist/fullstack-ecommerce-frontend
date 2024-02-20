@@ -5,6 +5,7 @@ import { AppState, useAppDispatch } from '../redux/store';
 import { fetchAllProducts } from '../redux/slices/ProductSlice';
 import ProductCard from '../components/productCard/ProductCard';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
+import { fetchAllCategories } from '../redux/slices/CategorySlice';
 
 const Products = () => {
   const dispatch = useAppDispatch();
@@ -12,8 +13,18 @@ const Products = () => {
     (state: AppState) => state.products
   );
 
+  const { categories, categLoading, categError } = useSelector(
+    (state: AppState) => state.categories
+  );
+
+  console.log('categories', categories);
+
   useEffect(() => {
     dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
   }, [dispatch]);
 
   return (

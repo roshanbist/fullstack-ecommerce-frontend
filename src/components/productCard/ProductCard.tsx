@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ProductType } from '../../misc/type';
+import { ProductType } from '../../types/Product';
 import ProductPlaceholder from '../../assets/images/productPlaceholder.png';
 
 const ProductCard = ({ productData }: { productData: ProductType }) => {

@@ -25,6 +25,11 @@ body.mobile-nav {
   overflow: hidden;
 }
 
+.scroll-to-top {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
 @layer components {
   .max-container {
     max-width: 1200px;
