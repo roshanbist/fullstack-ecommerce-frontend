@@ -6,11 +6,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer {
+  :root {
+    --color-text-primary: #2d3948;
+    --color-text-secondary: #4b5569;
+    --color-bg-primary: #fefffe;
+    --color-bg-secondary: #ece6db;
+  }
+
+  :root[data-theme='dark'] {
+    --color-text-primary: #f9fbfb;
+    --color-text-secondary: #e2e9f1;
+    --color-bg-primary: #2d3948;
+    --color-bg-secondary: #293040;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  transition: all 0.2s ease-in-out;
 }
 
 html {
@@ -18,7 +35,7 @@ html {
 }
 
 body {
-  background: #fff;
+  background: var(--color-bg-primary);
 }
 
 body.mobile-nav {
@@ -38,10 +55,10 @@ body.mobile-nav {
   }
 
   .btn-primary {
-    @apply inline-block min-w-[130px] text-[18px] bg-brown-50 border-brown-50 capitalize text-white outline-none px-9 py-3 font-medium hover:bg-brown-80 transition-colors ease-in-out duration-300;
+    @apply inline-block min-w-[130px] text-[18px] bg-brown-50 border-brown-50 capitalize text-white outline-none px-9 py-3 font-medium hover:bg-brown-80 transition-colors ease-in-out duration-300 text-center;
   }
 
-  .form-input {
+  /* .form-input {
     @apply block w-full leading-5 h-[50px] py-3 px-4 outline-none border rounded-lg shadow-lg bg-white;
   }
 

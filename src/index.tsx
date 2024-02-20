@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './components/contextAPI/ColorThemeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

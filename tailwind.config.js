@@ -17,13 +17,22 @@ module.exports = {
         sans: ['Roboto', 'sans-serif'],
       },
 
+      // backgroundColor: {
+      //   'primary': 'var(--color-bg-primary)',
+      //   'bg-secondary': 'var(--color-bg-secondary)',
+      // }
+
       colors: {
-        text: '#2d2c36',
-        // 'brown-20': '#dab384',
+        // text: '#2d2c36',
         'brown-50': '#a3651d',
         'brown-80': '#804d11',
-        'light-white': '#ece6db',
         'gray-700': '#383733',
+        // 'light-white': '#ece6db',
+
+        primary: 'var(--color-text-primary)',
+        secondary: 'var(--color-text-secondary)',
+        'bkg-primary': 'var(--color-bg-primary)',
+        'bkg-secondary': 'var(--color-bg-secondary)',
       },
 
       backgroundImage: {
@@ -32,5 +41,5 @@ module.exports = {
     },
   },
   plugins: [],
-  darkMode: 'class',
+  // darkMode: 'class',
 };

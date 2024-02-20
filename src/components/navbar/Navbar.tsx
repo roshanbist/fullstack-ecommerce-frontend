@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <nav className='md:flex-1 md:mx-10' ref={navRef}>
-      <span className='md:hidden cursor-pointer text-[20px]'>
+      <span className='md:hidden cursor-pointer text-[20px] relative z-10'>
         {isMobile ? (
           <FontAwesomeIcon icon={faXmark} onClick={() => setIsMobile(false)} />
         ) : (
@@ -63,15 +63,15 @@ const Navbar = () => {
         )}
       </span>
       <div
-        className={`max-md:absolute w-full left-0 top-[67px] max-md:transition-all max-md:ease-in-out max-md:duration-300 ${
+        className={`max-md:fixed w-full left-0 top-0 max-md:pt-[67px] bottom-0 max-md:transition-all max-md:ease-in-out max-md:duration-300 ${
           isMobile ? 'translate-x-0' : 'max-md:translate-x-full'
         } max-md:bg-light-white max-md:border-t max-md:border-t-neutral-300`}
       >
-        <ul className='md:flex md:gap-10 font-medium md:text-[18px]'>
+        <ul className='md:flex md:gap-10 font-medium md:text-[18px] max-md:border-t max-md:border-t-brown-50'>
           {navLinks.map((navItem) => (
             <li
               key={navItem.label}
-              className='max-md:px-5 max-md:py-4 max-md:border-b border-b-neutral-300'
+              className='max-md:px-5 max-md:py-4 max-md:border-b border-b-brown-50'
             >
               <Link
                 className={`hover:text-brown-80 font-medium transition-colors ease-in-out duration-300 ${

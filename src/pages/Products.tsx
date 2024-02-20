@@ -17,7 +17,7 @@ const Products = () => {
     (state: AppState) => state.categories
   );
 
-  console.log('categories', categories);
+  // console.log('categories', categories);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -32,7 +32,7 @@ const Products = () => {
       <section className='py-10'>
         <div className='max-container'>
           <h2 className='text-2xl font-medium mb-6'>Product List</h2>
-          <div className='card-wrap grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
+          <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
             {loading ? (
               <p>loading...</p>
             ) : error ? (

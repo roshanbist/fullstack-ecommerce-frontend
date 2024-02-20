@@ -6,6 +6,8 @@ import Footer from './components/footer/Footer';
 import { Home, Products, ProductDetail } from './pages';
 
 function App() {
+  // const storeIt: string = 'hello world';
+  // localStorage.setItem('new', storeIt);
   return (
     <div className='overflow-hidden w-full relative'>
       <Header />
