@@ -15,6 +15,7 @@ export type ProductType = {
 
 export type ProductInitialState = {
   products: ProductType[];
+  selectedSingleProduct?: ProductType | null;
   loading: boolean;
   error?: string | null;
 };

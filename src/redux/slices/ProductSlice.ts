@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { ProductInitialState, ProductType } from '../../misc/type';
 
@@ -7,6 +7,7 @@ const URL = 'https://api.escuelajs.co/api/v1/products';
 
 const initialState: ProductInitialState = {
   products: [],
+  selectedSingleProduct: null,
   loading: false,
   error: '',
 };
@@ -14,13 +15,27 @@ const initialState: ProductInitialState = {
 // Thunk action creator to fetch all products asynchronously
 export const fetchAllProducts = createAsyncThunk(
   'fetchAllProducts',
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const response: AxiosResponse<ProductType[]> = await axios.get(URL);
       return response.data;
     } catch (e) {
-      const error = e as AxiosError;
-      return error;
+      return rejectWithValue(e);
+    }
+  }
+);
+
+// Thunk action creator to fetch a single product by its ID
+export const fetchSingleProduct = createAsyncThunk(
+  'fetchSingleProduct',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      const response: AxiosResponse<ProductType> = await axios.get(
+        `${URL}/${productId}`
+      );
+      return response.data;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   }
 );
@@ -31,34 +46,58 @@ const productSlice = createSlice({
   reducers: {},
 
   extraReducers(builder) {
-    // Save products data in redux when the fetchAllProducts action is fulfilled
+    // Save products data when fetchAllProducts action is fulfilled
     builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
-      if (!(action.payload instanceof AxiosError)) {
-        return {
-          ...state,
-          products: action.payload,
-          loading: false,
-        };
-      }
+      return {
+        ...state,
+        products: action.payload,
+        loading: false,
+        error: '',
+      };
     });
 
-    // Handles loading state when the fetchAllProducts action is pending
+    // Handles loading state when fetchAllProducts action is pending
     builder.addCase(fetchAllProducts.pending, (state, action) => {
       return {
         ...state,
         loading: true,
+        error: '',
       };
     });
 
-    // Handles error state when the fetchAllProducts action is rejected
+    // Handles error state when fetchAllProducts action is rejected
     builder.addCase(fetchAllProducts.rejected, (state, action) => {
-      if (action.payload instanceof AxiosError) {
-        return {
-          ...state,
-          loading: false,
-          error: action.payload.message,
-        };
-      }
+      return {
+        ...state,
+        loading: false,
+        error: action.error.message,
+      };
+    });
+
+    // save single product data when fetchSingleProduct action is fulfilled
+    builder.addCase(fetchSingleProduct.fulfilled, (state, action) => {
+      return {
+        ...state,
+        selectedSingleProduct: action.payload,
+        loading: false,
+        error: '',
+      };
+    });
+
+    builder.addCase(fetchSingleProduct.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+        error: '',
+      };
+    });
+
+    builder.addCase(fetchSingleProduct.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.error.message,
+      };
     });
   },
 });

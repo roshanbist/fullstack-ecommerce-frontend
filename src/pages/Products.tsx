@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import MainWrapper from '../components/wrapper/MainWrapper';
 import { AppState, useAppDispatch } from '../redux/store';
 import { fetchAllProducts } from '../redux/slices/ProductSlice';
 import ProductCard from '../components/productCard/ProductCard';
+import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 
 const Products = () => {
   const dispatch = useAppDispatch();
@@ -16,11 +16,8 @@ const Products = () => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  // console.log('product data', products);
-  // console.log('loading', loading);
-  // console.log('error', error);
   return (
-    <MainWrapper>
+    <ContentWrapper>
       <section className='py-10'>
         <div className='max-container'>
           <h2 className='text-2xl font-medium mb-6'>Product List</h2>
@@ -28,7 +25,9 @@ const Products = () => {
             {loading ? (
               <p>loading...</p>
             ) : error ? (
-              <p className='text-lg font-medium text-red-600'>{error}</p>
+              <p className='text-lg font-medium text-red-600'>
+                Sorry for disruption due to error
+              </p>
             ) : (
               products &&
               products.map((product) => (
@@ -38,7 +37,7 @@ const Products = () => {
           </div>
         </div>
       </section>
-    </MainWrapper>
+    </ContentWrapper>
   );
 };
 
