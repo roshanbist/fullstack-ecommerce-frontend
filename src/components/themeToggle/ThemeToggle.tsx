@@ -13,9 +13,9 @@ const ThemeToggle = () => {
     <>
       <button onClick={toggleTheme}>
         {theme === 'light' ? (
-          <FontAwesomeIcon icon={faSun} />
-        ) : (
           <FontAwesomeIcon icon={faMoon} />
+        ) : (
+          <FontAwesomeIcon icon={faSun} />
         )}
       </button>
     </>

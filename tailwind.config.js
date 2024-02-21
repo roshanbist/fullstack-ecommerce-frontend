@@ -17,22 +17,21 @@ module.exports = {
         sans: ['Roboto', 'sans-serif'],
       },
 
-      // backgroundColor: {
-      //   'primary': 'var(--color-bg-primary)',
-      //   'bg-secondary': 'var(--color-bg-secondary)',
-      // }
-
       colors: {
-        // text: '#2d2c36',
-        'brown-50': '#a3651d',
-        'brown-80': '#804d11',
-        'gray-700': '#383733',
-        // 'light-white': '#ece6db',
+        baseColor: '#434d5d',
+        'blue-500': '#007fff',
+        'blue-600': '#1272d3',
+        'gray-700': '#101418',
 
-        primary: 'var(--color-text-primary)',
-        secondary: 'var(--color-text-secondary)',
-        'bkg-primary': 'var(--color-bg-primary)',
-        'bkg-secondary': 'var(--color-bg-secondary)',
+        'color-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
+        'color-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
+        'palette-primary': 'rgb(var(--color-bg-primary) / <alpha-value>)',
+        'palette-secondary': 'rgb(var(--color-bg-secondary) / <alpha-value>)',
+        'palette-accent': 'rgb(var(--color-bg-accent) / <alpha-value>)',
+      },
+
+      boxShadow: {
+        xl: 'rgb(229, 234, 242) 0px -1px 1px 0px inset',
       },
 
       backgroundImage: {

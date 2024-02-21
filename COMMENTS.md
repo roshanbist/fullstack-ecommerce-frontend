@@ -23,3 +23,12 @@ text
     text color 2 : #E2E9F1
 
  -->
+
+ <!-- 
+    modifying
+    box-shadow: rgb(229, 234, 242) 0px -1px 1px 0px inset as header border bottom
+    
+
+ 
+ 
+  -->

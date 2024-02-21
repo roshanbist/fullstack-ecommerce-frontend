@@ -74,8 +74,8 @@ const Navbar = () => {
               className='max-md:px-5 max-md:py-4 max-md:border-b border-b-brown-50'
             >
               <Link
-                className={`hover:text-brown-80 font-medium transition-colors ease-in-out duration-300 ${
-                  location.pathname === navItem.href ? 'text-brown-80' : ''
+                className={`hover:text-blue-600 font-medium transition-colors ease-in-out duration-300 ${
+                  location.pathname === navItem.href ? 'text-blue-600' : ''
                 }`}
                 to={navItem.href}
                 onClick={navCloseHandler}

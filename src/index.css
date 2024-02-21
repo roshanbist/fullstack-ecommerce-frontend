@@ -8,17 +8,19 @@
 
 @layer {
   :root {
-    --color-text-primary: #2d3948;
-    --color-text-secondary: #4b5569;
-    --color-bg-primary: #fefffe;
-    --color-bg-secondary: #ece6db;
+    --color-text-primary: 67 77 91;
+    --color-text-secondary: 31 38 46;
+    --color-bg-primary: 254 254 254;
+    --color-bg-secondary: 236 247 255;
+    --color-bg-accent: 218 226 237;
   }
 
   :root[data-theme='dark'] {
-    --color-text-primary: #f9fbfb;
-    --color-text-secondary: #e2e9f1;
-    --color-bg-primary: #2d3948;
-    --color-bg-secondary: #293040;
+    --color-text-primary: 176 184 196;
+    --color-text-secondary: 255 255 255;
+    --color-bg-primary: 17 21 24;
+    --color-bg-secondary: 16 20 24;
+    --color-bg-accent: 20 26 31;
   }
 }
 
@@ -27,15 +29,17 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out 0.2s;
 }
 
-html {
-  background: #383733;
+@layer base {
+  html {
+    @apply bg-gray-700;
+  }
 }
 
 body {
-  background: var(--color-bg-primary);
+  background: rgb(var(--color-bg-primary));
 }
 
 body.mobile-nav {
@@ -55,7 +59,7 @@ body.mobile-nav {
   }
 
   .btn-primary {
-    @apply inline-block min-w-[130px] text-[18px] bg-brown-50 border-brown-50 capitalize text-white outline-none px-9 py-3 font-medium hover:bg-brown-80 transition-colors ease-in-out duration-300 text-center;
+    @apply inline-block min-w-[130px] text-[18px] bg-blue-500 border-blue-500 capitalize text-white outline-none px-9 py-3 font-medium hover:bg-blue-600 transition-colors ease-in-out duration-300 text-center;
   }
 
   /* .form-input {
