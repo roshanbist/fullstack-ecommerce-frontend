@@ -12,7 +12,7 @@ const ScrollTop = () => {
       component={
         <FontAwesomeIcon
           icon={faCircleArrowUp}
-          className='text-[36px] text-brown-50 hover:text-brown-80 transition-colors ease-in-out duration-300'
+          className='text-[36px] text-blue-500 hover:text-blue-600 transition-colors ease-in-out duration-300'
         />
       }
     />

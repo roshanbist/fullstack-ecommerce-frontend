@@ -7,7 +7,7 @@ import ScrollTop from '../scrollTop/ScrollTop';
 
 const Footer = () => {
   return (
-    <footer className='bg-gray-700 py-12 text-center text-white'>
+    <footer className='bg-gray-700 border-t border-t-palette-accent py-12 text-center text-white'>
       <div className='max-container'>
         <div>
           <h4 className='text-xl font-bold capitalize mb-4'>Help</h4>
@@ -15,7 +15,7 @@ const Footer = () => {
             {footerMenuLinks.map((menu) => (
               <li key={menu.label}>
                 <Link
-                  className='text-white hover:text-brown-50 transition-colors ease-in-out duration-300'
+                  className='text-white hover:text-blue-600 transition-colors ease-in-out duration-300'
                   to={menu.href}
                 >
                   {menu.label}
@@ -34,7 +34,7 @@ const Footer = () => {
             ))}
           </ul>
         </div>
-        <div className='border-b h-[2px] border-gray-300 mb-8'></div>
+        <div className='border-b h-[2px] border-b-palette-accent mb-8'></div>
         <div className='text-sm'>
           <p>
             This website is developed as part of Integrify Frontend Project for
@@ -43,7 +43,7 @@ const Footer = () => {
               target='_blank'
               rel='noreferrer'
               to='https://github.com/roshanbist'
-              className='text-brown-50 hover:text-white transition-colors ease-in-out duration-300'
+              className='text-blue-500 hover:text-blue-600 transition-colors ease-in-out duration-300'
             >
               Roshan
             </Link>

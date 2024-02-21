@@ -20,7 +20,7 @@
     --color-text-secondary: 255 255 255;
     --color-bg-primary: 17 21 24;
     --color-bg-secondary: 16 20 24;
-    --color-bg-accent: 20 26 31;
+    --color-bg-accent: 31 38 46;
   }
 }
 
@@ -29,17 +29,22 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  transition: all 0.2s ease-in-out 0.2s;
+  transition: all 0.2s ease-in-out 0.1s;
 }
 
 @layer base {
   html {
     @apply bg-gray-700;
   }
+
+  a {
+    @apply text-color-secondary;
+  }
 }
 
 body {
   background: rgb(var(--color-bg-primary));
+  /* color: rgb(var(--color-text-secondary)); */
 }
 
 body.mobile-nav {

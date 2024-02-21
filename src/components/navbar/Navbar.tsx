@@ -67,11 +67,11 @@ const Navbar = () => {
           isMobile ? 'translate-x-0' : 'max-md:translate-x-full'
         } max-md:bg-light-white max-md:border-t max-md:border-t-neutral-300`}
       >
-        <ul className='md:flex md:gap-10 font-medium md:text-[18px] max-md:border-t max-md:border-t-brown-50'>
+        <ul className='md:flex md:gap-10 font-medium md:text-[18px]'>
           {navLinks.map((navItem) => (
             <li
               key={navItem.label}
-              className='max-md:px-5 max-md:py-4 max-md:border-b border-b-brown-50'
+              className='max-md:px-5 max-md:py-4 max-md:shadow-xl'
             >
               <Link
                 className={`hover:text-blue-600 font-medium transition-colors ease-in-out duration-300 ${

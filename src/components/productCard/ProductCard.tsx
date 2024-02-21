@@ -6,13 +6,13 @@ import ProductPlaceholder from '../../assets/images/productPlaceholder.png';
 
 const ProductCard = ({ productData }: { productData: ProductType }) => {
   return (
-    <div className='bg-white rounded-sm p-3 shadow-sm border text-center'>
+    <div className='bg-palette-accent rounded-sm shadow-sm border border-palette-accent'>
       <Link
-        className='block h-[350px] w-full overflow-hidden mb-4'
+        className='block h-[350px] w-full overflow-hidden'
         to={`/products/${productData.id}`}
       >
         <img
-          className='object-cover w-full h-full rounded-tr-sm rounded-tl-sm'
+          className='object-cover w-full h-full rounded-tr-sm rounded-tl-sm hover:scale-125 transition-transform duration-300 ease-in-out'
           src={
             productData.images[0].startsWith('https')
               ? productData.images[0]
@@ -21,10 +21,12 @@ const ProductCard = ({ productData }: { productData: ProductType }) => {
           alt={productData.title}
         />
       </Link>
-      <h3 className='text-lg mb-3 font-medium border-t border-b pb-3'>
-        {productData.title}
-      </h3>
-      <p>{productData.price}</p>
+      <div className='p-4 text-color-primary'>
+        <h3 className='text-lg mb-3 font-medium'>{productData.title}</h3>
+        <span className='font-bold text-[18px]'>
+          Price: {productData.price}
+        </span>
+      </div>
     </div>
   );
 };

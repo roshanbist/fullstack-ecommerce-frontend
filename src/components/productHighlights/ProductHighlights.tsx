@@ -14,15 +14,13 @@ const ProductHighlights = () => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  // console.log('product list', productList);
-
   return (
-    <section className='py-12 bg-bkg-primary'>
+    <section className='py-12'>
       <div className='max-container'>
-        <h2 className='text-xl sm:text-2xl text-brown-50 mb-5 uppercase text-center font-bold'>
+        <h2 className='text-xl sm:text-2xl text-blue-500 mb-5 uppercase text-center font-bold'>
           Products Highlight
         </h2>
-        <span className='block w-[120px] h-[2px] bg-brown-50 mx-auto mb-5'></span>
+        <span className='block w-[120px] h-[2px] bg-blue-500 mx-auto mb-7'></span>
         <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7 mb-5'>
           {productList?.slice(4, 7).map((product) => (
             <ProductCard key={product.id} productData={product} />

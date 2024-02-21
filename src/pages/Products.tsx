@@ -17,8 +17,6 @@ const Products = () => {
     (state: AppState) => state.categories
   );
 
-  // console.log('categories', categories);
-
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
