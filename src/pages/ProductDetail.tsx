@@ -3,8 +3,13 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../redux/store';
-import { fetchSingleProduct } from '../redux/slices/ProductSlice';
+import {
+  deleteProduct,
+  fetchSingleProduct,
+} from '../redux/slices/ProductSlice';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
+import ProductDescription from '../components/productDetails/ProductDescription';
+import ProductGallery from '../components/productDetails/ProductGallery';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -12,8 +17,8 @@ const ProductDetail = () => {
 
   const id = Number(productId);
 
-  const singleProductData = useSelector(
-    (state: AppState) => state.products.selectedSingleProduct
+  const { selectedSingleProduct, loading, error } = useSelector(
+    (state: AppState) => state.products
   );
 
   useEffect(() => {
@@ -24,10 +29,18 @@ const ProductDetail = () => {
     <ContentWrapper>
       <section className='py-10'>
         <div className='max-container'>
-          <div>{singleProductData?.title}</div>
-          <div>{singleProductData?.description}</div>
-          <div>{singleProductData?.price}</div>
-          <img src={singleProductData?.images[0]} alt='' />
+          {loading ? (
+            <p>loading...</p>
+          ) : error ? (
+            <p>sorry for disruption due to error</p>
+          ) : (
+            selectedSingleProduct && (
+              <>
+                <ProductGallery productImages={selectedSingleProduct?.images} />
+                <ProductDescription />
+              </>
+            )
+          )}
         </div>
       </section>
     </ContentWrapper>

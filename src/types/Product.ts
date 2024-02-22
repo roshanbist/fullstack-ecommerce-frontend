@@ -15,3 +15,11 @@ export type ProductInitialState = {
   loading: boolean;
   error?: string | null;
 };
+
+export type NewProductType = {
+  title: string;
+  price: number;
+  description: string;
+  categoryId: number;
+  images: string[];
+};

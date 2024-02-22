@@ -7,8 +7,6 @@ import { useTheme } from '../contextAPI/ColorThemeContext';
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
-  console.log('theme color', theme);
-
   return (
     <>
       <button

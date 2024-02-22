@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { ProductInitialState, ProductType } from '../../types/Product';
+import {
+  NewProductType,
+  ProductInitialState,
+  ProductType,
+} from '../../types/Product';
+import { log } from 'console';
 
 const URL = 'https://api.escuelajs.co/api/v1/products';
 
@@ -20,7 +25,8 @@ export const fetchAllProducts = createAsyncThunk(
       const response: AxiosResponse<ProductType[]> = await axios.get(URL);
       return response.data;
     } catch (e) {
-      return rejectWithValue(e);
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -36,6 +42,40 @@ export const fetchSingleProduct = createAsyncThunk(
       return response.data;
     } catch (e) {
       return rejectWithValue(e);
+    }
+  }
+);
+
+// Thunk action creator to create a new product
+export const createNewProduct = createAsyncThunk(
+  'createNewProduct',
+  async (params: NewProductType, { rejectWithValue }) => {
+    try {
+      const response: AxiosResponse<ProductType> = await axios.post(
+        URL,
+        params
+      );
+      return response.data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Thunk action creator to delete a product
+export const deleteProduct = createAsyncThunk(
+  'deleteProduct',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      const response: AxiosResponse<ProductType[]> = await axios.delete(
+        `${URL}/${productId}`
+      );
+      console.log('delete');
+      return { data: response.data, productId };
+    } catch (e) {
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -74,7 +114,7 @@ const productSlice = createSlice({
       };
     });
 
-    // save single product data when fetchSingleProduct action is fulfilled
+    // fetch single product data when fetchSingleProduct action is fulfilled
     builder.addCase(fetchSingleProduct.fulfilled, (state, action) => {
       return {
         ...state,
@@ -84,6 +124,7 @@ const productSlice = createSlice({
       };
     });
 
+    // handle loading state of fetchingSingleProduct
     builder.addCase(fetchSingleProduct.pending, (state, action) => {
       return {
         ...state,
@@ -92,10 +133,61 @@ const productSlice = createSlice({
       };
     });
 
+    // handle rejected state of fetchingSingleProduct
     builder.addCase(fetchSingleProduct.rejected, (state, action) => {
       return {
         ...state,
         loading: false,
+        error: action.error.message,
+      };
+    });
+
+    // add new product to products array if fulfilled
+    builder.addCase(createNewProduct.fulfilled, (state, action) => {
+      return {
+        ...state,
+        products: [...state.products, action.payload],
+      };
+    });
+
+    // handle pending state
+    builder.addCase(createNewProduct.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    // handle rejected state
+    builder.addCase(createNewProduct.rejected, (state, action) => {
+      return {
+        ...state,
+        error: action.error.message,
+      };
+    });
+
+    // delete product to products array if fulfilled
+    builder.addCase(deleteProduct.fulfilled, (state, action) => {
+      console.log('delete', action.payload);
+      const { productId } = action.payload;
+      return {
+        ...state,
+        products: state.products.filter((product) => product.id !== productId),
+      };
+    });
+
+    // handle pending state
+    builder.addCase(deleteProduct.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    // handle rejected state
+    builder.addCase(deleteProduct.rejected, (state, action) => {
+      return {
+        ...state,
         error: action.error.message,
       };
     });

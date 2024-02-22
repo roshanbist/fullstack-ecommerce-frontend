@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { AppState, useAppDispatch } from '../redux/store';
-import { fetchAllProducts } from '../redux/slices/ProductSlice';
+import {
+  createNewProduct,
+  fetchAllProducts,
+} from '../redux/slices/ProductSlice';
 import ProductCard from '../components/productCard/ProductCard';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
