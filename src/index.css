@@ -13,6 +13,7 @@
     --color-bg-primary: 254 254 254;
     --color-bg-secondary: 236 247 255;
     --color-bg-accent: 218 226 237;
+    --color-bg-ebony: 240 242 244;
   }
 
   :root[data-theme='dark'] {
@@ -21,6 +22,8 @@
     --color-bg-primary: 17 21 24;
     --color-bg-secondary: 16 20 24;
     --color-bg-accent: 31 38 46;
+    /* --color-bg-ebony: 16 24 38; */
+    --color-bg-ebony: 21 28 37;
   }
 }
 
@@ -44,7 +47,6 @@
 
 body {
   background: rgb(var(--color-bg-primary));
-  /* color: rgb(var(--color-text-secondary)); */
 }
 
 body.mobile-nav {
@@ -74,4 +76,16 @@ body.mobile-nav {
   /* .form-error {
     @apply block w-full text-[14px] leading-[18px] text-red-700 mt-2;
   } */
+
+  .page-item {
+    @apply border border-palette-accent min-w-[60px] h-[60px] text-lg;
+  }
+
+  .page-link {
+    @apply flex justify-center items-center w-full h-full bg-palette-ebony text-color-secondary hover:bg-blue-600 hover:text-white;
+  }
+
+  .page-item.active .page-link {
+    @apply bg-blue-600 text-white;
+  }
 }

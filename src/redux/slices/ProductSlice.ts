@@ -6,7 +6,6 @@ import {
   ProductInitialState,
   ProductType,
 } from '../../types/Product';
-import { log } from 'console';
 
 const URL = 'https://api.escuelajs.co/api/v1/products';
 
