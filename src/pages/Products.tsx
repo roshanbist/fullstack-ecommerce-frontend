@@ -25,7 +25,7 @@ const Products = () => {
     (state: AppState) => state.categories
   );
 
-  let showPerPage = 10;
+  let showPerPage = 12;
   const startIndex = currentPage * showPerPage;
   const lastIndex = startIndex + showPerPage;
 

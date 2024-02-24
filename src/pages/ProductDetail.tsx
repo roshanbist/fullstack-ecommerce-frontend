@@ -35,10 +35,10 @@ const ProductDetail = () => {
             <p>sorry for disruption due to error</p>
           ) : (
             selectedSingleProduct && (
-              <>
+              <section className='md:flex'>
                 <ProductGallery productImages={selectedSingleProduct?.images} />
-                <ProductDescription />
-              </>
+                <ProductDescription productData={selectedSingleProduct} />
+              </section>
             )
           )}
         </div>
