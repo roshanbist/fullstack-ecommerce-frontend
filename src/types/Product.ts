@@ -30,6 +30,6 @@ export type PriceOption = {
 };
 
 export type ProductFilters = {
-  categoryId: number;
-  price: number;
+  categoryId?: number;
+  price?: number;
 };
