@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 
 import { AppState, useAppDispatch } from '../redux/store';
-import { fetchAllProducts } from '../redux/slices/ProductSlice';
+import {
+  fetchAllProducts,
+  filterProductsList,
+} from '../redux/slices/ProductSlice';
 import ProductCard from '../components/productCard/ProductCard';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
@@ -12,22 +15,35 @@ import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { priceOption } from '../constants';
+import { ProductFilters } from '../types/Product';
 
 const Products = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-
   const dispatch = useAppDispatch();
+
+  const [currentPage, setCurrentPage] = useState(0);
+  // const [selectedCategory, setSelectedCategory] = useState<string>('');
+  // const [selectedPrice, setSelectedPrice] = useState<string>('');
+  const [filterProducts, setFilterProducts] = useState<ProductFilters>({
+    categoryId: 0,
+    price: 0,
+  });
+
   const { products, loading, error } = useSelector(
     (state: AppState) => state.products
   );
 
-  const { categories, categLoading, categError } = useSelector(
-    (state: AppState) => state.categories
-  );
+  const { categories } = useSelector((state: AppState) => state.categories);
 
   let showPerPage = 12;
   const startIndex = currentPage * showPerPage;
   const lastIndex = startIndex + showPerPage;
+
+  const totalPage = Math.ceil(products?.length / showPerPage);
+
+  const handlePageChange = (data: { selected: number }) => {
+    setCurrentPage(data.selected);
+  };
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -37,21 +53,69 @@ const Products = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  const totalPage = Math.ceil(products?.length / showPerPage);
+  const categoryHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterProducts((prevFilters) => ({
+        ...prevFilters,
+        categoryId: +e.target.value,
+      }));
 
-  const handlePageChange = (data: { selected: number }) => {
-    // console.log('clicked', data.selected);
-    setCurrentPage(data.selected);
-  };
+      dispatch(
+        filterProductsList({ ...filterProducts, categoryId: +e.target.value })
+      );
+    },
+    [dispatch, filterProducts]
+  );
 
-  // filtered Product using pagination
-  // const filteredProduct = product
+  const priceHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterProducts((prevFilters) => ({
+        ...prevFilters,
+        price: +e.target.value,
+      }));
+
+      dispatch(
+        filterProductsList({ ...filterProducts, price: +e.target.value })
+      );
+    },
+    [dispatch, filterProducts]
+  );
 
   return (
     <ContentWrapper>
       <section className='py-10'>
         <div className='max-container'>
           <h2 className='text-2xl font-medium mb-6'>Product List</h2>
+
+          <div className='mb-5'>
+            <select
+              className='border border-palette-accent'
+              value={filterProducts.categoryId}
+              onChange={categoryHandler}
+            >
+              <option value=''>Filter by category</option>
+              {categories?.map((categ) => (
+                <option key={categ.id} value={categ.id}>
+                  {categ.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='mb-5'>
+            <select
+              className='border border-palette-accent'
+              value={filterProducts.price}
+              onChange={priceHandler}
+            >
+              <option value={0}>Filter by price</option>
+              {priceOption?.map((price, index) => (
+                <option key={index} value={price.value}>
+                  {price.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
             {loading ? (
               <p>loading...</p>

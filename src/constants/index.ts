@@ -5,6 +5,7 @@ import {
   faTiktok,
   faXTwitter,
 } from '@fortawesome/free-brands-svg-icons';
+import { PriceOption } from '../types/Product';
 
 export const navLinks = [
   { href: '/', label: 'Home' },
@@ -37,4 +38,12 @@ export const socialMediaLinks = [
   {
     icon: faXTwitter,
   },
+];
+
+export const priceOption: PriceOption[] = [
+  { value: '1', label: 'Below €50' },
+  { value: '50', label: '€50 to €100' },
+  { value: '100', label: '€100 to €150' },
+  { value: '150', label: '€150 to €200' },
+  { value: '200', label: 'Above €200' },
 ];

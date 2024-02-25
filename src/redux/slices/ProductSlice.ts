@@ -3,6 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import {
   NewProductType,
+  ProductFilters,
   ProductInitialState,
   ProductType,
 } from '../../types/Product';
@@ -72,6 +73,45 @@ export const deleteProduct = createAsyncThunk(
       );
       console.log('delete');
       return { data: response.data, productId };
+    } catch (e) {
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// filter products
+export const filterProductsList = createAsyncThunk(
+  'filterProducts',
+  async (params: ProductFilters, { rejectWithValue }) => {
+    let queryParams = '';
+
+    if (params.categoryId) {
+      queryParams += `categoryId=${params.categoryId}&`;
+    }
+
+    if (params.price) {
+      if (params.price === 1) {
+        queryParams += `price_min=${params.price}&price_max=${
+          params.price + 49
+        }&`;
+      } else if (params.price < 200) {
+        queryParams += `price_min=${params.price}&price_max=${
+          params.price + 50
+        }&`;
+      } else if (params.price === 200) {
+        queryParams += `price_min=${params.price}&price_max=2000&`;
+      }
+    }
+
+    queryParams = queryParams.slice(0, -1);
+
+    try {
+      const response: AxiosResponse<ProductType[]> = await axios.get(
+        `${URL}/?${queryParams}`
+      );
+      console.log('resonse dta', response.data);
+      return response.data;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -185,6 +225,31 @@ const productSlice = createSlice({
 
     // handle rejected state
     builder.addCase(deleteProduct.rejected, (state, action) => {
+      return {
+        ...state,
+        error: action.error.message,
+      };
+    });
+
+    // delete product to products array if fulfilled
+    builder.addCase(filterProductsList.fulfilled, (state, action) => {
+      return {
+        ...state,
+        products: action.payload,
+        loading: false,
+      };
+    });
+
+    // handle pending state
+    builder.addCase(filterProductsList.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    // handle rejected state
+    builder.addCase(filterProductsList.rejected, (state, action) => {
       return {
         ...state,
         error: action.error.message,

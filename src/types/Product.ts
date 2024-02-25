@@ -23,3 +23,13 @@ export type NewProductType = {
   categoryId: number;
   images: string[];
 };
+
+export type PriceOption = {
+  value: string;
+  label: string;
+};
+
+export type ProductFilters = {
+  categoryId: number;
+  price: number;
+};
