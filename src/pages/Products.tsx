@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ReactPaginate from 'react-paginate';
 
 import { AppState, useAppDispatch } from '../redux/store';
 import {
@@ -10,20 +9,15 @@ import {
 import ProductCard from '../components/productCard/ProductCard';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronLeft,
-  faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
 import { priceOption } from '../constants';
 import { ProductFilters } from '../types/Product';
+import Pagination from '../components/pagination/Pagination';
+import usePagination from '../hook/usePagination';
+import { PaginationProps } from '../types/Pagination';
 
 const Products = () => {
   const dispatch = useAppDispatch();
 
-  const [currentPage, setCurrentPage] = useState(0);
-  // const [selectedCategory, setSelectedCategory] = useState<string>('');
-  // const [selectedPrice, setSelectedPrice] = useState<string>('');
   const [filterProducts, setFilterProducts] = useState<ProductFilters>({
     categoryId: 0,
     price: 0,
@@ -35,15 +29,13 @@ const Products = () => {
 
   const { categories } = useSelector((state: AppState) => state.categories);
 
-  let showPerPage = 12;
-  const startIndex = currentPage * showPerPage;
-  const lastIndex = startIndex + showPerPage;
-
-  const totalPage = Math.ceil(products?.length / showPerPage);
-
-  const handlePageChange = (data: { selected: number }) => {
-    setCurrentPage(data.selected);
+  let paginationInput: PaginationProps = {
+    totalItems: products.length,
+    showPerPage: 12,
   };
+
+  const { currentPage, startIndex, lastIndex, totalPage, handlePageChange } =
+    usePagination(paginationInput);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -133,24 +125,10 @@ const Products = () => {
             )}
           </div>
           {products && (
-            <ReactPaginate
-              previousLabel={<FontAwesomeIcon icon={faChevronLeft} />}
-              nextLabel={<FontAwesomeIcon icon={faChevronRight} />}
-              previousClassName='page-item' // previous button <li>
-              pageClassName='page-item' // <li>
-              pageLinkClassName='page-link' // <a>
-              previousLinkClassName='page-link' // previous button <li> <a>
-              nextClassName='page-item'
-              nextLinkClassName='page-link'
-              breakLabel={'...'}
-              breakClassName='page-item'
-              breakLinkClassName='page-link'
-              pageCount={totalPage}
-              marginPagesDisplayed={2}
-              onPageChange={handlePageChange}
-              containerClassName='flex items-center justify-center mt-8 mb-8 pagination' // <ul>
-              activeClassName='active'
-              renderOnZeroPageCount={null}
+            <Pagination
+              currentPage={currentPage}
+              totalPage={totalPage}
+              handlePageChange={handlePageChange}
             />
           )}
         </div>
