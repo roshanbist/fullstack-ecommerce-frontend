@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { LoginInputs } from '../../types/User';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/store';
+import { loginUser } from '../../redux/slices/UserSlice';
 
 const Login = () => {
   const {
@@ -12,10 +14,20 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>();
 
-  const onSubmit: SubmitHandler<LoginInputs> = (loginData) => {
-    // alert(`Hi, the form has been successfully filled by ${formData.name}`);
-    // reset();
-    console.log('login data', loginData);
+  const dispatch = useAppDispatch();
+
+  // const [loginError, setLoginError] = useState('');
+
+  const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
+    // console.log('login data', loginData);
+
+    dispatch(loginUser(loginData));
+    // try {
+    //   dispatch(loginUser(loginData));
+    //   setLoginError('');
+    // } catch (error) {
+    //   setLoginError((error as Error).message);
+    // }
   };
 
   return (
@@ -29,6 +41,7 @@ const Login = () => {
             If you have an account, sign in with your email address.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className='pb-7'>
+            {/* {loginError && <span className='form-error'>{loginError}</span>} */}
             <div className='mb-6'>
               <label
                 htmlFor='email'

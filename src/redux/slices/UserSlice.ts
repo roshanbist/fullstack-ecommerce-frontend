@@ -1,9 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RegisterInputs, UserInitialState, UserType } from '../../types/User';
+import {
+  AuthToken,
+  LoginInputs,
+  RegisterInputs,
+  UserInitialState,
+  UserType,
+} from '../../types/User';
+
+import { toast } from 'react-toastify';
 
 const URL = 'https://api.escuelajs.co/api/v1/users';
+const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
 
 const initialState: UserInitialState = {
+  loggedUser: null,
   users: [],
   loading: false,
   error: '',
@@ -23,6 +33,39 @@ export const getAllUsers = createAsyncThunk(
       }
       const data: UserType[] = await response.json();
       return data;
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// thunk action to login user
+export const loginUser = createAsyncThunk(
+  'loginUser',
+  async (loginData: LoginInputs, { rejectWithValue }) => {
+    try {
+      const response = await fetch(LOGIN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        toast.error(
+          errorResponse.message === 'Unauthorized' &&
+            'Enter correct login detail!'
+        );
+        return rejectWithValue(errorResponse.message);
+        // throw new Error(errorResponse.message);
+      }
+
+      const data: AuthToken = await response.json();
+      localStorage.setItem('userToken', JSON.stringify(data));
+      //   console.log('data', JSON.stringify(data));
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -108,6 +151,15 @@ const userSlice = createSlice({
     });
 
     builder.addCase(getAllUsers.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
+        error: action.error.message,
+      };
+    });
+
+    builder.addCase(loginUser.rejected, (state, action) => {
+      //   console.log('action rejected', action.error);
       return {
         ...state,
         loading: false,

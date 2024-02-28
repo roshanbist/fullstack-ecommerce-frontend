@@ -14,7 +14,13 @@ export type UserType = RegisterInputs & {
 };
 
 export type UserInitialState = {
+  loggedUser: UserType | null;
   users: UserType[];
   loading: boolean;
   error?: string | null;
+};
+
+export type AuthToken = {
+  access_token: string;
+  refresh_token: string;
 };
