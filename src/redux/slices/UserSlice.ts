@@ -10,7 +10,7 @@ const initialState: UserInitialState = {
 };
 
 // thunk action to get all users  asynchronously
-const getAllUsers = createAsyncThunk(
+export const getAllUsers = createAsyncThunk(
   'getAllUsers',
   async (_, { rejectWithValue }) => {
     try {
@@ -32,7 +32,7 @@ const getAllUsers = createAsyncThunk(
 );
 
 // thunk action to register a user
-const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   'registerUser',
   async (registerData: RegisterInputs, { rejectWithValue }) => {
     try {
@@ -59,7 +59,7 @@ const registerUser = createAsyncThunk(
 );
 
 // thunk action to update a user information
-const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk(
   'updateUser',
   async ({ id, ...updateParams }: UserType, { rejectWithValue }) => {
     try {

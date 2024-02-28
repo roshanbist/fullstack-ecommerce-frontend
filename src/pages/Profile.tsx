@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { uploadFile } from '../utils/uploadFile';
+import { uploadFileService } from '../utils/uploadFileService';
 
 const Profile = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      //   setFile(e.target.files[0]);
+      const selectedFiles = Array.from(e.target.files);
+      setFiles(selectedFiles);
     }
   };
 
   // testing if url of image is received or not
-  const fileUrlCheck = async () => {
-    if (file) {
-      const fileResult = await uploadFile(file);
-      console.log('fileResult', fileResult);
-    } else {
-      console.log('File URL failed');
+  //   const fileUrlCheck = async () => {
+  //     if (file) {
+  //       const fileResult = await uploadFile(file);
+  //       console.log('fileResult', fileResult);
+  //     } else {
+  //       console.error('File URL failed');
+  //     }
+  //   };
+
+  //   useEffect(() => {
+  //     fileUrlCheck();
+  //   }, [file]);
+
+  //   console.log('files haru aayo', files);
+
+  const submitFileHandler = async () => {
+    try {
+      const imageUrl = await uploadFileService(files);
+
+      console.log('image url aayo array ma', imageUrl);
+    } catch (e) {
+      console.error('Error:', e);
     }
   };
-
-  useEffect(() => {
-    fileUrlCheck();
-  }, [file]);
 
   return (
     <ContentWrapper>
@@ -40,8 +55,12 @@ const Profile = () => {
             id='file_input'
             type='file'
             onChange={handleFileChange}
+            multiple
           />
         </div>
+        <button className='btn-primary' onClick={submitFileHandler}>
+          generate url
+        </button>
       </div>
     </ContentWrapper>
   );

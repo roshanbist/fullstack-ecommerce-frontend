@@ -14,6 +14,7 @@
     --color-bg-secondary: 236 247 255;
     --color-bg-accent: 218 226 237;
     --color-bg-ebony: 240 242 244;
+    --color-bg-darkGray: 75 85 99;
   }
 
   :root[data-theme='dark'] {
@@ -22,8 +23,8 @@
     --color-bg-primary: 17 21 24;
     --color-bg-secondary: 16 20 24;
     --color-bg-accent: 31 38 46;
-    /* --color-bg-ebony: 16 24 38; */
     --color-bg-ebony: 21 28 37;
+    --color-bg-darkGray: 30 40 55;
   }
 }
 
@@ -70,12 +71,16 @@ body.mobile-nav {
   }
 
   .form-input {
-    @apply block w-full leading-5 h-[50px] py-3 px-4 outline-none border rounded-lg shadow bg-palette-primary text-color-primary;
+    @apply block w-full leading-5 h-[50px] py-3 px-4 outline-none border border-palette-accent rounded-lg shadow bg-palette-primary text-color-primary;
   }
 
-  /* .form-error {
-    @apply block w-full text-[14px] leading-[18px] text-red-700 mt-2;
-  } */
+  .file-input {
+    @apply block w-full leading-5 file:h-[48px] outline-none border border-palette-accent rounded-lg shadow bg-palette-primary text-color-primary cursor-pointer file:mr-4 file:py-2 file:px-4 file:border-0 file:font-medium file:bg-palette-darkGray file:text-gray-300;
+  }
+
+  .form-error {
+    @apply block mt-3 p-3 text-sm text-red-500 rounded-lg bg-red-200;
+  }
 
   .page-item {
     @apply border border-palette-accent min-w-[60px] h-[60px] text-lg;

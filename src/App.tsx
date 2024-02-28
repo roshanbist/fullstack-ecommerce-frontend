@@ -11,6 +11,7 @@ import {
   Register,
   Profile,
 } from './pages';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
       </Routes>
       <Footer />
+      <ToastContainer autoClose={2500} />
     </div>
   );
 }

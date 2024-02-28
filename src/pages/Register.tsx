@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import { AppState, useAppDispatch } from '../redux/store';
 import { RegisterInputs } from '../types/User';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import { Link } from 'react-router-dom';
+import { uploadFileService } from '../utils/uploadFileService';
+import { registerUser } from '../redux/slices/UserSlice';
 
 const Register = () => {
   const {
@@ -12,9 +17,37 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterInputs>();
 
-  const onSubmit: SubmitHandler<RegisterInputs> = () => {
-    // alert(`Hi, the form has been successfully filled by ${formData.name}`);
-    // reset();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [inputFile, setInputFile] = useState<File[]>([]);
+  const errorMessage = useSelector((state: AppState) => state.users.error);
+
+  const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      setInputFile(selectedFiles);
+    }
+  };
+
+  const onSubmit: SubmitHandler<RegisterInputs> = async (formData) => {
+    try {
+      const inputFileUrl = inputFile && (await uploadFileService(inputFile));
+
+      const newUserData: RegisterInputs = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        avatar: inputFileUrl[0],
+      };
+
+      dispatch(registerUser(newUserData));
+      toast.success('Customer register successfully');
+      navigate('/login');
+    } catch (error) {
+      if (error && errorMessage) {
+        toast.error(`Registration Failed. Please try again`);
+      }
+    }
   };
 
   return (
@@ -47,6 +80,11 @@ const Register = () => {
                   maxLength: 30,
                 })}
               />
+              {errors.name && (
+                <span className='form-error'>
+                  Enter your name again, its too short
+                </span>
+              )}
             </div>
             <div className='mb-6'>
               <label
@@ -66,6 +104,9 @@ const Register = () => {
                   pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 })}
               />
+              {errors.email && (
+                <span className='form-error'>Enter your valid email</span>
+              )}
             </div>
             <div className='mb-6'>
               <label
@@ -82,9 +123,31 @@ const Register = () => {
                 placeholder='password'
                 {...register('password', {
                   required: true,
+                  minLength: 6,
                 })}
               />
+              {errors.password && (
+                <span className='form-error'>
+                  Password should be at-least 6 character
+                </span>
+              )}
             </div>
+            <div className='mb-6'>
+              <label
+                className='block mb-2 font-medium text-color-primary'
+                htmlFor='file_input'
+              >
+                Upload Image
+              </label>
+              <input
+                className='file-input'
+                id='file_input'
+                type='file'
+                onChange={imageChangeHandler}
+                multiple
+              />
+            </div>
+
             <button
               className='block btn-primary rounded-lg w-full'
               type='submit'

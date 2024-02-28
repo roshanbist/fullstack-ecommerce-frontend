@@ -29,6 +29,7 @@ module.exports = {
         'palette-secondary': 'rgb(var(--color-bg-secondary) / <alpha-value>)',
         'palette-accent': 'rgb(var(--color-bg-accent) / <alpha-value>)',
         'palette-ebony': 'rgb(var(--color-bg-ebony) / <alpha-value>)',
+        'palette-darkGray': 'rgb(var(--color-bg-darkGray) / <alpha-value>)',
       },
 
       boxShadow: {
