@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import { uploadFile } from '../hook/fileService';
+import { uploadFile } from '../utils/uploadFile';
 
 const Profile = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -18,12 +18,11 @@ const Profile = () => {
       console.log('fileResult', fileResult);
     } else {
       console.log('File URL failed');
-      //   throw file
     }
   };
 
   useEffect(() => {
-    fileUrlCheck(); // Call the function directly within useEffect
+    fileUrlCheck();
   }, [file]);
 
   return (
