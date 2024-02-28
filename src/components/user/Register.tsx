@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { AppState, useAppDispatch } from '../redux/store';
-import { RegisterInputs } from '../types/User';
-import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import { uploadFileService } from '../utils/uploadFileService';
-import { registerUser } from '../redux/slices/UserSlice';
+import { useAppDispatch } from '../../redux/store';
+import { RegisterInputs } from '../../types/User';
+import ContentWrapper from '../contentWrapper/ContentWrapper';
+import { uploadFileService } from '../../utils/uploadFileService';
+import { registerUser } from '../../redux/slices/UserSlice';
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<RegisterInputs>();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [inputFile, setInputFile] = useState<File[]>([]);
-  const errorMessage = useSelector((state: AppState) => state.users.error);
 
   const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -43,18 +42,19 @@ const Register = () => {
       dispatch(registerUser(newUserData));
       toast.success('Customer register successfully');
       navigate('/login');
-    } catch (error) {
-      if (error && errorMessage) {
-        toast.error(`Registration Failed. Please try again`);
-      }
+      reset();
+    } catch (e) {
+      const error = e as Error;
+      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
   return (
     <ContentWrapper>
       <div className='max-container py-[50px]'>
-        <div className='max-w-[870px] mx-auto px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl'>
-          <h1 className='mb-5 text-3xl font-medium capitalize text-color-primary border-b pb-4'>
+        <div className='max-w-[870px] mx-auto px-[20px] md:px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl'>
+          <h1 className='mb-5 text-2xl md:text-3xl font-medium capitalize text-color-primary border-b pb-4'>
             Become Customer
           </h1>
           <p className='text-color-primary text-lg mb-10'>

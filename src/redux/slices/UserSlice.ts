@@ -19,11 +19,10 @@ export const getAllUsers = createAsyncThunk(
       // check if the response has error
       if (!response.ok) {
         const errorResponse = await response.json();
-        return rejectWithValue(errorResponse);
-      } else {
-        const data: UserType[] = await response.json();
-        return data;
+        return rejectWithValue(errorResponse.message);
       }
+      const data: UserType[] = await response.json();
+      return data;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
