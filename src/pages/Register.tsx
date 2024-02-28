@@ -137,15 +137,19 @@ const Register = () => {
                 className='block mb-2 font-medium text-color-primary'
                 htmlFor='file_input'
               >
-                Upload Image
+                Upload Image *
               </label>
               <input
                 className='file-input'
                 id='file_input'
                 type='file'
+                required
                 onChange={imageChangeHandler}
-                multiple
+                accept='images/*'
               />
+              {errors.avatar && (
+                <span className='form-error'>Upload image</span>
+              )}
             </div>
 
             <button
