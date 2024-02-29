@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { LoginInputs } from '../../types/User';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/store';
+import { AppState, useAppDispatch } from '../../redux/store';
 import { loginUser } from '../../redux/slices/UserSlice';
+import { useSelector } from 'react-redux';
+import { spawn } from 'child_process';
 
 const Login = () => {
   const {
@@ -14,20 +16,17 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>();
 
-  const dispatch = useAppDispatch();
-
   // const [loginError, setLoginError] = useState('');
+  const dispatch = useAppDispatch();
+  const [inputFocus, setInputFocus] = useState<Boolean>(false);
+
+  const { loading, error } = useSelector((state: AppState) => state.users);
+
+  // const errorMessage = useSelector((state: AppState) => state.users.error);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
-    // console.log('login data', loginData);
-
     dispatch(loginUser(loginData));
-    // try {
-    //   dispatch(loginUser(loginData));
-    //   setLoginError('');
-    // } catch (error) {
-    //   setLoginError((error as Error).message);
-    // }
+    setInputFocus(true);
   };
 
   return (
@@ -41,7 +40,9 @@ const Login = () => {
             If you have an account, sign in with your email address.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className='pb-7'>
-            {/* {loginError && <span className='form-error'>{loginError}</span>} */}
+            {loading === 'failed' && inputFocus && (
+              <span className='form-error animate-fadein mb-5'>{error}</span>
+            )}
             <div className='mb-6'>
               <label
                 htmlFor='email'
@@ -59,6 +60,7 @@ const Login = () => {
                   required: true,
                   pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 })}
+                onFocus={() => setInputFocus(false)}
               />
             </div>
             <div className='mb-6'>
@@ -77,6 +79,7 @@ const Login = () => {
                 {...register('password', {
                   required: true,
                 })}
+                onFocus={() => setInputFocus(false)}
               />
             </div>
             <button

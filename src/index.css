@@ -94,3 +94,16 @@ body.mobile-nav {
     @apply bg-blue-600 text-white;
   }
 }
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadein {
+  animation: fadein 0.5s;
+}

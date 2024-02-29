@@ -15,7 +15,7 @@ const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
 const initialState: UserInitialState = {
   loggedUser: null,
   users: [],
-  loading: false,
+  loading: 'idle',
   error: '',
 };
 
@@ -55,10 +55,10 @@ export const loginUser = createAsyncThunk(
 
       if (!response.ok) {
         const errorResponse = await response.json();
-        toast.error(
-          errorResponse.message === 'Unauthorized' &&
-            'Enter correct login detail!'
-        );
+        // toast.error(
+        //   errorResponse.message === 'Unauthorized' &&
+        //     'Enter correct login detail!'
+        // );
         return rejectWithValue(errorResponse.message);
         // throw new Error(errorResponse.message);
       }
@@ -137,7 +137,8 @@ const userSlice = createSlice({
       return {
         ...state,
         users: action.payload,
-        loading: false,
+        // loading: false,
+        loading: 'succeeded',
         error: '',
       };
     });
@@ -145,7 +146,8 @@ const userSlice = createSlice({
     builder.addCase(getAllUsers.pending, (state, action) => {
       return {
         ...state,
-        loading: true,
+        // loading: true,
+        loading: 'pending',
         error: '',
       };
     });
@@ -153,16 +155,36 @@ const userSlice = createSlice({
     builder.addCase(getAllUsers.rejected, (state, action) => {
       return {
         ...state,
-        loading: false,
+        // loading: false,
+        loading: 'failed',
         error: action.error.message,
       };
     });
 
-    builder.addCase(loginUser.rejected, (state, action) => {
-      //   console.log('action rejected', action.error);
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       return {
         ...state,
-        loading: false,
+        user: action.payload,
+        // loading: false,
+        loading: 'succeeded',
+        error: '',
+      };
+    });
+
+    builder.addCase(loginUser.pending, (state, action) => {
+      return {
+        ...state,
+        // loading: false,
+        loading: 'pending',
+        error: '',
+      };
+    });
+
+    builder.addCase(loginUser.rejected, (state, action) => {
+      return {
+        ...state,
+        // loading: false,
+        loading: 'failed',
         error: action.error.message,
       };
     });
@@ -171,7 +193,8 @@ const userSlice = createSlice({
       return {
         ...state,
         users: [...state.users, action.payload],
-        loading: false,
+        // loading: false,
+        loading: 'succeeded',
         error: '',
       };
     });
@@ -179,7 +202,8 @@ const userSlice = createSlice({
     builder.addCase(registerUser.pending, (state, action) => {
       return {
         ...state,
-        loading: true,
+        // loading: true,
+        loading: 'pending',
         error: '',
       };
     });
@@ -187,10 +211,12 @@ const userSlice = createSlice({
     builder.addCase(registerUser.rejected, (state, action) => {
       return {
         ...state,
-        loading: false,
+        // loading: false,
+        loading: 'failed',
         error: action.error.message,
       };
     });
+
     builder.addCase(updateUser.fulfilled, (state, action) => {
       const updatedUserIndex = state.users.findIndex(
         (user) => user.id === action.payload.id
@@ -202,7 +228,8 @@ const userSlice = createSlice({
       return {
         ...state,
         users: updatedUsers,
-        loading: false,
+        // loading: false,
+        loading: 'succeeded',
         error: '',
       };
     });
@@ -210,7 +237,8 @@ const userSlice = createSlice({
     builder.addCase(updateUser.pending, (state, action) => {
       return {
         ...state,
-        loading: true,
+        // loading: true,
+        loading: 'pending',
         error: '',
       };
     });
@@ -218,7 +246,8 @@ const userSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, action) => {
       return {
         ...state,
-        loading: false,
+        // loading: false,
+        loading: 'failed',
         error: action.error.message,
       };
     });
