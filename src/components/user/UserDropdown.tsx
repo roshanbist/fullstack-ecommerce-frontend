@@ -1,7 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../redux/store';
 import { Link } from 'react-router-dom';
+
+import { AppState, useAppDispatch } from '../../redux/store';
+import { logoutUser } from '../../redux/slices/UserSlice';
 
 const UserDropdown = ({
   showDropdown,
@@ -10,52 +12,109 @@ const UserDropdown = ({
   showDropdown: boolean;
   setShowDropdown: (value: boolean) => void;
 }) => {
+  const dispatch = useAppDispatch();
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
 
+  const dropdownCloseHandler = () => {
+    setShowDropdown(false);
+  };
+
+  const logoutHandler = () => {
+    setShowDropdown(false);
+    dispatch(logoutUser());
+  };
+
   const guestButtonList = (
     <>
-      <Link
-        to={'/login'}
-        className='btn-primary mb-3 w-full rounded-lg'
-        onClick={() => setShowDropdown(false)}
-      >
-        Login
-      </Link>
-      <Link
-        to={'/register'}
-        className='btn-primary mb-3 w-full rounded-lg'
-        onClick={() => setShowDropdown(false)}
-      >
-        Register
-      </Link>
+      <ul>
+        <li className='mx-5 mb-3'>
+          <Link
+            to={'/login'}
+            className='btn-primary w-full rounded-lg'
+            onClick={dropdownCloseHandler}
+          >
+            Login
+          </Link>
+        </li>
+        <li className='mx-5 mb-3'>
+          <Link
+            to={'/register'}
+            className='btn-primary  w-full rounded-lg'
+            onClick={dropdownCloseHandler}
+          >
+            Register
+          </Link>
+        </li>
+      </ul>
     </>
   );
 
   const userButtonList = (
     <ul>
-      <li>
-        <Link to={'/'}>Profile</Link>
+      <li className='border-b border-b-palette-primary'>
+        <Link
+          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/customer/profile'}
+        >
+          Profile
+        </Link>
       </li>
-      <li>
-        <Link to={'/'}>Orders</Link>
+      <li className='border-b border-b-palette-primary'>
+        <Link
+          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/'}
+        >
+          Orders
+        </Link>
       </li>
-      <li>
-        <Link to={'/'}>Logout</Link>
+      <li className='border-b border-b-palette-primary'>
+        <button
+          className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          onClick={logoutHandler}
+          type='button'
+        >
+          Logout
+        </button>
       </li>
     </ul>
   );
 
+  const adminButtonList = (
+    <>
+      <Link
+        to={'/admin'}
+        className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+        onClick={dropdownCloseHandler}
+      >
+        Admin
+      </Link>
+      <button
+        className='w-full block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+        onClick={logoutHandler}
+      >
+        Logout
+      </button>
+    </>
+  );
+
   return (
     <div className={`user-dropdown ${showDropdown ? 'active' : ''}`}>
-      <h2 className='transition-none text-lg mb-2 font-medium'>{`Welcome ${
-        loggedUserInfo ? loggedUserInfo.name : 'Guest'
-      }`}</h2>
-      <p className='transition-none tracking-wide mb-7 pb-5 border-b-2 border-b-palette-accent'>
-        Lets start shopping and managing the carts.
-      </p>
-      {loggedUserInfo ? userButtonList : guestButtonList}
+      <div className='p-3.5 border-b-2 border-b-palette-accent mb-3.5'>
+        <h2 className='transition-none text-lg mb-2 font-medium'>{`Welcome ${
+          loggedUserInfo ? loggedUserInfo.name : 'Guest'
+        }`}</h2>
+        <p className='transition-none tracking-wide'>
+          Lets start shopping and managing the carts.
+        </p>
+      </div>
+      {loggedUserInfo &&
+      (loggedUserInfo.role === 'admin'
+        ? adminButtonList
+        : loggedUserInfo.role === 'customer')
+        ? userButtonList
+        : guestButtonList}
     </div>
   );
 };

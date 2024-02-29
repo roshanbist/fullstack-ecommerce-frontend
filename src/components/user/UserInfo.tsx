@@ -3,10 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import UserDropdown from './UserDropdown';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../redux/store';
 
 const UserInfo = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const userInfoRef = useRef<HTMLInputElement | null>(null);
+
+  const loggedUser = useSelector((state: AppState) => state.users.loggedUser);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -22,13 +26,21 @@ const UserInfo = () => {
     };
   }, []);
 
+  const userAvatar = loggedUser && (
+    <img
+      src={loggedUser.avatar}
+      alt={loggedUser.name}
+      className='rounded-full'
+    />
+  );
+
   return (
     <div className='ml-3 relative' ref={userInfoRef}>
       <button
         className='text-blue-500 w-[30px] h-[30px] text-[30px] flex items-center'
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <FontAwesomeIcon icon={faCircleUser} />
+        {loggedUser ? userAvatar : <FontAwesomeIcon icon={faCircleUser} />}
       </button>
       <UserDropdown
         showDropdown={showDropdown}

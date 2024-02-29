@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { useAppDispatch } from '../../redux/store';
+import { AppState, useAppDispatch } from '../../redux/store';
 import { RegisterInputs } from '../../types/User';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { uploadFileService } from '../../utils/uploadFileService';
 import { registerUser } from '../../redux/slices/UserSlice';
+import { useSelector } from 'react-redux';
 
 const Register = () => {
   const {
@@ -20,6 +21,23 @@ const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [inputFile, setInputFile] = useState<File[]>([]);
+
+  const { loggedUser, loading } = useSelector((state: AppState) => state.users);
+
+  // check if loggedUser info and navigate accordingly
+  useEffect(() => {
+    if (loggedUser) {
+      const { role } = loggedUser;
+
+      if (role === 'customer') {
+        navigate('/customer/profile');
+      } else if (role === 'admin') {
+        navigate('/admin');
+      }
+    } else {
+      navigate('/register');
+    }
+  }, [loggedUser, navigate, loading]);
 
   const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

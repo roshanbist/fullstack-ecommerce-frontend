@@ -24,8 +24,6 @@ const Login = () => {
     (state: AppState) => state.users.loggedUser
   );
 
-  console.log('loggeduser info', loggedUserInfo);
-
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
     dispatch(loginUser(loginData));
     setInputFocus(true);
@@ -37,7 +35,7 @@ const Login = () => {
       const { role } = loggedUserInfo;
 
       if (role === 'customer') {
-        navigate('/profile');
+        navigate('/customer/profile');
       } else if (role === 'admin') {
         navigate('/admin');
       }

@@ -36,6 +36,7 @@ export const getLoggedUserInfo = createAsyncThunk(
       const response = await fetch(USER_PROFILE_URL, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
       });
 
@@ -167,7 +168,13 @@ export const updateUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: (state) => {
+      localStorage.removeItem('userToken');
+      state.loggedUser = null;
+      return state;
+    },
+  },
 
   extraReducers(builder) {
     builder.addCase(getLoggedUserInfo.fulfilled, (state, action) => {
@@ -317,4 +324,5 @@ const userSlice = createSlice({
 });
 
 const userReducer = userSlice.reducer;
+export const { logoutUser } = userSlice.actions;
 export default userReducer;

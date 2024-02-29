@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -10,11 +11,11 @@ import {
   Login,
   Register,
   Profile,
+  Admin,
 } from './pages';
-import { ToastContainer } from 'react-toastify';
-import { AppState, useAppDispatch } from './redux/store';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 
 function App() {
   const location = useLocation();
@@ -25,7 +26,7 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    dispatch(getLoggedUserInfo);
+    dispatch(getLoggedUserInfo());
   }, [dispatch]);
 
   return (
@@ -37,7 +38,14 @@ function App() {
         <Route path='/products/:productId' element={<ProductDetail />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route
+          path='/customer/profile'
+          element={<ProtectedRoute>{<Profile />}</ProtectedRoute>}
+        />
+        <Route
+          path='/admin'
+          element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
+        />
       </Routes>
       <Footer />
       <ToastContainer autoClose={2500} />
