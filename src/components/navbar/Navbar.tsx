@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { navLinks } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import UserInfo from '../user/UserInfo';
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -11,9 +12,9 @@ const Navbar = () => {
 
   const location = useLocation();
 
-  const mobileMenuHandler = () => {
-    setIsMobile(true);
-  };
+  // const mobileMenuHandler = () => {
+  //   setIsMobile(true);
+  // };
 
   // adding classname in body
   useEffect(() => {
@@ -54,9 +55,9 @@ const Navbar = () => {
   };
 
   return (
-    <div className='flex flex-1 max-md:justify-end'>
+    <div className='flex flex-1 max-md:justify-end max-md:items-center'>
       <nav className='md:flex-1 md:mx-10' ref={navRef}>
-        <span className='md:hidden cursor-pointer text-[24px] leading-[1] relative z-10'>
+        <span className='md:hidden cursor-pointer text-[28px] relative z-10'>
           {isMobile ? (
             <FontAwesomeIcon
               className='text-blue-500'
@@ -67,7 +68,7 @@ const Navbar = () => {
             <FontAwesomeIcon
               className='text-blue-500'
               icon={faBars}
-              onClick={mobileMenuHandler}
+              onClick={() => setIsMobile(true)}
             />
           )}
         </span>
@@ -96,6 +97,7 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
+      <UserInfo />
     </div>
   );
 };

@@ -7,10 +7,9 @@ import {
   UserType,
 } from '../../types/User';
 
-import { toast } from 'react-toastify';
-
-const URL = 'https://api.escuelajs.co/api/v1/users';
+const BASE_URL = 'https://api.escuelajs.co/api/v1/users';
 const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
+const USER_PROFILE_URL = 'https://api.escuelajs.co/api/v1/auth/profile';
 
 const initialState: UserInitialState = {
   loggedUser: null,
@@ -19,12 +18,47 @@ const initialState: UserInitialState = {
   error: '',
 };
 
+// thunk action to get loggedUser data (if any)
+export const getLoggedUserInfo = createAsyncThunk(
+  'getLoggedUserInfo',
+  async (_, { rejectWithValue }) => {
+    try {
+      const userTokenString = localStorage.getItem('userToken');
+      //   console.log('checking', typeof userTokenString);
+
+      if (!userTokenString) {
+        throw new Error('No user token found');
+      }
+
+      const authUser: AuthToken = JSON.parse(userTokenString);
+      const accessToken = authUser?.access_token;
+
+      const response = await fetch(USER_PROFILE_URL, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        return rejectWithValue(errorMessage.message);
+      }
+      const data: UserType = await response.json();
+      return data;
+      //   console.log('response data of user', data);
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // thunk action to get all users  asynchronously
 export const getAllUsers = createAsyncThunk(
   'getAllUsers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(URL);
+      const response = await fetch(BASE_URL);
 
       // check if the response has error
       if (!response.ok) {
@@ -43,7 +77,7 @@ export const getAllUsers = createAsyncThunk(
 // thunk action to login user
 export const loginUser = createAsyncThunk(
   'loginUser',
-  async (loginData: LoginInputs, { rejectWithValue }) => {
+  async (loginData: LoginInputs, { dispatch, rejectWithValue }) => {
     try {
       const response = await fetch(LOGIN_URL, {
         method: 'POST',
@@ -60,12 +94,15 @@ export const loginUser = createAsyncThunk(
         //     'Enter correct login detail!'
         // );
         return rejectWithValue(errorResponse.message);
-        // throw new Error(errorResponse.message);
       }
 
       const data: AuthToken = await response.json();
+      //   console.log('data', data);
       localStorage.setItem('userToken', JSON.stringify(data));
-      //   console.log('data', JSON.stringify(data));
+
+      const loggedUserDetail = await dispatch(getLoggedUserInfo());
+      //   console.log('loggeduser detail', loggedUserDetail);
+      return loggedUserDetail.payload;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -78,7 +115,7 @@ export const registerUser = createAsyncThunk(
   'registerUser',
   async (registerData: RegisterInputs, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${URL}/`, {
+      const response = await fetch(`${BASE_URL}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +142,7 @@ export const updateUser = createAsyncThunk(
   'updateUser',
   async ({ id, ...updateParams }: UserType, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${URL}/${id}`, {
+      const response = await fetch(`${BASE_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -133,6 +170,31 @@ const userSlice = createSlice({
   reducers: {},
 
   extraReducers(builder) {
+    builder.addCase(getLoggedUserInfo.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loggedUser: action.payload,
+        loading: 'succeeded',
+        error: '',
+      };
+    });
+
+    builder.addCase(getLoggedUserInfo.pending, (state, action) => {
+      return {
+        ...state,
+        loading: 'pending',
+        error: '',
+      };
+    });
+
+    builder.addCase(getLoggedUserInfo.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: 'failed',
+        error: action.error.message,
+      };
+    });
+
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       return {
         ...state,

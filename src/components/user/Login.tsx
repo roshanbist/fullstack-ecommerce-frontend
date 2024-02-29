@@ -3,11 +3,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { LoginInputs } from '../../types/User';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { loginUser } from '../../redux/slices/UserSlice';
 import { useSelector } from 'react-redux';
-import { spawn } from 'child_process';
 
 const Login = () => {
   const {
@@ -16,18 +15,36 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>();
 
-  // const [loginError, setLoginError] = useState('');
+  const [inputFocus, setInputFocus] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const [inputFocus, setInputFocus] = useState<Boolean>(false);
+  const navigate = useNavigate();
 
   const { loading, error } = useSelector((state: AppState) => state.users);
+  const loggedUserInfo = useSelector(
+    (state: AppState) => state.users.loggedUser
+  );
 
-  // const errorMessage = useSelector((state: AppState) => state.users.error);
+  console.log('loggeduser info', loggedUserInfo);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
     dispatch(loginUser(loginData));
     setInputFocus(true);
   };
+
+  // check if loggedUser info and navigate accordingly
+  useEffect(() => {
+    if (loggedUserInfo) {
+      const { role } = loggedUserInfo;
+
+      if (role === 'customer') {
+        navigate('/profile');
+      } else if (role === 'admin') {
+        navigate('/admin');
+      }
+    } else {
+      navigate('/login');
+    }
+  }, [loggedUserInfo, navigate]);
 
   return (
     <ContentWrapper>
