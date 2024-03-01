@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { LoginInputs } from '../../types/User';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { Link, useNavigate } from 'react-router-dom';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { loginUser } from '../../redux/slices/UserSlice';
-import { useSelector } from 'react-redux';
 
 const Login = () => {
   const {
@@ -15,21 +16,24 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>();
 
-  const [inputFocus, setInputFocus] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state: AppState) => state.users);
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
 
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
-    dispatch(loginUser(loginData));
-    setInputFocus(true);
+    const res = await dispatch(loginUser(loginData));
+
+    if (res.meta.requestStatus === 'fulfilled') {
+      toast.success('Login successfully');
+    } else if (res.meta.requestStatus === 'rejected') {
+      toast.error('Please check your credentials and try again');
+    }
   };
 
-  // check if loggedUser info and navigate accordingly
+  // check if user is logged and navigate accordingly
   useEffect(() => {
     if (loggedUserInfo) {
       const { role } = loggedUserInfo;
@@ -55,9 +59,6 @@ const Login = () => {
             If you have an account, sign in with your email address.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className='pb-7'>
-            {loading === 'failed' && inputFocus && (
-              <span className='form-error animate-fadein mb-5'>{error}</span>
-            )}
             <div className='mb-6'>
               <label
                 htmlFor='email'
@@ -75,7 +76,6 @@ const Login = () => {
                   required: true,
                   pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 })}
-                onFocus={() => setInputFocus(false)}
               />
             </div>
             <div className='mb-6'>
@@ -94,7 +94,6 @@ const Login = () => {
                 {...register('password', {
                   required: true,
                 })}
-                onFocus={() => setInputFocus(false)}
               />
             </div>
             <button

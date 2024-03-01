@@ -57,13 +57,18 @@ const Register = () => {
         avatar: inputFileUrl[0],
       };
 
-      dispatch(registerUser(newUserData));
-      toast.success('Customer register successfully');
-      navigate('/login');
-      reset();
+      const result = await dispatch(registerUser(newUserData));
+      if (result.meta.requestStatus === 'fulfilled') {
+        toast.success('Customer register successfully');
+        navigate('/login');
+        reset();
+      } else if (result.meta.requestStatus === 'rejected') {
+        toast.error(
+          'Error occurred during registration. Please try again later'
+        );
+      }
     } catch (e) {
       const error = e as Error;
-      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -99,7 +104,7 @@ const Register = () => {
                 })}
               />
               {errors.name && (
-                <span className='form-error'>
+                <span className='form-error animate-fadein'>
                   Enter your name again, its too short
                 </span>
               )}
@@ -123,7 +128,9 @@ const Register = () => {
                 })}
               />
               {errors.email && (
-                <span className='form-error'>Enter your valid email</span>
+                <span className='form-error animate-fadein'>
+                  Enter your valid email
+                </span>
               )}
             </div>
             <div className='mb-6'>
@@ -145,7 +152,7 @@ const Register = () => {
                 })}
               />
               {errors.password && (
-                <span className='form-error'>
+                <span className='form-error animate-fadein'>
                   Password should be at-least 6 character
                 </span>
               )}
@@ -166,7 +173,7 @@ const Register = () => {
                 accept='images/*'
               />
               {errors.avatar && (
-                <span className='form-error'>Upload image</span>
+                <span className='form-error animate-fadein'>Upload image</span>
               )}
             </div>
 

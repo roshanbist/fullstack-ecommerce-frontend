@@ -5,16 +5,13 @@ import { navLinks } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import UserInfo from '../user/UserInfo';
+import Cart from '../cart/Cart';
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
 
   const location = useLocation();
-
-  // const mobileMenuHandler = () => {
-  //   setIsMobile(true);
-  // };
 
   // adding classname in body
   useEffect(() => {
@@ -97,6 +94,7 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
+      <Cart />
       <UserInfo />
     </div>
   );

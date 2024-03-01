@@ -37,7 +37,7 @@ const UserInfo = () => {
   return (
     <div className='ml-3 relative' ref={userInfoRef}>
       <button
-        className='text-blue-500 w-[30px] h-[30px] text-[30px] flex items-center'
+        className='text-blue-500 border-2 border-blue-500 rounded-full w-[30px] h-[30px] text-[30px] flex items-center'
         onClick={() => setShowDropdown(!showDropdown)}
       >
         {loggedUser ? userAvatar : <FontAwesomeIcon icon={faCircleUser} />}

@@ -24,7 +24,6 @@ export const getLoggedUserInfo = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const userTokenString = localStorage.getItem('userToken');
-      //   console.log('checking', typeof userTokenString);
 
       if (!userTokenString) {
         throw new Error('No user token found');
@@ -46,7 +45,6 @@ export const getLoggedUserInfo = createAsyncThunk(
       }
       const data: UserType = await response.json();
       return data;
-      //   console.log('response data of user', data);
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -90,19 +88,13 @@ export const loginUser = createAsyncThunk(
 
       if (!response.ok) {
         const errorResponse = await response.json();
-        // toast.error(
-        //   errorResponse.message === 'Unauthorized' &&
-        //     'Enter correct login detail!'
-        // );
         return rejectWithValue(errorResponse.message);
       }
 
       const data: AuthToken = await response.json();
-      //   console.log('data', data);
       localStorage.setItem('userToken', JSON.stringify(data));
 
       const loggedUserDetail = await dispatch(getLoggedUserInfo());
-      //   console.log('loggeduser detail', loggedUserDetail);
       return loggedUserDetail.payload;
     } catch (e) {
       const error = e as Error;

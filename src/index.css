@@ -54,6 +54,10 @@ body.mobile-nav {
   overflow: hidden;
 }
 
+body.cart-open {
+  overflow: hidden;
+}
+
 .scroll-to-top {
   background-color: transparent !important;
   box-shadow: none !important;
@@ -114,4 +118,28 @@ body.mobile-nav {
 
 .animate-fadein {
   animation: fadein 0.5s;
+}
+
+/* custom css style for cart */
+
+.cart-overlay {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease-in-out, visibility 0.35s ease-in-out;
+}
+
+.cart-overlay.cart-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-container {
+  transform: translateX(150%);
+  transition: transform 0.35s ease-in-out;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.cart-container.cart-open {
+  transform: translateX(0);
 }
