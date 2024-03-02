@@ -8,7 +8,7 @@ const Cart = () => {
   return (
     <ContentWrapper>
       <div className='max-container'>
-        <section className='py-10 md:flex md:justify-between gap-10'>
+        <section className='py-16 md:flex md:justify-between gap-10'>
           <CartDetail />
           <CartSummary />
         </section>

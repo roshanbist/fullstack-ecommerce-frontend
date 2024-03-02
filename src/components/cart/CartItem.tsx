@@ -5,22 +5,23 @@ import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { CartType } from '../../types/Cart';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/store';
-import { addItem } from '../../redux/slices/CartSlice';
+import { addItem, deleteItem, removeItem } from '../../redux/slices/CartSlice';
 
 const CartItem = ({ itemData }: { itemData: CartType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const removeHandler = () => {
-    //
+  const removeHandler = (itemData: CartType) => {
+    console.log('item', itemData);
+    dispatch(removeItem(itemData));
   };
 
   const addHandler = (itemData: CartType) => {
     dispatch(addItem({ ...itemData, amount: 1 }));
   };
 
-  const removeCartHandler = (id: number) => {
-    //
+  const deleteItemHandler = (itemData: CartType) => {
+    dispatch(deleteItem(itemData));
   };
 
   const itemPageHandler = (id: number) => {
@@ -29,7 +30,7 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
 
   return (
     <div className='mb-6 pb-6 border-b border-b-ebony flex gap-5'>
-      <div className='w-[150px] min-h-[150px] rounded-lg'>
+      <div className='w-[120px] h-[120px] rounded-lg'>
         <img
           className='w-full h-full object-cover rounded-lg cursor-pointer'
           src={itemData.images[0]}
@@ -38,45 +39,45 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
         />
       </div>
       <div className='content flex-1'>
-        <div className='flex justify-between mb-5'>
+        <div className='flex justify-between mb-6 gap-5'>
           <h2
-            className='text-lg font-medium cursor-pointer'
+            className='text-lg font-medium cursor-pointer flex-1'
             onClick={() => itemPageHandler(itemData?.id)}
           >
             {itemData?.title}
           </h2>
-          <span className='block font-medium'>
-            € {itemData?.price.toFixed(2)}
+          <span className='block font-medium text-lg w-[100px] text-right'>
+            € {(itemData?.price * (itemData?.amount as number)).toFixed(2)}
           </span>
         </div>
-        <div className='flex justify-between mb-5'>
-          <span className='min-w-[35px] h-[35px] p-2 rounded-sm bg-blue-500 text-white flex justify-center items-center'>
+        <div className='mb-5 flex gap-5'>
+          <span className='w-[80px] h-[35px] p-5 rounded-full bg-blue-500 text-white flex justify-center items-center'>
             x {itemData?.amount}
           </span>
-          <div className='flex justify-between gap-5'>
+          <div className='flex justify-between items-center bg-blue-500 rounded-full p-5 min-w-[100px] h-[35px] text-white'>
             <span
-              className='icon-minus cursor-pointer text-sm w-[35px] h-[35px] bg-blue-500 hover:bg-blue-600 p-3 rounded-lg flex items-center justify-center text-white'
+              className='icon-minus cursor-pointer text-sm'
               role='button'
-              onClick={removeHandler}
+              onClick={() => removeHandler(itemData)}
             >
               <FontAwesomeIcon icon={faMinus} className='text-lg' />
             </span>
             <span
-              className='icon-minus cursor-pointer text-sm w-[35px] h-[35px] bg-blue-500 hover:bg-blue-600 p-3 rounded-lg flex items-center justify-center text-white'
+              className='icon-minus cursor-pointer text-sm'
               role='button'
               onClick={() => addHandler(itemData)}
             >
               <FontAwesomeIcon icon={faPlus} className='text-lg' />
             </span>
           </div>
+          <button
+            className='btn-danger rounded-xl ml-auto'
+            type='submit'
+            onClick={() => deleteItemHandler(itemData)}
+          >
+            Remove
+          </button>
         </div>
-        <button
-          className='btn-danger w-full max-w-full rounded-xl'
-          type='submit'
-          onClick={() => removeCartHandler(itemData?.id)}
-        >
-          Remove
-        </button>
       </div>
     </div>
   );

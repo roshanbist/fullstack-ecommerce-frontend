@@ -16,17 +16,18 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
 
-      // calculate totalAmount
-      state.totalAmount += action.payload.price * action.payload.amount;
+      state.totalAmount +=
+        action.payload.price * (action.payload.amount as number);
 
       if (itemExist) {
-        // update the items array
         state.items = state.items.map((item) => {
           if (item.id === action.payload.id) {
-            // return object by updating its amount
-            return { ...item, amount: item.amount + action.payload.amount };
+            return {
+              ...item,
+              amount:
+                (item.amount as number) + (action.payload.amount as number),
+            };
           } else {
-            // return object
             return item;
           }
         });
@@ -38,13 +39,47 @@ const cartSlice = createSlice({
 
       //
     },
+
+    removeItem: (state, action) => {
+      const itemExist = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (itemExist) {
+        state.totalAmount -= action.payload.price;
+
+        if (itemExist?.amount === 1) {
+          state.items = state.items.filter((item) => item.id !== itemExist.id);
+          toast.success('Item Removed Successfully');
+        } else {
+          const updatedItems = {
+            ...itemExist,
+            amount: (itemExist?.amount as number) - 1,
+          };
+          state.items = state.items.map((item) =>
+            item.id === itemExist?.id ? updatedItems : item
+          );
+          toast.success('Item Removed Successfully');
+        }
+      }
+    },
+
     deleteItem: (state, action) => {
-      //
+      const itemToDelete = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (itemToDelete) {
+        state.totalAmount -=
+          itemToDelete.price * (itemToDelete.amount as number);
+        state.items = state.items.filter((item) => item.id !== itemToDelete.id);
+        toast.success('Item Removed successfully');
+      }
     },
   },
 });
 
 const cartReducer = cartSlice.reducer;
-export const { addItem, deleteItem } = cartSlice.actions;
+export const { addItem, removeItem, deleteItem } = cartSlice.actions;
 
 export default cartReducer;
