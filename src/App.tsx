@@ -12,6 +12,7 @@ import {
   Register,
   Profile,
   Admin,
+  Cart,
 } from './pages';
 import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
@@ -46,6 +47,7 @@ function App() {
           path='/admin'
           element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
         />
+        <Route path='/cart' element={<Cart />} />
       </Routes>
       <Footer />
       <ToastContainer autoClose={2500} />

@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { navLinks } from '../../constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-import UserInfo from '../user/UserInfo';
-import Cart from '../cart/Cart';
+import UserInteraction from '../user/UserInteraction';
+import CartButton from '../cart/CartButton';
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -54,7 +54,7 @@ const Navbar = () => {
   return (
     <div className='flex flex-1 max-md:justify-end max-md:items-center'>
       <nav className='md:flex-1 md:mx-10' ref={navRef}>
-        <span className='md:hidden cursor-pointer text-[28px] relative z-10'>
+        <span className='md:hidden cursor-pointer text-[24px] relative z-10'>
           {isMobile ? (
             <FontAwesomeIcon
               className='text-blue-500'
@@ -70,7 +70,7 @@ const Navbar = () => {
           )}
         </span>
         <div
-          className={`max-md:fixed w-full left-0 max-md:top-[65px] bottom-0 max-md:transition-all max-md:ease-in-out max-md:duration-300 ${
+          className={`max-md:fixed w-full left-0 max-md:top-[79px] bottom-0 max-md:transition-all max-md:ease-in-out max-md:duration-300 ${
             isMobile ? 'translate-x-0' : 'max-md:translate-x-full'
           } max-md:bg-palette-primary max-md:border-t max-md:border-t-palette-accent`}
         >
@@ -94,8 +94,8 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
-      <Cart />
-      <UserInfo />
+      <CartButton />
+      <UserInteraction />
     </div>
   );
 };

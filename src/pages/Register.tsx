@@ -3,11 +3,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { AppState, useAppDispatch } from '../../redux/store';
-import { RegisterInputs } from '../../types/User';
-import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { uploadFileService } from '../../utils/uploadFileService';
-import { registerUser } from '../../redux/slices/UserSlice';
+import { AppState, useAppDispatch } from '../redux/store';
+import { RegisterInputs } from '../types/User';
+import ContentWrapper from '../components/contentWrapper/ContentWrapper';
+import { uploadFileService } from '../utils/uploadFileService';
+import { registerUser } from '../redux/slices/UserSlice';
 import { useSelector } from 'react-redux';
 
 const Register = () => {

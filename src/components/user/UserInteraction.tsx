@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import UserDropdown from './UserDropdown';
+import UserInteractionDropdown from './UserInteractionDropdown';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/store';
 
@@ -35,14 +35,14 @@ const UserInfo = () => {
   );
 
   return (
-    <div className='ml-3 relative' ref={userInfoRef}>
+    <div className='ml-5 relative' ref={userInfoRef}>
       <button
-        className='text-blue-500 border-2 border-blue-500 rounded-full w-[30px] h-[30px] text-[30px] flex items-center'
+        className='text-blue-500 rounded-full w-[26px] h-[26px] text-[26px] flex items-center'
         onClick={() => setShowDropdown(!showDropdown)}
       >
         {loggedUser ? userAvatar : <FontAwesomeIcon icon={faCircleUser} />}
       </button>
-      <UserDropdown
+      <UserInteractionDropdown
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
       />

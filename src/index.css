@@ -74,6 +74,10 @@ body.cart-open {
     @apply inline-block min-w-[130px] text-[18px] bg-blue-500 border-blue-500 capitalize text-white outline-none px-9 py-3 font-medium hover:bg-blue-600 transition-colors ease-in-out duration-300 text-center;
   }
 
+  .btn-danger {
+    @apply inline-block min-w-[130px] text-[18px] bg-red-800 border-red-800 capitalize text-white outline-none px-5 py-2 font-medium hover:bg-red-900 transition-colors ease-in-out duration-300 text-center;
+  }
+
   .form-input {
     @apply block w-full leading-5 h-[50px] py-3 px-4 outline-none border border-palette-accent rounded-lg shadow bg-palette-primary text-color-primary;
   }
@@ -120,7 +124,7 @@ body.cart-open {
   animation: fadein 0.5s;
 }
 
-/* custom css style for cart */
+/* custom css for cart */
 
 .cart-overlay {
   opacity: 0;

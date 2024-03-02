@@ -24,7 +24,7 @@ const ProductCard = ({ productData }: { productData: ProductType }) => {
       <div className='p-4 text-color-primary'>
         <h3 className='text-lg mb-3 font-medium'>{productData.title}</h3>
         <span className='font-bold text-[18px]'>
-          Price: {productData.price}
+          Price: € {productData.price.toFixed(2)}
         </span>
       </div>
     </div>

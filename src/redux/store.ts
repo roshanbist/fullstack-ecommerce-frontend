@@ -4,12 +4,14 @@ import { useDispatch } from 'react-redux';
 import productReducer from './slices/ProductSlice';
 import categoryReducer from './slices/CategorySlice';
 import userReducer from './slices/UserSlice';
+import cartReducer from './slices/CartSlice';
 
 const store = configureStore({
   reducer: {
     products: productReducer,
     categories: categoryReducer,
     users: userReducer,
+    carts: cartReducer,
   },
 });
 

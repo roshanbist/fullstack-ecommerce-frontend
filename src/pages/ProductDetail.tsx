@@ -3,10 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../redux/store';
-import {
-  deleteProduct,
-  fetchSingleProduct,
-} from '../redux/slices/ProductSlice';
+import { fetchSingleProduct } from '../redux/slices/ProductSlice';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import ProductDescription from '../components/productDetails/ProductDescription';
 import ProductGallery from '../components/productDetails/ProductGallery';
