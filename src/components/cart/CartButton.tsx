@@ -23,11 +23,11 @@ const CartButton = () => {
     <>
       <button
         type='button'
-        className='text-blue-500 text-[24px] w-[26px] h-[26px] flex items-center ml-5 relative'
+        className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative'
         onClick={cartHandler}
       >
-        <FontAwesomeIcon icon={faCartShopping} />
-        <span className='absolute rounded-[44px] bg-blue-500 text-[12px] px-2 -top-[17px] -right-4 py-1.5 text-white font-medium leading-[1]'>
+        <FontAwesomeIcon icon={faCartShopping} className='text-[26px]' />
+        <span className='absolute rounded-[44px] bg-blue-500 text-[12px] px-2 -top-[16px] -right-3.5 py-1.5 text-white font-medium leading-[1]'>
           {numberOfCartItems}
         </span>
       </button>

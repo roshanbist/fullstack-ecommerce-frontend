@@ -5,8 +5,9 @@ import { useParams } from 'react-router-dom';
 import { AppState, useAppDispatch } from '../redux/store';
 import { fetchSingleProduct } from '../redux/slices/ProductSlice';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import ProductDescription from '../components/productDetails/ProductDescription';
-import ProductGallery from '../components/productDetails/ProductGallery';
+import ProductDescription from '../components/product/ProductDescription';
+import ProductGallery from '../components/product/ProductGallery';
+import GoBackButton from '../components/goBackButton/GoBackButton';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -32,10 +33,15 @@ const ProductDetail = () => {
             <p>sorry for disruption due to error</p>
           ) : (
             selectedSingleProduct && (
-              <section className='md:flex'>
-                <ProductGallery productImages={selectedSingleProduct?.images} />
-                <ProductDescription productData={selectedSingleProduct} />
-              </section>
+              <>
+                <GoBackButton />
+                <section className='md:flex'>
+                  <ProductGallery
+                    productImages={selectedSingleProduct?.images}
+                  />
+                  <ProductDescription productData={selectedSingleProduct} />
+                </section>
+              </>
             )
           )}
         </div>

@@ -11,7 +11,7 @@ const ThemeToggle = () => {
     <>
       <button
         onClick={toggleTheme}
-        className='w-[26px] h-[26px] text-[14px] rounded-full flex justify-center items-center border-[2px] border-blue-500 text-blue-500 ml-5'
+        className='w-[30px] h-[30px] rounded-full flex justify-center items-center border-[2px] border-blue-500 text-blue-500 ml-5'
       >
         {theme === 'light' ? (
           <FontAwesomeIcon icon={faMoon} />

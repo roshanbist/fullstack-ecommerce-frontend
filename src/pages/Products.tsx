@@ -6,7 +6,6 @@ import {
   fetchAllProducts,
   filterProductsList,
 } from '../redux/slices/ProductSlice';
-import ProductCard from '../components/productCard/ProductCard';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
 import { priceOption } from '../constants';
@@ -14,6 +13,7 @@ import { ProductFilters } from '../types/Product';
 import Pagination from '../components/pagination/Pagination';
 import usePagination from '../hook/usePagination';
 import { PaginationProps } from '../types/Pagination';
+import ProductCard from '../components/product/ProductCard';
 
 const Products = () => {
   const dispatch = useAppDispatch();

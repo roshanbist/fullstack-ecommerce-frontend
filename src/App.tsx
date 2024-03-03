@@ -17,6 +17,7 @@ import {
 import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
+import EditProfile from './components/user/EditProfile';
 
 function App() {
   const location = useLocation();
@@ -40,12 +41,16 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route
-          path='/customer/profile'
+          path='/customer-profile'
           element={<ProtectedRoute>{<Profile />}</ProtectedRoute>}
         />
         <Route
           path='/admin'
           element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
+        />
+        <Route
+          path='/edit-profile/:id'
+          element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
         />
         <Route path='/cart' element={<Cart />} />
       </Routes>

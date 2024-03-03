@@ -12,7 +12,6 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
   const dispatch = useAppDispatch();
 
   const removeHandler = (itemData: CartType) => {
-    console.log('item', itemData);
     dispatch(removeItem(itemData));
   };
 

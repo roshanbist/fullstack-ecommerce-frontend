@@ -6,6 +6,7 @@ import {
   UserInitialState,
   UserType,
 } from '../../types/User';
+import { toast } from 'react-toastify';
 
 const BASE_URL = 'https://api.escuelajs.co/api/v1/users';
 const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
@@ -65,6 +66,27 @@ export const getAllUsers = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
       const data: UserType[] = await response.json();
+      return data;
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// thunk action to get single user data
+export const getSingleUser = createAsyncThunk(
+  'getSingleUser',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/${id}`);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: UserType = await response.json();
       return data;
     } catch (e) {
       const error = e as Error;
@@ -145,10 +167,12 @@ export const updateUser = createAsyncThunk(
 
       if (!response.ok) {
         const errorMessage = await response.json();
+        toast.error('Try again, an error occured');
         return rejectWithValue(errorMessage.message);
       }
 
       const data: UserType = await response.json();
+      toast.success('Information Updated Successfully');
       return data;
     } catch (e) {
       const error = e as Error;
@@ -164,7 +188,6 @@ const userSlice = createSlice({
     logoutUser: (state) => {
       localStorage.removeItem('userToken');
       state.loggedUser = null;
-      return state;
     },
   },
 
@@ -214,6 +237,34 @@ const userSlice = createSlice({
     });
 
     builder.addCase(getAllUsers.rejected, (state, action) => {
+      return {
+        ...state,
+        // loading: false,
+        loading: 'failed',
+        error: action.error.message,
+      };
+    });
+
+    builder.addCase(getSingleUser.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loggedUser: action.payload,
+        // loading: false,
+        loading: 'succeeded',
+        error: '',
+      };
+    });
+
+    builder.addCase(getSingleUser.pending, (state, action) => {
+      return {
+        ...state,
+        // loading: true,
+        loading: 'pending',
+        error: '',
+      };
+    });
+
+    builder.addCase(getSingleUser.rejected, (state, action) => {
       return {
         ...state,
         // loading: false,
@@ -279,6 +330,8 @@ const userSlice = createSlice({
     });
 
     builder.addCase(updateUser.fulfilled, (state, action) => {
+      console.log('action payload', action.payload);
+
       const updatedUserIndex = state.users.findIndex(
         (user) => user.id === action.payload.id
       );
@@ -289,7 +342,6 @@ const userSlice = createSlice({
       return {
         ...state,
         users: updatedUsers,
-        // loading: false,
         loading: 'succeeded',
         error: '',
       };

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../../redux/store';
-import { logoutUser } from '../../redux/slices/UserSlice';
+import { getLoggedUserInfo, logoutUser } from '../../redux/slices/UserSlice';
 
 const UserDropdown = ({
   showDropdown,
@@ -26,6 +26,10 @@ const UserDropdown = ({
     dispatch(logoutUser());
   };
 
+  useEffect(() => {
+    dispatch(getLoggedUserInfo());
+  }, [loggedUserInfo, dispatch]);
+
   const guestButtonList = (
     <>
       <ul>
@@ -41,7 +45,7 @@ const UserDropdown = ({
         <li className='mx-5 mb-3'>
           <Link
             to={'/register'}
-            className='btn-primary  w-full rounded-lg'
+            className='btn-primary w-full rounded-lg'
             onClick={dropdownCloseHandler}
           >
             Register
@@ -53,23 +57,25 @@ const UserDropdown = ({
 
   const userButtonList = (
     <ul>
-      <li className='border-b border-b-palette-primary'>
+      <li className='border-b border-b-palette-accent'>
         <Link
           className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-          to={'/customer/profile'}
+          to={'/customer-profile'}
+          onClick={dropdownCloseHandler}
         >
           Profile
         </Link>
       </li>
-      <li className='border-b border-b-palette-primary'>
+      <li className='border-b border-b-palette-accent'>
         <Link
           className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           to={'/'}
+          onClick={dropdownCloseHandler}
         >
           Orders
         </Link>
       </li>
-      <li className='border-b border-b-palette-primary'>
+      <li className='border-b border-b-palette-accent'>
         <button
           className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           onClick={logoutHandler}
@@ -106,14 +112,16 @@ const UserDropdown = ({
           loggedUserInfo ? loggedUserInfo.name : 'Guest'
         }`}</h2>
         <p className='transition-none tracking-wide'>
-          Lets start shopping and managing the carts.
+          {loggedUserInfo && loggedUserInfo.role.toLowerCase() === 'admin'
+            ? 'Lets start managing the carts.'
+            : 'Lets start shopping.'}
         </p>
       </div>
-      {loggedUserInfo &&
-      (loggedUserInfo.role === 'admin'
-        ? adminButtonList
-        : loggedUserInfo.role === 'customer')
-        ? userButtonList
+
+      {loggedUserInfo
+        ? loggedUserInfo.role === 'admin'
+          ? adminButtonList
+          : userButtonList
         : guestButtonList}
     </div>
   );

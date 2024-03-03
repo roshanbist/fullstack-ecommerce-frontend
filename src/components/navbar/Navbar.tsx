@@ -52,8 +52,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className='flex flex-1 max-md:justify-end max-md:items-center'>
-      <nav className='md:flex-1 md:mx-10' ref={navRef}>
+    <div className='flex flex-1 max-md:justify-end items-center'>
+      <nav
+        className='md:flex-1 md:mx-10 max-md:mr-auto max-md:ml-2.5 md:flex md:items-center'
+        ref={navRef}
+      >
         <span className='md:hidden cursor-pointer text-[24px] relative z-10'>
           {isMobile ? (
             <FontAwesomeIcon

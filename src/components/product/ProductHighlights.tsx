@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { AppState, useAppDispatch } from '../../redux/store';
-import ProductCard from '../productCard/ProductCard';
 import { fetchAllProducts } from '../../redux/slices/ProductSlice';
+import ProductCard from './ProductCard';
 
 const ProductHighlights = () => {
   const dispatch = useAppDispatch();

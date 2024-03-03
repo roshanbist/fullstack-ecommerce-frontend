@@ -25,3 +25,8 @@ export type AuthToken = {
   access_token: string;
   refresh_token: string;
 };
+
+export type EditProfileType = {
+  name: string;
+  email: string;
+};

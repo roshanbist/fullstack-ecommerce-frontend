@@ -30,7 +30,7 @@ const Register = () => {
       const { role } = loggedUser;
 
       if (role === 'customer') {
-        navigate('/customer/profile');
+        navigate('/customer-profile');
       } else if (role === 'admin') {
         navigate('/admin');
       }
