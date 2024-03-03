@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { getSingleUser, updateUser } from '../../redux/slices/UserSlice';
+import {
+  getLoggedUserInfo,
+  getSingleUser,
+  updateUser,
+} from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
 import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
@@ -39,6 +43,7 @@ const EditProfile = () => {
     try {
       const res = await dispatch(updateUser(updatedData as UserType));
       if (res.meta.requestStatus === 'fulfilled') {
+        await dispatch(getLoggedUserInfo());
         navigate('/customer-profile');
       }
     } catch (e) {

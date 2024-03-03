@@ -188,6 +188,11 @@ const userSlice = createSlice({
     logoutUser: (state) => {
       localStorage.removeItem('userToken');
       state.loggedUser = null;
+      return state;
+      // return {
+      //   ...state,
+      //   loggedUser: null,
+      // };
     },
   },
 

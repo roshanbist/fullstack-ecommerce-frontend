@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../../redux/store';
-import { getLoggedUserInfo, logoutUser } from '../../redux/slices/UserSlice';
+import { logoutUser } from '../../redux/slices/UserSlice';
 
 const UserDropdown = ({
   showDropdown,
@@ -13,6 +13,8 @@ const UserDropdown = ({
   setShowDropdown: (value: boolean) => void;
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
@@ -24,11 +26,19 @@ const UserDropdown = ({
   const logoutHandler = () => {
     setShowDropdown(false);
     dispatch(logoutUser());
+    navigate('/login');
   };
 
-  useEffect(() => {
-    dispatch(getLoggedUserInfo());
-  }, [loggedUserInfo, dispatch]);
+  const navigateAdminHandler = () => {
+    setShowDropdown(false);
+    navigate('/admin');
+  };
+
+  // useEffect(() => {
+  //   if (!loggedUserInfo) {
+  //     dispatch(getLoggedUserInfo());
+  //   }
+  // }, [loggedUserInfo, dispatch]);
 
   const guestButtonList = (
     <>
@@ -67,15 +77,6 @@ const UserDropdown = ({
         </Link>
       </li>
       <li className='border-b border-b-palette-accent'>
-        <Link
-          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-          to={'/'}
-          onClick={dropdownCloseHandler}
-        >
-          Orders
-        </Link>
-      </li>
-      <li className='border-b border-b-palette-accent'>
         <button
           className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           onClick={logoutHandler}
@@ -89,15 +90,14 @@ const UserDropdown = ({
 
   const adminButtonList = (
     <>
-      <Link
-        to={'/admin'}
-        className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-        onClick={dropdownCloseHandler}
+      <button
+        className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+        onClick={navigateAdminHandler}
       >
         Admin
-      </Link>
+      </button>
       <button
-        className='w-full block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+        className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
         onClick={logoutHandler}
       >
         Logout

@@ -21,7 +21,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    dispatch(getLoggedUserInfo());
+    if (!loggedUserInfo) {
+      dispatch(getLoggedUserInfo());
+    }
   }, [loggedUserInfo, dispatch]);
 
   return (

@@ -29,7 +29,7 @@ const UserInfo = () => {
   return (
     <div className='ml-5 flex items-center relative' ref={userInfoRef}>
       <button
-        className='rounded-full w-[30px] h-[30px] overflow-hidden'
+        className='rounded-full w-[30px] h-[30px] overflow-hidden border border-blue-500'
         onClick={() => setShowDropdown(!showDropdown)}
       >
         {loggedUser ? (

@@ -36,8 +36,6 @@ const cartSlice = createSlice({
       }
 
       toast.success('Item Added Successfully');
-
-      //
     },
 
     removeItem: (state, action) => {

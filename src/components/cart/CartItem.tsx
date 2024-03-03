@@ -28,8 +28,8 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
   };
 
   return (
-    <div className='mb-6 pb-6 border-b border-b-ebony flex gap-5'>
-      <div className='w-[120px] h-[120px] rounded-lg'>
+    <div className='mb-5 lg:mb-6 pb-5 lg:pb-6 border-b border-b-ebony sm:flex sm:gap-3 lg:gap-5'>
+      <div className='w-full sm:w-[120px] h-[250px] sm:h-[120px] rounded-lg max-sm:mb-5'>
         <img
           className='w-full h-full object-cover rounded-lg cursor-pointer'
           src={itemData.images[0]}
@@ -37,19 +37,19 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
           onClick={() => itemPageHandler(itemData?.id)}
         />
       </div>
-      <div className='content flex-1'>
-        <div className='flex justify-between mb-6 gap-5'>
+      <div className='sm:flex-1'>
+        <div className='sm:flex sm:justify-between mb-5 sm:mb-6 md:gap-3 lg:gap-5'>
           <h2
-            className='text-lg font-medium cursor-pointer flex-1'
+            className='lg:text-lg font-medium cursor-pointer flex-1'
             onClick={() => itemPageHandler(itemData?.id)}
           >
             {itemData?.title}
           </h2>
-          <span className='block font-medium text-lg w-[100px] text-right'>
+          <span className='block font-medium lg:text-lg sm:w-[100px] sm:text-right'>
             € {(itemData?.price * (itemData?.amount as number)).toFixed(2)}
           </span>
         </div>
-        <div className='mb-5 flex gap-5'>
+        <div className='mb-5 flex gap-5 flex-wrap'>
           <span className='w-[80px] h-[35px] p-5 rounded-full bg-blue-500 text-white flex justify-center items-center'>
             x {itemData?.amount}
           </span>
@@ -70,7 +70,7 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
             </span>
           </div>
           <button
-            className='btn-danger rounded-xl ml-auto'
+            className='btn-danger max-sm:w-full rounded-xl lg:ml-auto'
             type='submit'
             onClick={() => deleteItemHandler(itemData)}
           >
