@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
-import {
-  // getLoggedUserInfo,
-  // getSingleUser,
-  updateUser,
-} from '../../redux/slices/UserSlice';
+import { getLoggedUserInfo, updateUser } from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
 import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
 
 const EditProfile = () => {
-  // const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const userId = Number(id);
 
   const userData = useSelector((state: AppState) => state.users.loggedUser);
+
+  useEffect(() => {
+    if (!userData) {
+      dispatch(getLoggedUserInfo());
+    }
+  }, [dispatch, userData]);
 
   const [updatedData, setUpdatedData] = useState<Partial<UserType>>({
     ...userData,

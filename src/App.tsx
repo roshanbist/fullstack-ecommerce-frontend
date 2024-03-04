@@ -22,16 +22,20 @@ import ProductDashboard from './components/adminContent/ProductDashboard';
 import AddNewProduct from './components/adminContent/AddNewProduct';
 
 function App() {
-  const location = useLocation();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const storedUser = localStorage.getItem('userToken');
+
+  useEffect(() => {
+    if (storedUser) {
+      dispatch(getLoggedUserInfo());
+    }
+  }, [dispatch, storedUser]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-
-  useEffect(() => {
-    dispatch(getLoggedUserInfo());
-  }, [dispatch]);
 
   return (
     <div className='overflow-hidden w-full relative'>

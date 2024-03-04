@@ -1,8 +1,11 @@
 import React from 'react';
 
 import CartImage from '../../assets/images/empty-cart.png';
+import { useNavigate } from 'react-router-dom';
 
 const EmptyCart = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='max-w-[400px] mx-auto text-color-primary text-center'>
       <div className='mb-6 max-w-[350px] mx-auto animate-fade'>
@@ -15,7 +18,10 @@ const EmptyCart = () => {
         Looks like you have not added anything to your cart. Explore the
         products.
       </p>
-      <button className='btn-primary rounded-lg animate-bounce'>
+      <button
+        className='btn-primary rounded-lg animate-bounce'
+        onClick={() => navigate('/products')}
+      >
         Shop Now
       </button>
     </div>

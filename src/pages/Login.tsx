@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { LoginInputs } from '../types/User';
+import { LoginInputs, UserType } from '../types/User';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../redux/store';
 import { loginUser } from '../redux/slices/UserSlice';
@@ -19,34 +19,22 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const loggedUserInfo = useSelector(
-    (state: AppState) => state.users.loggedUser
-  );
-
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
     const res = await dispatch(loginUser(loginData));
 
     if (res.meta.requestStatus === 'fulfilled') {
-      toast.success('Login successfully');
-    } else if (res.meta.requestStatus === 'rejected') {
-      toast.error('Please check your credentials and try again');
-    }
-  };
-
-  // check if user is logged and navigate accordingly
-  useEffect(() => {
-    if (loggedUserInfo) {
-      const { role } = loggedUserInfo;
-
+      const { role } = res.payload as UserType;
       if (role === 'customer') {
         navigate('/customer-profile');
       } else if (role === 'admin') {
         navigate('/admin');
       }
-    } else {
-      navigate('/login');
+
+      toast.success('Login successfully');
+    } else if (res.meta.requestStatus === 'rejected') {
+      toast.error('Please check your credentials and try again');
     }
-  }, [loggedUserInfo, navigate]);
+  };
 
   return (
     <ContentWrapper>

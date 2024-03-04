@@ -32,7 +32,7 @@ const UserInfo = () => {
         className='rounded-full w-[30px] h-[30px] overflow-hidden border border-blue-500'
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        {loggedUser ? (
+        {loggedUser && loggedUser.avatar ? (
           <img
             src={loggedUser.avatar}
             alt={loggedUser.name}

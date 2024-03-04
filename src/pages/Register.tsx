@@ -37,7 +37,7 @@ const Register = () => {
     } else {
       navigate('/register');
     }
-  }, [loggedUser, navigate, loading]);
+  }, [loggedUser, navigate]);
 
   const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
