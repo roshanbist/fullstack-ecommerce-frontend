@@ -187,12 +187,10 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       localStorage.removeItem('userToken');
+      localStorage.removeItem('cartCollection');
       state.loggedUser = null;
-      return state;
-      // return {
-      //   ...state,
-      //   loggedUser: null,
-      // };
+      state.loading = 'idle';
+      state.error = '';
     },
   },
 

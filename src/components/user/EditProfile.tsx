@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
 import {
-  getLoggedUserInfo,
-  getSingleUser,
+  // getLoggedUserInfo,
+  // getSingleUser,
   updateUser,
 } from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
@@ -14,22 +14,16 @@ import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
 
 const EditProfile = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userId = Number(id);
+  // const userId = Number(id);
 
   const userData = useSelector((state: AppState) => state.users.loggedUser);
 
   const [updatedData, setUpdatedData] = useState<Partial<UserType>>({
     ...userData,
   });
-
-  useEffect(() => {
-    if (!userData) {
-      dispatch(getSingleUser(userId));
-    }
-  }, [dispatch, userId, userData]);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedData((prevData) => ({
@@ -43,7 +37,6 @@ const EditProfile = () => {
     try {
       const res = await dispatch(updateUser(updatedData as UserType));
       if (res.meta.requestStatus === 'fulfilled') {
-        await dispatch(getLoggedUserInfo());
         navigate('/customer-profile');
       }
     } catch (e) {

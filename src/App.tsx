@@ -10,7 +10,7 @@ import {
   ProductDetail,
   Login,
   Register,
-  Profile,
+  CustomerProfile,
   Admin,
   Cart,
 } from './pages';
@@ -18,6 +18,8 @@ import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import EditProfile from './components/user/EditProfile';
+import ProductDashboard from './components/adminContent/ProductDashboard';
+import AddNewProduct from './components/adminContent/AddNewProduct';
 
 function App() {
   const location = useLocation();
@@ -42,11 +44,19 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route
           path='/customer-profile'
-          element={<ProtectedRoute>{<Profile />}</ProtectedRoute>}
+          element={<ProtectedRoute>{<CustomerProfile />}</ProtectedRoute>}
         />
         <Route
           path='/admin'
           element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
+        />
+        <Route
+          path='/add-new-product'
+          element={<ProtectedRoute>{<AddNewProduct />}</ProtectedRoute>}
+        />
+        <Route
+          path='/product-dashboard'
+          element={<ProtectedRoute>{<ProductDashboard />}</ProtectedRoute>}
         />
         <Route
           path='/edit-profile/:id'

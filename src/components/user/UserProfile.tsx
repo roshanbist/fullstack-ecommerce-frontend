@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ContentWrapper from '../components/contentWrapper/ContentWrapper';
+import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { AppState, useAppDispatch } from '../redux/store';
-import { getLoggedUserInfo } from '../redux/slices/UserSlice';
-import UserAvatar from '../assets/images/avatar.png';
+import { AppState, useAppDispatch } from '../../redux/store';
+import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
+import UserAvatar from '../../assets/images/avatar.png';
 
-const Profile = () => {
+const UserProfile = () => {
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
@@ -21,10 +21,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (!loggedUserInfo) {
-      dispatch(getLoggedUserInfo());
-    }
-  }, [loggedUserInfo, dispatch]);
+    dispatch(getLoggedUserInfo());
+  }, [dispatch]);
 
   return (
     <ContentWrapper>
@@ -66,4 +64,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

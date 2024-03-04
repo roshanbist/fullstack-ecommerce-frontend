@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../../redux/store';
 import { logoutUser } from '../../redux/slices/UserSlice';
+import { clearCart } from '../../redux/slices/CartSlice';
 
 const UserDropdown = ({
   showDropdown,
@@ -26,19 +27,9 @@ const UserDropdown = ({
   const logoutHandler = () => {
     setShowDropdown(false);
     dispatch(logoutUser());
+    dispatch(clearCart());
     navigate('/login');
   };
-
-  const navigateAdminHandler = () => {
-    setShowDropdown(false);
-    navigate('/admin');
-  };
-
-  // useEffect(() => {
-  //   if (!loggedUserInfo) {
-  //     dispatch(getLoggedUserInfo());
-  //   }
-  // }, [loggedUserInfo, dispatch]);
 
   const guestButtonList = (
     <>
@@ -89,20 +80,34 @@ const UserDropdown = ({
   );
 
   const adminButtonList = (
-    <>
-      <button
-        className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-        onClick={navigateAdminHandler}
-      >
-        Admin
-      </button>
-      <button
-        className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-        onClick={logoutHandler}
-      >
-        Logout
-      </button>
-    </>
+    <ul>
+      <li className='border-b border-b-palette-accent'>
+        <Link
+          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/admin'}
+          onClick={dropdownCloseHandler}
+        >
+          Admin Profile
+        </Link>
+      </li>
+      <li className='border-b border-b-palette-accent'>
+        <Link
+          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/product-dashboard'}
+          onClick={dropdownCloseHandler}
+        >
+          Product Dashboard
+        </Link>
+      </li>
+      <li className='border-b border-b-palette-accent'>
+        <button
+          className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          onClick={logoutHandler}
+        >
+          Logout
+        </button>
+      </li>
+    </ul>
   );
 
   return (
@@ -113,7 +118,7 @@ const UserDropdown = ({
         }`}</h2>
         <p className='transition-none tracking-wide'>
           {loggedUserInfo && loggedUserInfo.role.toLowerCase() === 'admin'
-            ? 'Lets start managing the carts.'
+            ? 'Lets start managing the products.'
             : 'Lets start shopping.'}
         </p>
       </div>

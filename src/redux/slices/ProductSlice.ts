@@ -212,6 +212,8 @@ const productSlice = createSlice({
       return {
         ...state,
         products: state.products.filter((product) => product.id !== productId),
+        loading: false,
+        error: '',
       };
     });
 
