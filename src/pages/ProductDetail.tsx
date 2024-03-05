@@ -19,6 +19,8 @@ const ProductDetail = () => {
     (state: AppState) => state.products
   );
 
+  // console.log('product detail single product', selectedSingleProduct);
+
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
   }, [dispatch, id]);

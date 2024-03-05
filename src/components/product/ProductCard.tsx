@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ProductType } from '../../types/Product';
-import ProductPlaceholder from '../../assets/images/productPlaceholder.png';
+import { ImageUrlClear } from '../../utils/ImageUrlClear';
 
 const ProductCard = ({ productData }: { productData: ProductType }) => {
+  const productImage = ImageUrlClear(productData.images[0]);
+
   return (
     <div className='bg-palette-accent rounded-sm shadow-sm border border-palette-accent'>
       <Link
@@ -13,11 +15,7 @@ const ProductCard = ({ productData }: { productData: ProductType }) => {
       >
         <img
           className='object-cover w-full h-full rounded-tr-sm rounded-tl-sm hover:scale-125 transition-transform duration-300 ease-in-out'
-          src={
-            productData.images[0].startsWith('https')
-              ? productData.images[0]
-              : ProductPlaceholder
-          }
+          src={productImage}
           alt={productData.title}
         />
       </Link>

@@ -1,31 +1,31 @@
 import React from 'react';
 
 import { ProductType } from '../../types/Product';
-import ProductPlaceholder from '../../assets/images/productPlaceholder.png';
 import { useAppDispatch } from '../../redux/store';
 import { deleteProduct } from '../../redux/slices/ProductSlice';
+import { ImageUrlClear } from '../../utils/ImageUrlClear';
+import { useNavigate } from 'react-router-dom';
 
 const AdminProductCard = ({ productData }: { productData: ProductType }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const productImage = ImageUrlClear(productData.images[0]);
 
   const productDeleteHandler = (id: number) => {
     dispatch(deleteProduct(id));
   };
 
-  const productEditHandler = (id: number) => {
-    console.log('please add id here', id);
-  };
+  // const productEditHandler = (id: number) => {
+  //   console.log('please add id here', id);
+  // };
 
   return (
     <div className='bg-palette-accent rounded-sm shadow-sm border border-palette-accent'>
       <div className='block h-[200px] w-full overflow-hidden'>
         <img
           className='object-cover w-full h-full rounded-tr-sm rounded-tl-sm'
-          src={
-            productData.images[0].startsWith('https')
-              ? productData.images[0]
-              : ProductPlaceholder
-          }
+          src={productImage}
           alt={productData.title}
         />
       </div>
@@ -38,9 +38,9 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
           <li className='w-[50%] px-[5px]'>
             <button
               className='btn-primary min-w-0 w-full px-5 py-2 text-[14px] rounded-lg'
-              onClick={() => productEditHandler(productData.id)}
+              onClick={() => navigate(`/update-product/${productData.id}`)}
             >
-              Edit
+              Update
             </button>
           </li>
           <li className='w-[50%] px-[5px]'>

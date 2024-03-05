@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { uploadFileService } from '../../utils/uploadFileService';
 import { toast } from 'react-toastify';
 import { createNewProduct } from '../../redux/slices/ProductSlice';
+import GoBackButton from '../goBackButton/GoBackButton';
 
 const AddNewProduct = () => {
   const {
@@ -39,9 +40,9 @@ const AddNewProduct = () => {
         categoryId: formData.categoryId,
       };
 
-      const imagesAyo = [...inputFileUrl];
+      // const imagesAyo = [...inputFileUrl];
 
-      console.log('images', imagesAyo);
+      // console.log('images', imagesAyo);
 
       const result = await dispatch(createNewProduct(newProductData));
 
@@ -63,6 +64,7 @@ const AddNewProduct = () => {
       <div className='max-container'>
         <div className='max-container py-[50px]'>
           <div className='max-w-[870px] mx-auto px-[20px] md:px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl'>
+            <GoBackButton />
             <h1 className='mb-5 text-2xl md:text-3xl font-medium capitalize text-color-primary border-b pb-4'>
               Add new product
             </h1>
@@ -127,7 +129,7 @@ const AddNewProduct = () => {
                   Description *
                 </label>
                 <textarea
-                  className='form-input'
+                  className='form-input min-h-[50px] max-h-[100px]'
                   required
                   id='description'
                   placeholder='Product description'

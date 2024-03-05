@@ -333,7 +333,7 @@ const userSlice = createSlice({
     });
 
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      console.log('action payload', action.payload);
+      // console.log('action payload', action.payload);
 
       const updatedUserIndex = state.users.findIndex(
         (user) => user.id === action.payload.id

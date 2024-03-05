@@ -33,3 +33,12 @@ export type ProductFilters = {
   categoryId?: number;
   price?: number;
 };
+
+export type ProductUpdate = {
+  id?: number;
+  title?: string;
+  price?: number;
+  description?: string;
+  categoryId?: number;
+  images?: string[];
+};

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosResponse } from 'axios';
 
 import { Category, CategoryInitialState } from '../../types/Category';
+import { toast } from 'react-toastify';
 
 const URL = 'https://api.escuelajs.co/api/v1/categories';
 
@@ -16,10 +16,19 @@ export const fetchAllCategories = createAsyncThunk(
   'fetchAllCategories',
   async (_, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<Category[]> = await axios.get(URL);
-      return response.data;
+      const response = await fetch(URL);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        toast.error(errorResponse.message);
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: Category[] = await response.json();
+      return data;
     } catch (e) {
-      return rejectWithValue(e);
+      const error = e as Error;
+      return rejectWithValue(error.message);
     }
   }
 );

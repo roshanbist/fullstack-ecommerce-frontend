@@ -29,6 +29,10 @@ const ProductDashboard = () => {
     (state: AppState) => state.products
   );
 
+  console.log('products', products);
+  console.log('loading', loading);
+  console.log('error', error);
+
   const { categories } = useSelector((state: AppState) => state.categories);
 
   let paginationInput: PaginationProps = {

@@ -20,6 +20,7 @@ import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import EditProfile from './components/user/EditProfile';
 import ProductDashboard from './components/adminContent/ProductDashboard';
 import AddNewProduct from './components/adminContent/AddNewProduct';
+import UpdateProduct from './components/adminContent/UpdateProduct';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -51,20 +52,24 @@ function App() {
           element={<ProtectedRoute>{<CustomerProfile />}</ProtectedRoute>}
         />
         <Route
-          path='/admin'
-          element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
+          path='/edit-profile/:id'
+          element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
         />
         <Route
-          path='/add-new-product'
-          element={<ProtectedRoute>{<AddNewProduct />}</ProtectedRoute>}
+          path='/admin'
+          element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
         />
         <Route
           path='/product-dashboard'
           element={<ProtectedRoute>{<ProductDashboard />}</ProtectedRoute>}
         />
         <Route
-          path='/edit-profile/:id'
-          element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
+          path='/add-new-product'
+          element={<ProtectedRoute>{<AddNewProduct />}</ProtectedRoute>}
+        />
+        <Route
+          path='/update-product/:id'
+          element={<ProtectedRoute>{<UpdateProduct />}</ProtectedRoute>}
         />
         <Route path='/cart' element={<Cart />} />
       </Routes>

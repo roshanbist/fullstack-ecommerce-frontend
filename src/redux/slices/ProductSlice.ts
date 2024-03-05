@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import {
   NewProductType,
   ProductFilters,
   ProductInitialState,
   ProductType,
+  ProductUpdate,
 } from '../../types/Product';
+import { toast } from 'react-toastify';
 
 const URL = 'https://api.escuelajs.co/api/v1/products';
 
@@ -22,10 +23,18 @@ export const fetchAllProducts = createAsyncThunk(
   'fetchAllProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<ProductType[]> = await axios.get(URL);
-      return response.data;
+      const response = await fetch(URL);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        toast.error(errorResponse.message);
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: ProductType[] = await response.json();
+      return data;
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as Error;
       return rejectWithValue(error.message);
     }
   }
@@ -36,12 +45,46 @@ export const fetchSingleProduct = createAsyncThunk(
   'fetchSingleProduct',
   async (productId: number, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<ProductType> = await axios.get(
-        `${URL}/${productId}`
-      );
-      return response.data;
+      const response = await fetch(`${URL}/${productId}`);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        toast.error(errorResponse.message);
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: ProductType = await response.json();
+      return data;
     } catch (e) {
-      return rejectWithValue(e);
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Thunk action creator to update product by its id
+export const updateSingleProduct = createAsyncThunk(
+  'updateSingleProduct',
+  async ({ id, ...updatedParams }: ProductUpdate, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedParams),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: ProductType = await response.json();
+      return data;
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -51,13 +94,23 @@ export const createNewProduct = createAsyncThunk(
   'createNewProduct',
   async (params: NewProductType, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<ProductType> = await axios.post(
-        URL,
-        params
-      );
-      return response.data;
+      const response = await fetch(URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: ProductType = await response.json();
+      return data;
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as Error;
       return rejectWithValue(error.message);
     }
   }
@@ -68,13 +121,18 @@ export const deleteProduct = createAsyncThunk(
   'deleteProduct',
   async (productId: number, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<ProductType[]> = await axios.delete(
-        `${URL}/${productId}`
-      );
-      console.log('delete');
-      return { data: response.data, productId };
+      const response = await fetch(`${URL}/${productId}`);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: boolean = await response.json();
+      toast.success('Item Deleted Successfully');
+      return { data: data, productId };
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as Error;
       return rejectWithValue(error.message);
     }
   }
@@ -107,13 +165,18 @@ export const filterProductsList = createAsyncThunk(
     queryParams = queryParams.slice(0, -1);
 
     try {
-      const response: AxiosResponse<ProductType[]> = await axios.get(
-        `${URL}/?${queryParams}`
-      );
-      console.log('resonse dta', response.data);
-      return response.data;
+      const response = await fetch(`${URL}/?${queryParams}`);
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        toast.error(errorResponse.message);
+        return rejectWithValue(errorResponse.message);
+      }
+
+      const data: ProductType[] = await response.json();
+      return data;
     } catch (e) {
-      const error = e as AxiosError;
+      const error = e as Error;
       return rejectWithValue(error.message);
     }
   }
@@ -186,6 +249,8 @@ const productSlice = createSlice({
       return {
         ...state,
         products: [...state.products, action.payload],
+        loading: false,
+        error: '',
       };
     });
 
@@ -194,6 +259,7 @@ const productSlice = createSlice({
       return {
         ...state,
         loading: true,
+        error: '',
       };
     });
 
@@ -202,6 +268,42 @@ const productSlice = createSlice({
       return {
         ...state,
         error: action.error.message,
+        loading: false,
+      };
+    });
+
+    // add new product to products array if fulfilled
+    builder.addCase(updateSingleProduct.fulfilled, (state, action) => {
+      const updatedProductIndex = state.products.findIndex(
+        (product) => product.id === action.payload.id
+      );
+
+      const updatedProducts = [...state.products];
+      updatedProducts[updatedProductIndex] = action.payload;
+
+      return {
+        ...state,
+        products: updatedProducts,
+        loading: false,
+        error: '',
+      };
+    });
+
+    // handle pending state
+    builder.addCase(updateSingleProduct.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+        error: '',
+      };
+    });
+
+    // handle rejected state
+    builder.addCase(updateSingleProduct.rejected, (state, action) => {
+      return {
+        ...state,
+        error: action.error.message,
+        loading: false,
       };
     });
 
@@ -222,6 +324,7 @@ const productSlice = createSlice({
       return {
         ...state,
         loading: true,
+        error: '',
       };
     });
 
@@ -230,6 +333,7 @@ const productSlice = createSlice({
       return {
         ...state,
         error: action.error.message,
+        loading: false,
       };
     });
 
@@ -239,6 +343,7 @@ const productSlice = createSlice({
         ...state,
         products: action.payload,
         loading: false,
+        error: '',
       };
     });
 
@@ -247,6 +352,7 @@ const productSlice = createSlice({
       return {
         ...state,
         loading: true,
+        error: '',
       };
     });
 
@@ -255,6 +361,7 @@ const productSlice = createSlice({
       return {
         ...state,
         error: action.error.message,
+        loading: false,
       };
     });
   },
