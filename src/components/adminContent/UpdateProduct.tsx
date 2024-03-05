@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
@@ -7,25 +7,32 @@ import { AppState, useAppDispatch } from '../../redux/store';
 import { updateUser } from '../../redux/slices/UserSlice';
 import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
+import { ProductType, ProductUpdate } from '../../types/Product';
 import {
-  ProductType,
-  ProductUpdate,
-  UpdateFormDataType,
-} from '../../types/Product';
-import { fetchSingleProduct } from '../../redux/slices/ProductSlice';
+  fetchSingleProduct,
+  updateSingleProduct,
+} from '../../redux/slices/ProductSlice';
 import { uploadFileService } from '../../utils/uploadFileService';
 
 const UpdateProduct = () => {
   const { id } = useParams();
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [productData, setProductData] = useState<Partial<ProductType>>({});
-  const [inputFile, setInputFile] = useState<File[]>([]);
-
-  const products = useSelector(
+  const singleProduct = useSelector(
     (state: AppState) => state.products.selectedSingleProduct
   );
+
+  const [updatedProductData, setUpdatedProductData] = useState(
+    location.state?.productData || {}
+  );
+
+  const [inputFile, setInputFile] = useState<File[]>([]);
+
+  useEffect(() => {
+    setUpdatedProductData(location.state?.productData || {});
+  }, [location.state]);
 
   const fetchAllProductsMemoized = useCallback(() => {
     dispatch(fetchSingleProduct(Number(id)));
@@ -36,15 +43,15 @@ const UpdateProduct = () => {
   }, [fetchAllProductsMemoized]);
 
   useEffect(() => {
-    if (products) {
-      setProductData(products);
+    if (singleProduct) {
+      setUpdatedProductData(singleProduct);
     }
-  }, [id, products]);
+  }, [id, singleProduct]);
 
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setProductData((prevData) => ({
+    setUpdatedProductData((prevData: ProductType) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -54,21 +61,35 @@ const UpdateProduct = () => {
     e.preventDefault();
 
     try {
-      let updatedProductData = productData;
+      let newUpdatedProductData: ProductType = updatedProductData;
 
       if (inputFile.length > 0) {
         const inputFileUrl = inputFile && (await uploadFileService(inputFile));
-        updatedProductData = { ...productData, images: inputFileUrl };
+        newUpdatedProductData = {
+          ...newUpdatedProductData,
+          images: inputFileUrl,
+        };
       }
 
-      const newChanges: Partial<ProductType> = {};
+      const differences: string[] = [];
+      const keysToCheck = ['title', 'description', 'price'];
 
-      // Loop through productData to check for changes
-      for (const key in updatedProductData) {
-        // Check if the value has changed
-        if (updatedProductData[key] !== products[key]) {
-          newChanges[key] = updatedProductData[key];
+      for (const key of keysToCheck) {
+        if (
+          newUpdatedProductData[key as keyof ProductType] !==
+          location.state?.productData[key as keyof ProductType]
+        ) {
+          differences.push(key);
         }
+      }
+
+      if (differences.length > 0) {
+        const res = await dispatch(updateSingleProduct(newUpdatedProductData));
+        if (res.meta.requestStatus === 'fulfilled') {
+          navigate('/product-dashboard');
+        }
+      } else {
+        toast.info('Data has not been changed');
       }
     } catch (e) {
       const error = e as Error;
@@ -98,7 +119,7 @@ const UpdateProduct = () => {
                 type='text'
                 id='title'
                 name='title'
-                value={(productData && productData?.title) || ''}
+                value={updatedProductData && updatedProductData?.title}
                 onChange={inputChangeHandler}
               />
             </div>
@@ -114,7 +135,7 @@ const UpdateProduct = () => {
                 type='text'
                 id='price'
                 name='price'
-                value={(productData && productData?.price) || ''}
+                value={updatedProductData && updatedProductData?.price}
                 onChange={inputChangeHandler}
               />
             </div>
@@ -132,7 +153,7 @@ const UpdateProduct = () => {
                 name='description'
                 minLength={20}
                 maxLength={550}
-                value={(productData && productData?.description) || ''}
+                value={updatedProductData && updatedProductData?.description}
                 onChange={inputChangeHandler}
               />
             </div>

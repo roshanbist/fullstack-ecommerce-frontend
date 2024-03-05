@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { getLoggedUserInfo, updateUser } from '../../redux/slices/UserSlice';
+import {
+  // getLoggedUserInfo,
+  getSingleUser,
+  updateUser,
+} from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
 import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
@@ -12,25 +16,36 @@ import GoBackButton from '../goBackButton/GoBackButton';
 const EditProfile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
 
   const userData = useSelector((state: AppState) => state.users.loggedUser);
 
   useEffect(() => {
     if (!userData) {
-      dispatch(getLoggedUserInfo());
+      dispatch(getSingleUser(Number(id)));
+      // dispatch(getLoggedUserInfo());
     }
-  }, [dispatch, userData]);
+  }, [dispatch, id, userData]);
 
-  const [updatedData, setUpdatedData] = useState<Partial<UserType>>({
-    ...userData,
-  });
+  // const [updatedData, setUpdatedData] = useState<Partial<UserType>>({
+  //   ...userData,
+  // });
+
+  const [updatedData, setUpdatedData] = useState(
+    location.state?.loggedUserInfo || {}
+  );
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdatedData((prevData) => ({
+    setUpdatedData((prevData: UserType) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
+
+  useEffect(() => {
+    setUpdatedData(location.state?.loggedUserInfo || {});
+  }, [location.state]);
 
   const submitHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +59,8 @@ const EditProfile = () => {
       toast.error(error.message);
     }
   };
+
+  // console.log('udpatedData', updatedData);
 
   return (
     <ContentWrapper>

@@ -65,25 +65,32 @@ export const fetchSingleProduct = createAsyncThunk(
 // Thunk action creator to update product by its id
 export const updateSingleProduct = createAsyncThunk(
   'updateSingleProduct',
-  async ({ id, ...updatedParams }: ProductUpdate, { rejectWithValue }) => {
+  async (updatedParams: ProductType, { rejectWithValue }) => {
+    const { title, description, price, id } = updatedParams;
+
+    const updatedData = { title, description, price };
+
     try {
       const response = await fetch(`${URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedParams),
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
         const errorResponse = await response.json();
+        toast.error(`Updated Failed. Please try again`);
         return rejectWithValue(errorResponse.message);
       }
 
       const data: ProductType = await response.json();
+      toast.success(`Product Updated Successfully`);
       return data;
     } catch (e) {
       const error = e as Error;
+      toast.error(`Updated Failed. Please try again`);
       return rejectWithValue(error.message);
     }
   }

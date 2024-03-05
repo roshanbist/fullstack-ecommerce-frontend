@@ -117,7 +117,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem('userToken', JSON.stringify(data));
 
       const loggedUserDetail = await dispatch(getLoggedUserInfo());
-      return loggedUserDetail.payload;
+      return loggedUserDetail.payload as UserType;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -155,7 +155,7 @@ export const registerUser = createAsyncThunk(
 // thunk action to update a user information
 export const updateUser = createAsyncThunk(
   'updateUser',
-  async ({ id, ...updateParams }: UserType, { rejectWithValue }) => {
+  async ({ id, ...updateParams }: UserType, { dispatch, rejectWithValue }) => {
     try {
       const response = await fetch(`${BASE_URL}/${id}`, {
         method: 'PUT',
@@ -172,6 +172,8 @@ export const updateUser = createAsyncThunk(
       }
 
       const data: UserType = await response.json();
+      console.log('data k aayo', data);
+      dispatch(userInformation(data));
       toast.success('Information Updated Successfully');
       return data;
     } catch (e) {
@@ -191,6 +193,10 @@ const userSlice = createSlice({
       state.loggedUser = null;
       state.loading = 'idle';
       state.error = '';
+    },
+
+    userInformation: (state, action) => {
+      state.loggedUser = action.payload;
     },
   },
 
@@ -342,6 +348,8 @@ const userSlice = createSlice({
       const updatedUsers = [...state.users];
       updatedUsers[updatedUserIndex] = action.payload;
 
+      console.log('updated user', action.payload);
+
       return {
         ...state,
         users: updatedUsers,
@@ -371,5 +379,5 @@ const userSlice = createSlice({
 });
 
 const userReducer = userSlice.reducer;
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser, userInformation } = userSlice.actions;
 export default userReducer;

@@ -10,6 +10,8 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // const
+
   const productImage = ImageUrlClear(productData.images[0]);
 
   const productDeleteHandler = (id: number) => {
@@ -38,7 +40,11 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
           <li className='w-[50%] px-[5px]'>
             <button
               className='btn-primary min-w-0 w-full px-5 py-2 text-[14px] rounded-lg'
-              onClick={() => navigate(`/update-product/${productData.id}`)}
+              onClick={() =>
+                navigate(`/update-product/${productData.id}`, {
+                  state: { productData },
+                })
+              }
             >
               Update
             </button>

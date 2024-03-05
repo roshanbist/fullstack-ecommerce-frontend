@@ -52,7 +52,9 @@ const UserProfile = () => {
                 <button
                   className='w-[60px] h-[60px] absolute -bottom-[30px] right-[30px] shadow-lg rounded-full flex justify-center items-center text-white bg-[#db7f1c] hover:bg-[#cb7416] text-[25px] transition-colors duration-300 ease-in-out'
                   onClick={() =>
-                    navigate(`/edit-profile/${loggedUserInfo?.id}`)
+                    navigate(`/edit-profile/${loggedUserInfo?.id}`, {
+                      state: { loggedUserInfo },
+                    })
                   }
                 >
                   <FontAwesomeIcon icon={faPen} />
