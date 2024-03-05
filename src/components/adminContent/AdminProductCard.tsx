@@ -10,21 +10,15 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // const
-
   const productImage = ImageUrlClear(productData.images[0]);
 
   const productDeleteHandler = (id: number) => {
     dispatch(deleteProduct(id));
   };
 
-  // const productEditHandler = (id: number) => {
-  //   console.log('please add id here', id);
-  // };
-
   return (
     <div className='bg-palette-accent rounded-sm shadow-sm border border-palette-accent'>
-      <div className='block h-[200px] w-full overflow-hidden'>
+      <div className='block h-[200px] lg:h-[150px] w-full overflow-hidden'>
         <img
           className='object-cover w-full h-full rounded-tr-sm rounded-tl-sm'
           src={productImage}

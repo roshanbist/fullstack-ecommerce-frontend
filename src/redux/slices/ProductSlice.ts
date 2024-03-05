@@ -5,7 +5,7 @@ import {
   ProductFilters,
   ProductInitialState,
   ProductType,
-  ProductUpdate,
+  // ProductUpdate,
 } from '../../types/Product';
 import { toast } from 'react-toastify';
 
@@ -151,6 +151,12 @@ export const filterProductsList = createAsyncThunk(
   async (params: ProductFilters, { rejectWithValue }) => {
     let queryParams = '';
 
+    if (params.title) {
+      const titleText = params.title.trim();
+
+      queryParams += `title=${titleText}&`;
+    }
+
     if (params.categoryId) {
       queryParams += `categoryId=${params.categoryId}&`;
     }
@@ -170,6 +176,8 @@ export const filterProductsList = createAsyncThunk(
     }
 
     queryParams = queryParams.slice(0, -1);
+
+    console.log('qery params', queryParams);
 
     try {
       const response = await fetch(`${URL}/?${queryParams}`);

@@ -6,10 +6,13 @@ import { CartType } from '../../types/Cart';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/store';
 import { addItem, deleteItem, removeItem } from '../../redux/slices/CartSlice';
+import { ImageUrlClear } from '../../utils/ImageUrlClear';
 
 const CartItem = ({ itemData }: { itemData: CartType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const productImage = ImageUrlClear(itemData.images[0]);
 
   const removeHandler = (itemData: CartType) => {
     dispatch(removeItem(itemData));
@@ -32,7 +35,7 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
       <div className='w-full sm:w-[120px] h-[250px] sm:h-[120px] rounded-lg max-sm:mb-5'>
         <img
           className='w-full h-full object-cover rounded-lg cursor-pointer'
-          src={itemData.images[0]}
+          src={productImage}
           alt={itemData.title}
           onClick={() => itemPageHandler(itemData?.id)}
         />

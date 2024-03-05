@@ -32,13 +32,14 @@ export type PriceOption = {
 export type ProductFilters = {
   categoryId?: number;
   price?: number;
+  title?: string;
 };
 
-export type ProductUpdate = {
-  id?: number;
-  title?: string;
-  price?: number;
-  description?: string;
-  categoryId?: number;
-  images?: string[];
-};
+// export type ProductUpdate = {
+//   id?: number;
+//   title?: string;
+//   price?: number;
+//   description?: string;
+//   categoryId?: number;
+//   images?: string[];
+// };

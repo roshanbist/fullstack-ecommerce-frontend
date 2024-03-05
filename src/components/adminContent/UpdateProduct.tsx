@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { updateUser } from '../../redux/slices/UserSlice';
+// import { updateUser } from '../../redux/slices/UserSlice';
 import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
-import { ProductType, ProductUpdate } from '../../types/Product';
+import { ProductType } from '../../types/Product';
 import {
   fetchSingleProduct,
   updateSingleProduct,
 } from '../../redux/slices/ProductSlice';
-import { uploadFileService } from '../../utils/uploadFileService';
+// import { uploadFileService } from '../../utils/uploadFileService';
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ const UpdateProduct = () => {
     location.state?.productData || {}
   );
 
-  const [inputFile, setInputFile] = useState<File[]>([]);
+  // const [inputFile, setInputFile] = useState<File[]>([]);
 
   useEffect(() => {
     setUpdatedProductData(location.state?.productData || {});
@@ -63,13 +63,13 @@ const UpdateProduct = () => {
     try {
       let newUpdatedProductData: ProductType = updatedProductData;
 
-      if (inputFile.length > 0) {
-        const inputFileUrl = inputFile && (await uploadFileService(inputFile));
-        newUpdatedProductData = {
-          ...newUpdatedProductData,
-          images: inputFileUrl,
-        };
-      }
+      // if (inputFile.length > 0) {
+      //   const inputFileUrl = inputFile && (await uploadFileService(inputFile));
+      //   newUpdatedProductData = {
+      //     ...newUpdatedProductData,
+      //     images: inputFileUrl,
+      //   };
+      // }
 
       const differences: string[] = [];
       const keysToCheck = ['title', 'description', 'price'];

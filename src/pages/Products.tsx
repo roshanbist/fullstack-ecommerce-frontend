@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import lodash from 'lodash';
 
 import { AppState, useAppDispatch } from '../redux/store';
 import {
@@ -21,6 +22,7 @@ const Products = () => {
   const [filterProducts, setFilterProducts] = useState<ProductFilters>({
     categoryId: 0,
     price: 0,
+    title: '',
   });
 
   const { products, loading, error } = useSelector(
@@ -73,6 +75,27 @@ const Products = () => {
     [dispatch, filterProducts]
   );
 
+  const inputSearchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFilterProducts((prevFilters) => ({
+      ...prevFilters,
+      title: value,
+    }));
+
+    const searchValue = value;
+
+    return debouncedHandleSearch(searchValue);
+  };
+
+  const debounceSearchByTitle = (value: string) => {
+    dispatch(filterProductsList({ ...filterProducts, title: value }));
+  };
+
+  const debouncedHandleSearch = useCallback(
+    lodash.debounce(debounceSearchByTitle, 600),
+    []
+  );
+
   return (
     <ContentWrapper>
       <section className='py-10'>
@@ -80,32 +103,43 @@ const Products = () => {
           <h2 className='text-2xl font-medium mb-6'>Product List</h2>
 
           <div className='mb-5'>
-            <select
-              className='border border-palette-accent'
-              value={filterProducts.categoryId}
-              onChange={categoryHandler}
-            >
-              <option value=''>Filter by category</option>
-              {categories?.map((categ) => (
-                <option key={categ.id} value={categ.id}>
-                  {categ.name}
-                </option>
-              ))}
-            </select>
+            <input
+              className='form-input border border-palette-accent bg-palette-ebony'
+              type='search'
+              value={filterProducts.title}
+              placeholder='Search here'
+              onChange={inputSearchHandler}
+            />
           </div>
-          <div className='mb-5'>
-            <select
-              className='border border-palette-accent'
-              value={filterProducts.price}
-              onChange={priceHandler}
-            >
-              <option value={0}>Filter by price</option>
-              {priceOption?.map((price, index) => (
-                <option key={index} value={price.value}>
-                  {price.label}
-                </option>
-              ))}
-            </select>
+          <div className='mb-5 flex flex-wrap gap-5'>
+            <div className='w-[220px]'>
+              <select
+                className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
+                value={filterProducts.categoryId}
+                onChange={categoryHandler}
+              >
+                <option value=''>Filter by category</option>
+                {categories?.map((categ) => (
+                  <option key={categ.id} value={categ.id}>
+                    {categ.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='w-[200px]'>
+              <select
+                className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
+                value={filterProducts.price}
+                onChange={priceHandler}
+              >
+                <option value={0}>Filter by price</option>
+                {priceOption?.map((price, index) => (
+                  <option key={index} value={price.value}>
+                    {price.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
