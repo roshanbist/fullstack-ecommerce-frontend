@@ -84,7 +84,7 @@ const Products = () => {
 
     const searchValue = value;
 
-    return debouncedHandleSearch(searchValue);
+    debouncedHandleSearch(searchValue);
   };
 
   const debounceSearchByTitle = (value: string) => {

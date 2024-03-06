@@ -13,6 +13,7 @@ import {
   CustomerProfile,
   Admin,
   Cart,
+  PageNotFound,
 } from './pages';
 import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
@@ -72,6 +73,7 @@ function App() {
           element={<ProtectedRoute>{<UpdateProduct />}</ProtectedRoute>}
         />
         <Route path='/cart' element={<Cart />} />
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
       <Footer />
       <ToastContainer autoClose={2500} />
