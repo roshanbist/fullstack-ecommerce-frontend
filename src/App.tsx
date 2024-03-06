@@ -72,7 +72,10 @@ function App() {
           path='/update-product/:id'
           element={<ProtectedRoute>{<UpdateProduct />}</ProtectedRoute>}
         />
-        <Route path='/cart' element={<Cart />} />
+        <Route
+          path='/cart'
+          element={<ProtectedRoute>{<Cart />}</ProtectedRoute>}
+        />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
       <Footer />

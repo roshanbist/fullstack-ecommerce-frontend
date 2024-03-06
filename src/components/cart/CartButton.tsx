@@ -36,7 +36,7 @@ const CartButton = () => {
       {loggedUserInfo && loggedUserInfo.role === 'customer' && (
         <button
           type='button'
-          className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative'
+          className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative animate-fade'
           onClick={cartHandler}
         >
           <FontAwesomeIcon icon={faCartShopping} className='text-[26px]' />

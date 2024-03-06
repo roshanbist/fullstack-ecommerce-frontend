@@ -1,6 +1,6 @@
 const Newsletter = () => {
   return (
-    <section className='bg-palette-secondary py-14 border-t border-t-palette-accent'>
+    <section className='bg-palette-ebony py-14 border-t border-t-palette-accent'>
       <div className='max-container w-full'>
         <div className='max-w-[580px] mx-auto text-center text-color-primary'>
           <h3 className='text-2xl md:text-3xl font-medium mb-5'>

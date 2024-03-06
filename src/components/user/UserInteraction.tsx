@@ -29,19 +29,19 @@ const UserInfo = () => {
   return (
     <div className='ml-5 flex items-center relative' ref={userInfoRef}>
       <button
-        className='rounded-full w-[30px] h-[30px] overflow-hidden border border-blue-500'
+        className='rounded-full w-[30px] h-[30px] overflow-hidden border border-blue-500 animate-fade'
         onClick={() => setShowDropdown(!showDropdown)}
       >
         {loggedUser && loggedUser.avatar ? (
           <img
             src={loggedUser.avatar}
             alt={loggedUser.name}
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover animate-fade'
           />
         ) : (
           <FontAwesomeIcon
             icon={faCircleUser}
-            className='text-[30px] text-blue-500 '
+            className='text-[30px] text-blue-500'
           />
         )}
       </button>

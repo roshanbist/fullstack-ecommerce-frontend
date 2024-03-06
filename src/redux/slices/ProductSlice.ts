@@ -177,7 +177,7 @@ export const filterProductsList = createAsyncThunk(
 
     queryParams = queryParams.slice(0, -1);
 
-    console.log('qery params', queryParams);
+    // console.log('qery params', queryParams);
 
     try {
       const response = await fetch(`${URL}/?${queryParams}`);

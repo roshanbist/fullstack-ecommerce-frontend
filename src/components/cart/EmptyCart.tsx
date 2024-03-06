@@ -7,8 +7,8 @@ const EmptyCart = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='max-w-[400px] mx-auto text-color-primary text-center'>
-      <div className='mb-6 max-w-[350px] mx-auto animate-fade'>
+    <div className='max-w-[400px] mx-auto text-color-primary text-center animate-fade'>
+      <div className='mb-6 max-w-[350px] mx-auto'>
         <img src={CartImage} className='w-full' alt='Empty Cart' />
       </div>
       <p className='text-xl font-medium tracking-wide mb-5'>

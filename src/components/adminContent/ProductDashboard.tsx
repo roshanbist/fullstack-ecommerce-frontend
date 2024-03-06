@@ -16,6 +16,8 @@ import { fetchAllCategories } from '../../redux/slices/CategorySlice';
 import Pagination from '../pagination/Pagination';
 import AdminProductCard from './AdminProductCard';
 import { priceOption } from '../../constants';
+import Loader from '../loader/Loader';
+import NoMatchFound from '../noMatchFound/NoMatchFound';
 
 const ProductDashboard = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +50,14 @@ const ProductDashboard = () => {
   useEffect(() => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilterProducts({
+      categoryId: 0,
+      price: 0,
+      title: '',
+    });
+  }, []);
 
   const categoryHandler = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,7 +94,7 @@ const ProductDashboard = () => {
 
   const debouncedHandleSearch = useCallback(
     lodash.debounce(debounceSearchByTitle, 600),
-    []
+    [filterProducts.title]
   );
 
   // const debounceSearchByTitle = lodash.debounce(inputSearchHandler, 3000);
@@ -110,7 +120,7 @@ const ProductDashboard = () => {
   return (
     <ContentWrapper>
       <div className='max-container'>
-        <section className='py-10 lg:py-12'>
+        <section className='py-10 lg:py-12 animate-fade'>
           <div className='flex flex-wrap justify-between items-center pb-6 mb-10 border-b border-b-palette-accent'>
             <h1 className='text-lg md:text-xl uppercase font-bold tracking-wide text-color-primary'>
               Manage Product Items
@@ -161,7 +171,7 @@ const ProductDashboard = () => {
               </select>
             </div>
           </div>
-          <div className='grid sm:grid-cols-3 lg:grid-cols-5 relative gap-5'>
+          {/* <div className='grid sm:grid-cols-3 lg:grid-cols-5 relative gap-5'>
             {loading ? (
               <p>loading...</p>
             ) : error ? (
@@ -176,7 +186,21 @@ const ProductDashboard = () => {
                   <AdminProductCard key={product.id} productData={product} />
                 ))
             )}
-          </div>
+          </div> */}
+          {loading ? (
+            <Loader />
+          ) : products && products.length > 0 ? (
+            <div className='grid sm:grid-cols-3 lg:grid-cols-5 relative gap-5'>
+              {products.slice(startIndex, lastIndex).map((product) => (
+                <AdminProductCard key={product.id} productData={product} />
+              ))}
+            </div>
+          ) : (
+            !error &&
+            products.length === 0 && (
+              <NoMatchFound data='Sorry, No Product found!' />
+            )
+          )}
           {products && (
             <Pagination
               currentPage={currentPage}

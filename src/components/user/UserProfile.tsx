@@ -8,6 +8,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
 import UserAvatar from '../../assets/images/avatar.png';
+import Loader from '../loader/Loader';
 
 const UserProfile = () => {
   const loggedUserInfo = useSelector(
@@ -15,10 +16,6 @@ const UserProfile = () => {
   );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  // const updateProfileHandler = () => {
-  //   navigate(`/edit-profile/${loggedUserInfo?.id}`);
-  // };
 
   useEffect(() => {
     if (!loggedUserInfo) {
@@ -30,14 +27,14 @@ const UserProfile = () => {
     <ContentWrapper>
       <div className='max-container'>
         {!loggedUserInfo ? (
-          'loading'
+          <Loader />
         ) : (
           <section className='py-10 md:py-14'>
-            <div className='max-w-[700px] mx-auto bg-palette-ebony border-1 border-palette-accent shadow-lg'>
+            <div className='max-w-[700px] mx-auto bg-palette-ebony border-1 border-palette-accent shadow-lg animate-fade'>
               <div className='py-10 bg-blue-600 flex justify-center items-center flex-col relative'>
                 <div className='w-[250px] h-[250px] rounded-full overflow-hidden mb-5 bg-gray-300'>
                   <img
-                    className='w-full h-full object-cover'
+                    className='w-full h-full object-cover animate-fade'
                     src={
                       loggedUserInfo?.avatar
                         ? loggedUserInfo?.avatar

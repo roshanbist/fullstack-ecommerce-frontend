@@ -60,7 +60,7 @@ const UserDropdown = ({
     <ul>
       <li className='border-b border-b-palette-accent'>
         <Link
-          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           to={'/customer-profile'}
           onClick={dropdownCloseHandler}
         >
@@ -83,7 +83,7 @@ const UserDropdown = ({
     <ul>
       <li className='border-b border-b-palette-accent'>
         <Link
-          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           to={'/admin'}
           onClick={dropdownCloseHandler}
         >
@@ -92,7 +92,7 @@ const UserDropdown = ({
       </li>
       <li className='border-b border-b-palette-accent'>
         <Link
-          className='block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           to={'/product-dashboard'}
           onClick={dropdownCloseHandler}
         >

@@ -65,7 +65,7 @@ const EditProfile = () => {
   return (
     <ContentWrapper>
       <div className='max-container py-[50px]'>
-        <div className='max-w-[870px] mx-auto px-[20px] md:px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl'>
+        <div className='max-w-[870px] mx-auto px-[20px] md:px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl animate-fade'>
           <GoBackButton />
           <h1 className='mb-5 text-2xl md:text-3xl font-medium capitalize text-color-primary border-b pb-4'>
             Update Profile Information

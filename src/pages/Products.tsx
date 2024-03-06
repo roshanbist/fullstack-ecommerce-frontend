@@ -15,6 +15,8 @@ import Pagination from '../components/pagination/Pagination';
 import usePagination from '../hook/usePagination';
 import { PaginationProps } from '../types/Pagination';
 import ProductCard from '../components/product/ProductCard';
+import Loader from '../components/loader/Loader';
+import NoMatchFound from '../components/noMatchFound/NoMatchFound';
 
 const Products = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +48,14 @@ const Products = () => {
   useEffect(() => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilterProducts({
+      categoryId: 0,
+      price: 0,
+      title: '',
+    });
+  }, []);
 
   const categoryHandler = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,14 +103,16 @@ const Products = () => {
 
   const debouncedHandleSearch = useCallback(
     lodash.debounce(debounceSearchByTitle, 600),
-    []
+    [filterProducts.title]
   );
 
   return (
     <ContentWrapper>
       <section className='py-10'>
         <div className='max-container'>
-          <h2 className='text-2xl font-medium mb-6'>Product List</h2>
+          <h2 className='text-2xl font-medium mb-6 text-color-primary'>
+            Products List
+          </h2>
 
           <div className='mb-5'>
             <input
@@ -141,23 +153,21 @@ const Products = () => {
               </select>
             </div>
           </div>
+          {loading ? (
+            <Loader />
+          ) : products && products.length > 0 ? (
+            <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
+              {products.slice(startIndex, lastIndex).map((product) => (
+                <ProductCard key={product.id} productData={product} />
+              ))}
+            </div>
+          ) : (
+            !error &&
+            products.length === 0 && (
+              <NoMatchFound data='Sorry, No Product found!' />
+            )
+          )}
 
-          <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
-            {loading ? (
-              <p>loading...</p>
-            ) : error ? (
-              <p className='text-lg font-medium text-red-600'>
-                Sorry for disruption due to error
-              </p>
-            ) : (
-              products &&
-              products
-                .slice(startIndex, lastIndex)
-                .map((product) => (
-                  <ProductCard key={product.id} productData={product} />
-                ))
-            )}
-          </div>
           {products && (
             <Pagination
               currentPage={currentPage}

@@ -6,6 +6,8 @@ import 'swiper/swiper-bundle.css'; // Import the style
 import { ImageUrlClear } from '../../utils/ImageUrlClear';
 
 const ProductGallery = ({ productImages }: { productImages: string[] }) => {
+  console.log('product images', productImages);
+
   const productGalleryList = productImages.map((img) => {
     const image = ImageUrlClear(img);
     return image;
