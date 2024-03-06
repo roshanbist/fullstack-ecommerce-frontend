@@ -54,10 +54,10 @@ const Login = () => {
       <div className='max-container py-[50px] animate-fade'>
         <div className='max-w-[870px] mx-auto px-[20px] md:px-[90px] p-8 md:p-16 bg-palette-ebony border border-palette-accent rounded-xl'>
           <h1 className='mb-5 text-2xl md:text-3xl font-medium capitalize text-color-primary border-b pb-4'>
-            Customer Login
+            User Login
           </h1>
           <p className='text-color-primary text-lg mb-10'>
-            If you have an account, sign in with your email address.
+            If you have an account, log in with your email address.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className='pb-7'>
             <div className='mb-6'>
