@@ -14,7 +14,7 @@ const ProductGallery = ({ productImages }: { productImages: string[] }) => {
   });
 
   return (
-    <div className='w-full sm:w-[48%] lg:w-[600px] md:mr-2 lg:mr-5 rounded-lg p-2 bg-palette-ebony border border-palette-accent'>
+    <div className='w-full sm:self-start sm:w-[48%] lg:w-[600px] md:mr-2 lg:mr-5 rounded-lg p-2 bg-palette-ebony border border-palette-accent'>
       {productGalleryList.length > 1 ? (
         <Swiper
           modules={[Navigation, Autoplay, Pagination]}
