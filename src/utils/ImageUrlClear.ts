@@ -1,7 +1,6 @@
 import ProductPlaceholder from '../assets/images/productPlaceholder.png';
 
 export const ImageUrlClear = (url: string) => {
-  console.log('url', url);
   if (url) {
     if (url === '["https://placeimg.com/640/480/any"]') {
       return ProductPlaceholder;
@@ -21,7 +20,6 @@ export const ImageUrlClear = (url: string) => {
       return ProductPlaceholder;
     }
   } else {
-    // console.log('i am returning if i am not url', url);
     return ProductPlaceholder;
   }
 };

@@ -22,22 +22,17 @@ const Register = () => {
   const navigate = useNavigate();
   const [inputFile, setInputFile] = useState<File[]>([]);
 
-  const { loggedUser, loading } = useSelector((state: AppState) => state.users);
+  const storedUser = localStorage.getItem('userToken');
+  const userRole = localStorage.getItem('itemRole');
 
   // check if loggedUser info and navigate accordingly
   useEffect(() => {
-    if (loggedUser) {
-      const { role } = loggedUser;
-
-      if (role === 'customer') {
-        navigate('/customer-profile');
-      } else if (role === 'admin') {
-        navigate('/admin');
-      }
+    if (storedUser) {
+      navigate('/');
     } else {
-      navigate('/register');
+      navigate('/login');
     }
-  }, [loggedUser, navigate]);
+  }, [userRole, navigate, storedUser]);
 
   const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

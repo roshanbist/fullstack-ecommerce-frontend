@@ -50,31 +50,59 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route
           path='/customer-profile'
-          element={<ProtectedRoute>{<CustomerProfile />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              {<CustomerProfile />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/edit-profile/:id'
-          element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              {<EditProfile />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/admin'
-          element={<ProtectedRoute>{<Admin />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<Admin />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/product-dashboard'
-          element={<ProtectedRoute>{<ProductDashboard />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<ProductDashboard />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/add-new-product'
-          element={<ProtectedRoute>{<AddNewProduct />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<AddNewProduct />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/update-product/:id'
-          element={<ProtectedRoute>{<UpdateProduct />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<UpdateProduct />}
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/cart'
-          element={<ProtectedRoute>{<Cart />}</ProtectedRoute>}
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              {<Cart />}
+            </ProtectedRoute>
+          }
         />
         <Route path='*' element={<PageNotFound />} />
       </Routes>

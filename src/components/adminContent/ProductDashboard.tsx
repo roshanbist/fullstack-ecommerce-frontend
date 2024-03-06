@@ -141,8 +141,8 @@ const ProductDashboard = () => {
               onChange={inputSearchHandler}
             />
           </div>
-          <div className='mb-5 flex flex-wrap gap-5'>
-            <div className='w-[220px]'>
+          <div className='mb-5 flex flex-wrap max-md:-mx-[5px] sm:gap-5'>
+            <div className='w-[50%] sm:w-[220px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 value={filterProducts.categoryId}
@@ -156,7 +156,7 @@ const ProductDashboard = () => {
                 ))}
               </select>
             </div>
-            <div className='w-[200px]'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 value={filterProducts.price}
@@ -171,22 +171,6 @@ const ProductDashboard = () => {
               </select>
             </div>
           </div>
-          {/* <div className='grid sm:grid-cols-3 lg:grid-cols-5 relative gap-5'>
-            {loading ? (
-              <p>loading...</p>
-            ) : error ? (
-              <p className='text-lg font-medium text-red-600'>
-                Sorry for disruption due to error
-              </p>
-            ) : (
-              products &&
-              products
-                .slice(startIndex, lastIndex)
-                .map((product) => (
-                  <AdminProductCard key={product.id} productData={product} />
-                ))
-            )}
-          </div> */}
           {loading ? (
             <Loader />
           ) : products && products.length > 0 ? (

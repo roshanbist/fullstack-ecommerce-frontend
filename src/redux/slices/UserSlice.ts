@@ -17,6 +17,7 @@ const initialState: UserInitialState = {
   users: [],
   loading: 'idle',
   error: '',
+  userRole: '',
 };
 
 // thunk action to get loggedUser data (if any)
@@ -45,6 +46,7 @@ export const getLoggedUserInfo = createAsyncThunk(
         return rejectWithValue(errorMessage.message);
       }
       const data: UserType = await response.json();
+      localStorage.setItem('userRole', data.role);
       return data;
     } catch (e) {
       const error = e as Error;
@@ -190,7 +192,9 @@ const userSlice = createSlice({
     logoutUser: (state) => {
       localStorage.removeItem('userToken');
       localStorage.removeItem('cartCollection');
+      localStorage.removeItem('userRole');
       state.loggedUser = null;
+      state.userRole = '';
       state.loading = 'idle';
       state.error = '';
     },

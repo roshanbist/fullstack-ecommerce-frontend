@@ -19,6 +19,20 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const storedUser = localStorage.getItem('userToken');
+
+  const userRole = localStorage.getItem('itemRole');
+
+  // check if loggedUser info and navigate accordingly
+  useEffect(() => {
+    if (storedUser) {
+      navigate('/');
+    } else {
+      console.log('yo aayo ra');
+      navigate('/login');
+    }
+  }, [storedUser, navigate, userRole]);
+
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
     const res = await dispatch(loginUser(loginData));
 

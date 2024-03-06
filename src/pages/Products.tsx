@@ -123,8 +123,8 @@ const Products = () => {
               onChange={inputSearchHandler}
             />
           </div>
-          <div className='mb-5 flex flex-wrap gap-5'>
-            <div className='w-[220px]'>
+          <div className='mb-5 flex flex-wrap max-md:-mx-[5px] sm:gap-5'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 value={filterProducts.categoryId}
@@ -138,7 +138,7 @@ const Products = () => {
                 ))}
               </select>
             </div>
-            <div className='w-[200px]'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 value={filterProducts.price}

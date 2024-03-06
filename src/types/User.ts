@@ -19,6 +19,7 @@ export type UserInitialState = {
   // loading: false ;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error?: string | null;
+  userRole?: string;
 };
 
 export type AuthToken = {
