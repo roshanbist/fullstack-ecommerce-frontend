@@ -89,7 +89,7 @@ const UpdateProduct = () => {
           navigate('/product-dashboard');
         }
       } else {
-        toast.info('Data has not been changed');
+        toast.info('Product information has not been changed');
       }
     } catch (e) {
       const error = e as Error;

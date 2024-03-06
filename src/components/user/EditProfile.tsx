@@ -51,17 +51,32 @@ const EditProfile = () => {
   const submitHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await dispatch(updateUser(updatedData as UserType));
-      if (res.meta.requestStatus === 'fulfilled') {
-        navigate(`/${userRole === 'admin' ? 'admin' : 'customer-profile'}`);
+      let userNewData: UserType = updatedData;
+      const differences: string[] = [];
+      const keysToCheck = ['email', 'name'];
+
+      for (const key of keysToCheck) {
+        if (
+          userNewData[key as keyof UserType] !==
+          location.state?.loggedUserInfo[key as keyof UserType]
+        ) {
+          differences.push(key);
+        }
+      }
+
+      if (differences.length > 0) {
+        const res = await dispatch(updateUser(userNewData as UserType));
+        if (res.meta.requestStatus === 'fulfilled') {
+          navigate(`/${userRole === 'admin' ? 'admin' : 'customer-profile'}`);
+        }
+      } else {
+        toast.info('User has made no information changes');
       }
     } catch (e) {
       const error = e as Error;
       toast.error(error.message);
     }
   };
-
-  // console.log('udpatedData', updatedData);
 
   return (
     <ContentWrapper>
