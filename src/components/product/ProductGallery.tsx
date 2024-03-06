@@ -14,13 +14,13 @@ const ProductGallery = ({ productImages }: { productImages: string[] }) => {
   });
 
   return (
-    <section className='w-full md:w-[600px] md:mr-5 rounded-lg p-2 bg-palette-ebony border border-palette-accent'>
+    <div className='w-full sm:w-[48%] lg:w-[600px] md:mr-2 lg:mr-5 rounded-lg p-2 bg-palette-ebony border border-palette-accent'>
       {productGalleryList.length > 1 ? (
         <Swiper
           modules={[Navigation, Autoplay, Pagination]}
           navigation={true}
           loop={true}
-          className='h-[350px] md:h-[600px] overflow-hidden'
+          className='h-[350px] md:h-[450px] lg:h-[600px] overflow-hidden'
           pagination={{
             clickable: true,
           }}
@@ -37,7 +37,7 @@ const ProductGallery = ({ productImages }: { productImages: string[] }) => {
           ))}
         </Swiper>
       ) : (
-        <div className='h-[350px] md:h-[600px] overflow-hidden'>
+        <div className='h-[350px] md:h-[450px] lg:h-[600px] overflow-hidden'>
           <img
             src={productGalleryList[0]}
             alt='product images'
@@ -45,7 +45,7 @@ const ProductGallery = ({ productImages }: { productImages: string[] }) => {
           />
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

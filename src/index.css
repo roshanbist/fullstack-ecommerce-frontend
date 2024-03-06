@@ -87,7 +87,7 @@ body.mobile-nav {
   }
 
   .page-item {
-    @apply border border-palette-accent min-w-[60px] h-[60px] text-lg;
+    @apply border border-palette-accent min-w-[40px] sm:min-w-[60px] h-[40px] sm:h-[60px] text-lg;
   }
 
   .page-link {

@@ -8,6 +8,7 @@ import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import ProductDescription from '../components/product/ProductDescription';
 import ProductGallery from '../components/product/ProductGallery';
 import GoBackButton from '../components/goBackButton/GoBackButton';
+import Loader from '../components/loader/Loader';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -30,19 +31,17 @@ const ProductDetail = () => {
       <section className='py-10'>
         <div className='max-container'>
           {loading ? (
-            <p>loading...</p>
-          ) : error ? (
-            <p>sorry for disruption due to error</p>
+            <Loader />
           ) : (
             selectedSingleProduct && (
               <>
                 <GoBackButton />
-                <section className='md:flex'>
+                <div className='sm:flex sm:flex-wrap animate-fade'>
                   <ProductGallery
                     productImages={selectedSingleProduct?.images}
                   />
                   <ProductDescription productData={selectedSingleProduct} />
-                </section>
+                </div>
               </>
             )
           )}

@@ -35,7 +35,7 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
   }, [loggedUserInfo, dispatch]);
 
   return (
-    <section className='md:flex-1 p-5 text-color-primary'>
+    <div className='sm:flex-1 p-3 md:p-5 text-color-primary'>
       <h1 className='text-xl md:text-2xl font-medium pb-4 mb-5 border-b border-color-primary tracking-wide'>
         {productData?.title}
       </h1>
@@ -75,7 +75,7 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
           </button>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

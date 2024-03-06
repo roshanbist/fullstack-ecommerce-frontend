@@ -10,7 +10,7 @@ const ProductCard = ({ productData }: { productData: ProductType }) => {
   return (
     <div className='bg-palette-accent rounded-sm shadow-sm border border-palette-accent'>
       <Link
-        className='block h-[350px] w-full overflow-hidden'
+        className='block h-[280px] md:h-[350px] w-full overflow-hidden'
         to={`/products/${productData.id}`}
       >
         <img
