@@ -59,7 +59,7 @@ function App() {
         <Route
           path='/edit-profile/:id'
           element={
-            <ProtectedRoute allowedRoles={['customer']}>
+            <ProtectedRoute allowedRoles={['customer', 'admin']}>
               {<EditProfile />}
             </ProtectedRoute>
           }

@@ -30,7 +30,7 @@ const Register = () => {
     if (storedUser) {
       navigate('/');
     } else {
-      navigate('/login');
+      navigate('/register');
     }
   }, [userRole, navigate, storedUser]);
 

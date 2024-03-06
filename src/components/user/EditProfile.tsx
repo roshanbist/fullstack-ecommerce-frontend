@@ -20,6 +20,7 @@ const EditProfile = () => {
   const location = useLocation();
 
   const userData = useSelector((state: AppState) => state.users.loggedUser);
+  const userRole = localStorage.getItem('userRole');
 
   useEffect(() => {
     if (!userData) {
@@ -52,7 +53,7 @@ const EditProfile = () => {
     try {
       const res = await dispatch(updateUser(updatedData as UserType));
       if (res.meta.requestStatus === 'fulfilled') {
-        navigate('/customer-profile');
+        navigate(`/${userRole === 'admin' ? 'admin' : 'customer-profile'}`);
       }
     } catch (e) {
       const error = e as Error;

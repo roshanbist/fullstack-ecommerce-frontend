@@ -28,7 +28,6 @@ const Login = () => {
     if (storedUser) {
       navigate('/');
     } else {
-      console.log('yo aayo ra');
       navigate('/login');
     }
   }, [storedUser, navigate, userRole]);
