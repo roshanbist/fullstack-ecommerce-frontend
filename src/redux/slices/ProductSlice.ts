@@ -171,7 +171,7 @@ export const filterProductsList = createAsyncThunk(
           params.price + 50
         }&`;
       } else if (params.price === 200) {
-        queryParams += `price_min=${params.price}&price_max=5000&`;
+        queryParams += `price_min=${params.price}&price_max=100000&`;
       }
     }
 
