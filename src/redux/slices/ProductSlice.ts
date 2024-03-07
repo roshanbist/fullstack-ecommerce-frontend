@@ -162,6 +162,7 @@ export const filterProductsList = createAsyncThunk(
     }
 
     if (params.price) {
+      console.log('type of', typeof params.price);
       if (params.price === 1) {
         queryParams += `price_min=${params.price}&price_max=${
           params.price + 49

@@ -35,11 +35,12 @@ export type ProductFilters = {
   title?: string;
 };
 
-// export type ProductUpdate = {
-//   id?: number;
-//   title?: string;
-//   price?: number;
-//   description?: string;
-//   categoryId?: number;
-//   images?: string[];
-// };
+export type TestNewProductType = {
+  title: string;
+  price: number;
+  description: string;
+  categoryId: number;
+  images: string[];
+  id?: number;
+  category?: Category;
+};

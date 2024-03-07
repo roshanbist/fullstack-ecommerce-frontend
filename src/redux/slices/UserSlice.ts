@@ -289,7 +289,7 @@ const userSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       return {
         ...state,
-        user: action.payload,
+        loggedUser: action.payload,
         // loading: false,
         loading: 'succeeded',
         error: '',

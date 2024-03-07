@@ -44,8 +44,8 @@ const categorySlice = createSlice({
       return {
         ...state,
         categories: action.payload,
-        loading: false,
-        error: '',
+        categLoading: false,
+        categError: '',
       };
     });
 
@@ -53,8 +53,8 @@ const categorySlice = createSlice({
     builder.addCase(fetchAllCategories.pending, (state, action) => {
       return {
         ...state,
-        loading: true,
-        error: '',
+        categLoading: true,
+        categError: '',
       };
     });
 
@@ -62,8 +62,8 @@ const categorySlice = createSlice({
     builder.addCase(fetchAllCategories.rejected, (state, action) => {
       return {
         ...state,
-        loading: false,
-        error: action.error.message,
+        categLoading: false,
+        categError: action.error.message,
       };
     });
   },
