@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { NewProductType } from '../../types/Product';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../redux/store';
-import { useNavigate } from 'react-router-dom';
 import { uploadFileService } from '../../utils/uploadFileService';
-import { toast } from 'react-toastify';
 import { createNewProduct } from '../../redux/slices/ProductSlice';
 import GoBackButton from '../goBackButton/GoBackButton';
 
@@ -39,10 +40,6 @@ const AddNewProduct = () => {
         images: [...inputFileUrl],
         categoryId: formData.categoryId,
       };
-
-      // const imagesAyo = [...inputFileUrl];
-
-      // console.log('images', imagesAyo);
 
       const result = await dispatch(createNewProduct(newProductData));
 

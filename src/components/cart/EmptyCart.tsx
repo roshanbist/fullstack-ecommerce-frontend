@@ -1,7 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import CartImage from '../../assets/images/empty-cart.png';
-import { useNavigate } from 'react-router-dom';
 
 const EmptyCart = () => {
   const navigate = useNavigate();

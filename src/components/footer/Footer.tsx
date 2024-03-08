@@ -1,9 +1,9 @@
 import React from 'react';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { footerMenuLinks, socialMediaLinks } from '../../constants';
 import { Link } from 'react-router-dom';
 import ScrollTop from '../scrollTop/ScrollTop';
+
+import { footerMenuLinks, socialMediaLinks } from '../../constants';
 
 const Footer = () => {
   return (

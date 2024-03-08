@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
 

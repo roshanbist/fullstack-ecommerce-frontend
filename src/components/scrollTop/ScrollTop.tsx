@@ -1,7 +1,7 @@
 import React from 'react';
 import ScrollToTop from 'react-scroll-to-top';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 const ScrollTop = () => {

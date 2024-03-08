@@ -1,10 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ProductType } from '../../types/Product';
 import { useAppDispatch } from '../../redux/store';
 import { deleteProduct } from '../../redux/slices/ProductSlice';
 import { ImageUrlClear } from '../../utils/ImageUrlClear';
-import { useNavigate } from 'react-router-dom';
 
 const AdminProductCard = ({ productData }: { productData: ProductType }) => {
   const dispatch = useAppDispatch();

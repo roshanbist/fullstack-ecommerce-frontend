@@ -16,7 +16,6 @@ export type UserType = RegisterInputs & {
 export type UserInitialState = {
   loggedUser: UserType | null;
   users: UserType[];
-  // loading: false ;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error?: string | null;
   userRole?: string;

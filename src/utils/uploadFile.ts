@@ -21,10 +21,6 @@ export const uploadFile = async (fileData: File) => {
 
     const { location } = response.data;
 
-    // if (!location || response.status !== 201) {
-    //   throw new Error('response invalid');
-    // }
-
     return location;
   } catch (e) {
     const error = e as AxiosError;

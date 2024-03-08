@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../redux/store';
-import {
-  // getLoggedUserInfo,
-  getSingleUser,
-  updateUser,
-} from '../../redux/slices/UserSlice';
+import { getSingleUser, updateUser } from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
-import { toast } from 'react-toastify';
 import GoBackButton from '../goBackButton/GoBackButton';
 
 const EditProfile = () => {
@@ -25,13 +21,8 @@ const EditProfile = () => {
   useEffect(() => {
     if (!userData) {
       dispatch(getSingleUser(Number(id)));
-      // dispatch(getLoggedUserInfo());
     }
   }, [dispatch, id, userData]);
-
-  // const [updatedData, setUpdatedData] = useState<Partial<UserType>>({
-  //   ...userData,
-  // });
 
   const [updatedData, setUpdatedData] = useState(
     location.state?.loggedUserInfo || {}

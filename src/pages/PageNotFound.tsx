@@ -1,6 +1,7 @@
 import React from 'react';
-import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { useNavigate } from 'react-router-dom';
+
+import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 
 const PageNotFound = () => {
   const navigate = useNavigate();

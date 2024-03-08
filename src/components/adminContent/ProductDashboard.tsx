@@ -97,8 +97,6 @@ const ProductDashboard = () => {
     [filterProducts.title]
   );
 
-  // const debounceSearchByTitle = lodash.debounce(inputSearchHandler, 3000);
-
   const priceHandler = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({

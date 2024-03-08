@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import CartDetail from '../components/cart/CartDetail';
 import CartSummary from '../components/cart/CartSummary';
 import EmptyCart from '../components/cart/EmptyCart';
-import { useSelector } from 'react-redux';
 import { AppState } from '../redux/store';
 import Loader from '../components/loader/Loader';
 

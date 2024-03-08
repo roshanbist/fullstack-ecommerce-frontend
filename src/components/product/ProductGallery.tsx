@@ -2,12 +2,10 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-import 'swiper/swiper-bundle.css'; // Import the style
 import { ImageUrlClear } from '../../utils/ImageUrlClear';
+import 'swiper/swiper-bundle.css';
 
 const ProductGallery = ({ productImages }: { productImages: string[] }) => {
-  console.log('product images', productImages);
-
   const productGalleryList = productImages.map((img) => {
     const image = ImageUrlClear(img);
     return image;

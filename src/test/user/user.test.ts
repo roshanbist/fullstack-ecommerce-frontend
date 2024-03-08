@@ -2,7 +2,6 @@ import userReducer, {
   loginUser,
   logoutUser,
   registerUser,
-  updateUser,
 } from '../../redux/slices/UserSlice';
 import {
   LoginInputs,

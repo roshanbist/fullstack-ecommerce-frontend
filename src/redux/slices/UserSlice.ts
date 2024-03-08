@@ -233,7 +233,6 @@ const userSlice = createSlice({
       return {
         ...state,
         users: action.payload,
-        // loading: false,
         loading: 'succeeded',
         error: '',
       };
@@ -242,7 +241,6 @@ const userSlice = createSlice({
     builder.addCase(getAllUsers.pending, (state, action) => {
       return {
         ...state,
-        // loading: true,
         loading: 'pending',
         error: '',
       };
@@ -251,7 +249,6 @@ const userSlice = createSlice({
     builder.addCase(getAllUsers.rejected, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'failed',
         error: action.error.message,
       };
@@ -261,7 +258,6 @@ const userSlice = createSlice({
       return {
         ...state,
         loggedUser: action.payload,
-        // loading: false,
         loading: 'succeeded',
         error: '',
       };
@@ -270,7 +266,6 @@ const userSlice = createSlice({
     builder.addCase(getSingleUser.pending, (state, action) => {
       return {
         ...state,
-        // loading: true,
         loading: 'pending',
         error: '',
       };
@@ -279,7 +274,6 @@ const userSlice = createSlice({
     builder.addCase(getSingleUser.rejected, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'failed',
         error: action.error.message,
       };
@@ -289,7 +283,6 @@ const userSlice = createSlice({
       return {
         ...state,
         loggedUser: action.payload,
-        // loading: false,
         loading: 'succeeded',
         error: '',
       };
@@ -298,7 +291,6 @@ const userSlice = createSlice({
     builder.addCase(loginUser.pending, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'pending',
         error: '',
       };
@@ -307,7 +299,6 @@ const userSlice = createSlice({
     builder.addCase(loginUser.rejected, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'failed',
         error: action.error.message,
       };
@@ -317,7 +308,6 @@ const userSlice = createSlice({
       return {
         ...state,
         users: [...state.users, action.payload],
-        // loading: false,
         loading: 'succeeded',
         error: '',
       };
@@ -326,7 +316,6 @@ const userSlice = createSlice({
     builder.addCase(registerUser.pending, (state, action) => {
       return {
         ...state,
-        // loading: true,
         loading: 'pending',
         error: '',
       };
@@ -335,23 +324,18 @@ const userSlice = createSlice({
     builder.addCase(registerUser.rejected, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'failed',
         error: action.error.message,
       };
     });
 
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      // console.log('action payload', action.payload);
-
       const updatedUserIndex = state.users.findIndex(
         (user) => user.id === action.payload.id
       );
 
       const updatedUsers = [...state.users];
       updatedUsers[updatedUserIndex] = action.payload;
-
-      console.log('updated user', action.payload);
 
       return {
         ...state,
@@ -364,7 +348,6 @@ const userSlice = createSlice({
     builder.addCase(updateUser.pending, (state, action) => {
       return {
         ...state,
-        // loading: true,
         loading: 'pending',
         error: '',
       };
@@ -373,7 +356,6 @@ const userSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, action) => {
       return {
         ...state,
-        // loading: false,
         loading: 'failed',
         error: action.error.message,
       };

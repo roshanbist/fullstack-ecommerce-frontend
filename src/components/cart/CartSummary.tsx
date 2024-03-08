@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
-import { AppState, useAppDispatch } from '../../redux/store';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
+import { AppState, useAppDispatch } from '../../redux/store';
 import { clearCart } from '../../redux/slices/CartSlice';
 
 const CartSummary = () => {

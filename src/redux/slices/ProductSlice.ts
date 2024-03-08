@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import {
   NewProductType,
   ProductFilters,
   ProductInitialState,
   ProductType,
-  // ProductUpdate,
 } from '../../types/Product';
-import { toast } from 'react-toastify';
 
 const URL = 'https://api.escuelajs.co/api/v1/products';
 
@@ -162,7 +161,6 @@ export const filterProductsList = createAsyncThunk(
     }
 
     if (params.price) {
-      console.log('type of', typeof params.price);
       if (params.price === 1) {
         queryParams += `price_min=${params.price}&price_max=${
           params.price + 49
@@ -177,8 +175,6 @@ export const filterProductsList = createAsyncThunk(
     }
 
     queryParams = queryParams.slice(0, -1);
-
-    // console.log('qery params', queryParams);
 
     try {
       const response = await fetch(`${URL}/?${queryParams}`);
@@ -325,7 +321,6 @@ const productSlice = createSlice({
 
     // delete product to products array if fulfilled
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      console.log('delete', action.payload);
       const { productId } = action.payload;
       return {
         ...state,

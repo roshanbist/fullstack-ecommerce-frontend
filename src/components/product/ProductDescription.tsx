@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
 
 import { ProductType } from '../../types/Product';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { addItem } from '../../redux/slices/CartSlice';
-import { useSelector } from 'react-redux';
 import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
 
 const ProductDescription = ({ productData }: { productData: ProductType }) => {

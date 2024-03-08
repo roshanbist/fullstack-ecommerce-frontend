@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { LoginInputs, UserType } from '../types/User';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import { AppState, useAppDispatch } from '../redux/store';
+import { useAppDispatch } from '../redux/store';
 import { loginUser } from '../redux/slices/UserSlice';
 
 const Login = () => {

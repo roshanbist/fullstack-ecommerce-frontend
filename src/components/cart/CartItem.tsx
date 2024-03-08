@@ -1,9 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { CartType } from '../../types/Cart';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/store';
 import { addItem, deleteItem, removeItem } from '../../redux/slices/CartSlice';
 import { ImageUrlClear } from '../../utils/ImageUrlClear';

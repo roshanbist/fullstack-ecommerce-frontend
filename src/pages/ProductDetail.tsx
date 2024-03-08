@@ -16,11 +16,9 @@ const ProductDetail = () => {
 
   const id = Number(productId);
 
-  const { selectedSingleProduct, loading, error } = useSelector(
+  const { selectedSingleProduct, loading } = useSelector(
     (state: AppState) => state.products
   );
-
-  // console.log('product detail single product', selectedSingleProduct);
 
   useEffect(() => {
     dispatch(fetchSingleProduct(id));
