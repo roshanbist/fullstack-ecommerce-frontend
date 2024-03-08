@@ -1,7 +1,8 @@
-import { error } from 'console';
 import userReducer, {
   loginUser,
+  logoutUser,
   registerUser,
+  updateUser,
 } from '../../redux/slices/UserSlice';
 import {
   LoginInputs,
@@ -34,14 +35,23 @@ describe('user reducers', () => {
       avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
     };
 
+    const apiResponseData: UserType = {
+      id: 1,
+      name: mockUserRegister.name,
+      email: mockUserRegister.email,
+      password: mockUserRegister.password,
+      avatar: mockUserRegister.avatar,
+      role: 'customer',
+    };
+
     const userRegisterState = userReducer(
       initialState,
-      registerUser.fulfilled(mockUserRegister, 'fulfilled', mockUserRegister)
+      registerUser.fulfilled(apiResponseData, 'fulfilled', mockUserRegister)
     );
 
     const updateUserState = {
       ...initialState,
-      users: [mockUserRegister],
+      users: [apiResponseData],
       loading: 'succeeded',
     };
 
@@ -49,7 +59,7 @@ describe('user reducers', () => {
   });
 
   // register pending
-  test('should have loading pending when registering is in pending', () => {
+  test('should have loading pending when user register is pending', () => {
     const mockUserRegister: RegisterInputs = {
       name: 'Nicolas',
       email: 'nicolas@gmail.com',
@@ -128,7 +138,7 @@ describe('user reducers', () => {
   });
 
   // login pending
-  test('should have loading pending when logging the user', () => {
+  test('should have loading pending when user login is pending', () => {
     const mockUser: LoginInputs = {
       email: 'nicolas@gmail.com',
       password: '1234',
@@ -149,7 +159,7 @@ describe('user reducers', () => {
   });
 
   // login rejected
-  test('should have error when logging is rejected', () => {
+  test('should have error when logging user is rejected', () => {
     const mockUser: LoginInputs = {
       email: 'nicolas@gmail.com',
       password: '1234',
@@ -169,5 +179,36 @@ describe('user reducers', () => {
     };
 
     expect(userLoginState).toEqual(updateUserState);
+  });
+
+  // logout the logged user
+  test('should logout the logged user from the application', () => {
+    const initialState: UserInitialState = {
+      users: [],
+      loggedUser: {
+        id: 1,
+        name: 'Nicolas',
+        role: 'customer',
+        email: 'nicolas@gmail.com',
+        password: '1234',
+        avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
+      },
+
+      loading: 'succeeded',
+      error: '',
+      userRole: 'customer',
+    };
+
+    const userNewState = userReducer(initialState, logoutUser());
+
+    const updatedUserNewState = {
+      users: [],
+      loggedUser: null,
+      loading: 'idle',
+      error: '',
+      userRole: '',
+    };
+
+    expect(userNewState).toEqual(updatedUserNewState);
   });
 });

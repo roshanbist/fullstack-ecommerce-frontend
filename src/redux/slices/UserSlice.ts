@@ -174,7 +174,6 @@ export const updateUser = createAsyncThunk(
       }
 
       const data: UserType = await response.json();
-      console.log('data k aayo', data);
       dispatch(userInformation(data));
       toast.success('Information Updated Successfully');
       return data;

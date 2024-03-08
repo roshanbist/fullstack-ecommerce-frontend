@@ -6,7 +6,11 @@ import productReducer, {
   filterProductsList,
   updateSingleProduct,
 } from '../../redux/slices/ProductSlice';
-import { NewProductType, ProductInitialState } from '../../types/Product';
+import {
+  NewProductType,
+  ProductInitialState,
+  ProductType,
+} from '../../types/Product';
 
 const initialState: ProductInitialState = {
   products: [],
@@ -93,7 +97,7 @@ describe('product reducers', () => {
   });
 
   // fetchAllProducts error state
-  test('should have error message when action is rejected', () => {
+  test('should have error message when fetching action is rejected', () => {
     const errorResponse = new Error('error');
 
     const productState = productReducer(
@@ -200,13 +204,26 @@ describe('product reducers', () => {
       images: ['Image 5a', 'Image5b'],
     };
 
+    const apiResponseData: ProductType = {
+      id: 5,
+      title: newProductData.title,
+      price: newProductData.price,
+      description: newProductData.description,
+      images: newProductData.images,
+      category: {
+        id: newProductData.categoryId,
+        name: 'Category 5',
+        image: 'Image 5',
+      },
+    };
+
     const newProductState = productReducer(
       initialState,
-      createNewProduct.fulfilled(newProductData, 'fulfilled', newProductData)
+      createNewProduct.fulfilled(apiResponseData, 'fulfilled', newProductData)
     );
 
     const updatedProductsState = {
-      products: [newProductData],
+      products: [apiResponseData],
       selectedSingleProduct: null,
       loading: false,
       error: '',
@@ -215,7 +232,7 @@ describe('product reducers', () => {
     expect(newProductState).toEqual(updatedProductsState);
   });
 
-  // fetchsingle product rejected state
+  // create product rejected state
   test('should have error when rejected for creating new product', () => {
     const errorResponse = new Error('error');
 
@@ -229,7 +246,7 @@ describe('product reducers', () => {
 
     const newProductState = productReducer(
       initialState,
-      fetchSingleProduct.rejected(errorResponse, 'rejected', newProductData)
+      createNewProduct.rejected(errorResponse, 'rejected', newProductData)
     );
 
     const updatedProductsState = {
@@ -257,7 +274,7 @@ describe('product reducers', () => {
     const newProductState = productReducer(
       productInitialState,
       updateSingleProduct.pending('pending', {
-        updatedParams: updateProductData,
+        ...updateProductData,
       })
     );
 
@@ -286,7 +303,7 @@ describe('product reducers', () => {
     const newProductState = productReducer(
       productInitialState,
       updateSingleProduct.fulfilled(updateProductData, 'fulfilled', {
-        updatedParams: updateProductData,
+        ...updateProductData,
       })
     );
 
@@ -317,7 +334,7 @@ describe('product reducers', () => {
     const newProductState = productReducer(
       productInitialState,
       updateSingleProduct.rejected(errorResponse, 'rejected', {
-        updatedParams: updateProductData,
+        ...updateProductData,
       })
     );
 
@@ -379,7 +396,7 @@ describe('product reducers', () => {
     expect(newProductState).toEqual(expectedProductState);
   });
 
-  // delete product fulfilled state
+  // delete product error state
   test('should have error when rejected while deleting product', () => {
     const productInitialState = {
       ...initialState,
@@ -463,7 +480,7 @@ describe('product reducers', () => {
     expect(newProductState).toEqual(expectedProductState);
   });
 
-  // filter product fulfilled state
+  // filter product error state
   test('should have error when rejected while filtering products', () => {
     const productInitialState = {
       ...initialState,
