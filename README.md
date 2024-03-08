@@ -48,13 +48,13 @@
 
 ## APP Images
 
-![Homepage Screenshot](./appScreenshot/homepage.png)
-![Products Screenshot](./appScreenshot/products.png)
-![Product Detail Screenshot](./appScreenshot/product-detail.png)
-![Login Screenshot](./appScreenshot/login.png)
-![Profile Screenshot](./appScreenshot/profile.png)
-![Empty Cart Screenshot](./appScreenshot/empty-cart.png)
-![Cart Product Screenshot](./appScreenshot/cart-product.png)
+![Homepage Screenshot](appScreenshot/homepage.png)
+![Products Screenshot](appScreenshot/products.png)
+![Product Detail Screenshot](appScreenshot/product-detail.png)
+![Login Screenshot](appScreenshot/login.png)
+![Profile Screenshot](appScreenshot/profile.png)
+![Empty Cart Screenshot](appScreenshot/empty-cart.png)
+![Cart Product Screenshot](appScreenshot/cart-product.png)
 
 ## Technologies Used
 
