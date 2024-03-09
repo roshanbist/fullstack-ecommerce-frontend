@@ -89,7 +89,7 @@ git clone https://github.com/roshanbist/shoplyst.git
 2. Navigate to the project directory.
 
    ```bash
-   cd fs17-Frontend-project
+   cd shoplyst
 
    ```
 
