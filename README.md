@@ -82,7 +82,7 @@ Ensure you have the following dependencies installed on your system:
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/roshan/fs17-Frontend-project.git
+git clone https://github.com/roshanbist/shoplyst.git
 
 ```
 
