@@ -25,7 +25,7 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
+- [Shoplyst](#overview)
 - [Explore Shoplyst Live](#explore-shoplyst-live)
 - [APP Images](#app-images)
 - [Technologies Used](#technologies-used)
@@ -67,7 +67,7 @@
 - **React Paginate**
 - **Lodash**
 - **Toastify**
-- **UseContent- Theme Toggle**
+- **UseContext - Theme Toggle**
 - **React Hook Form**: Form handling library for React applications.
 
 ## Getting Started
