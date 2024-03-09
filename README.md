@@ -108,7 +108,7 @@ git clone https://github.com/roshanbist/shoplyst.git
    npm test
    ```
 
-## Project Structure
+## Project Folder Structure
 
 ```
 └── .gitignore
