@@ -26,7 +26,7 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
     dispatch(deleteItem(itemData));
   };
 
-  const itemPageHandler = (id: number) => {
+  const itemPageHandler = (id: string) => {
     navigate(`/products/${id}`);
   };
 
@@ -37,14 +37,14 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
           className='w-full h-full object-cover rounded-lg cursor-pointer'
           src={productImage}
           alt={itemData.title}
-          onClick={() => itemPageHandler(itemData?.id)}
+          onClick={() => itemPageHandler(itemData?._id)}
         />
       </div>
       <div className='sm:flex-1'>
         <div className='sm:flex sm:justify-between mb-5 sm:mb-6 md:gap-3 lg:gap-5'>
           <h2
             className='lg:text-lg font-medium cursor-pointer flex-1'
-            onClick={() => itemPageHandler(itemData?.id)}
+            onClick={() => itemPageHandler(itemData?._id)}
           >
             {itemData?.title}
           </h2>

@@ -23,7 +23,7 @@ const CartDetail = () => {
         </span>
       </div>
       {items?.map((item) => (
-        <CartItem key={item.id} itemData={item} />
+        <CartItem key={item._id} itemData={item} />
       ))}
     </div>
   );

@@ -31,7 +31,7 @@ const ProductHighlights = () => {
           products.length > 0 && (
             <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7 mb-7'>
               {products.slice(0, 3).map((product) => (
-                <ProductCard key={product.id} productData={product} />
+                <ProductCard key={product._id} productData={product} />
               ))}
             </div>
           )

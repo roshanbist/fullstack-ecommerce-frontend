@@ -14,7 +14,7 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const dispatch = useAppDispatch();
 
-  const id = Number(productId);
+  const id = productId as string;
 
   const { selectedSingleProduct, loading } = useSelector(
     (state: AppState) => state.products

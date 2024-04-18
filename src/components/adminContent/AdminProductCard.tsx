@@ -12,7 +12,7 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
 
   const productImage = ImageUrlClear(productData.images[0]);
 
-  const productDeleteHandler = (id: number) => {
+  const productDeleteHandler = (id: string) => {
     dispatch(deleteProduct(id));
   };
 
@@ -35,7 +35,7 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
             <button
               className='btn-primary min-w-0 w-full px-5 py-2 text-[14px] rounded-lg'
               onClick={() =>
-                navigate(`/update-product/${productData.id}`, {
+                navigate(`/update-product/${productData._id}`, {
                   state: { productData },
                 })
               }
@@ -46,7 +46,7 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
           <li className='w-[50%] px-[5px]'>
             <button
               className='btn-danger px-5 min-w-0 w-full text-[14px] rounded-lg'
-              onClick={() => productDeleteHandler(productData.id)}
+              onClick={() => productDeleteHandler(productData._id)}
             >
               Delete
             </button>

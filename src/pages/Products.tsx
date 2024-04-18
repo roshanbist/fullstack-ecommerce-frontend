@@ -22,7 +22,7 @@ const Products = () => {
   const dispatch = useAppDispatch();
 
   const [filterProducts, setFilterProducts] = useState<ProductFilters>({
-    categoryId: 0,
+    categoryId: '0',
     price: 0,
     title: '',
   });
@@ -51,7 +51,7 @@ const Products = () => {
 
   useEffect(() => {
     setFilterProducts({
-      categoryId: 0,
+      categoryId: '0',
       price: 0,
       title: '',
     });
@@ -61,11 +61,11 @@ const Products = () => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({
         ...prevFilters,
-        categoryId: +e.target.value,
+        categoryId: e.target.value,
       }));
 
       dispatch(
-        filterProductsList({ ...filterProducts, categoryId: +e.target.value })
+        filterProductsList({ ...filterProducts, categoryId: e.target.value })
       );
     },
     [dispatch, filterProducts]
@@ -132,7 +132,7 @@ const Products = () => {
               >
                 <option value=''>Filter by category</option>
                 {categories?.map((categ) => (
-                  <option key={categ.id} value={categ.id}>
+                  <option key={categ._id} value={categ._id}>
                     {categ.name}
                   </option>
                 ))}
@@ -158,7 +158,7 @@ const Products = () => {
           ) : products && products.length > 0 ? (
             <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
               {products.slice(startIndex, lastIndex).map((product) => (
-                <ProductCard key={product.id} productData={product} />
+                <ProductCard key={product._id} productData={product} />
               ))}
             </div>
           ) : (

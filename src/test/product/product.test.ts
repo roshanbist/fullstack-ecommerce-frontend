@@ -14,6 +14,7 @@ import {
 
 const initialState: ProductInitialState = {
   products: [],
+  totalNumber: 0,
   selectedSingleProduct: null,
   loading: false,
   error: '',
@@ -21,37 +22,37 @@ const initialState: ProductInitialState = {
 
 const mockProductsData = [
   {
-    id: 1,
+    _id: '1',
     title: 'Product 1',
     price: 30,
     description: 'Description 1',
-    category: { id: 1, name: 'Category 1', image: 'Image 1' },
+    category: { _id: '1', name: 'Category 1', image: 'Image 1' },
     images: ['Image 1'],
   },
   {
-    id: 2,
+    _id: '2',
     title: 'Product 2',
     price: 50,
     description: 'Description 2',
-    category: { id: 2, name: 'Category 2', image: 'Image 2' },
+    category: { _id: '2', name: 'Category 2', image: 'Image 2' },
     images: ['Image 2a', 'Image 2b'],
   },
   {
-    id: 3,
+    _id: '3',
     title: 'Product 3',
     price: 50,
     description: 'Description 3',
-    category: { id: 3, name: 'Category 3', image: 'Image 3' },
+    category: { _id: '3', name: 'Category 3', image: 'Image 3' },
     images: ['Image 3a', 'Image 3b'],
   },
 ];
 
 const mockSingleProductData = {
-  id: 4,
+  _id: '4',
   title: 'Product 4',
   price: 40,
   description: 'Description 4',
-  category: { id: 4, name: 'Category 4', image: 'Image 4' },
+  category: { _id: '4', name: 'Category 4', image: 'Image 4' },
   images: ['Image 4a', 'Image4b'],
 };
 
@@ -121,7 +122,7 @@ describe('product reducers', () => {
 
     const singleProductState = productReducer(
       initialState,
-      fetchSingleProduct.pending('pending', 1)
+      fetchSingleProduct.pending('pending', '1')
     );
 
     const updatedSingleProductState = {
@@ -138,7 +139,7 @@ describe('product reducers', () => {
   test('should fetch single product data', () => {
     const singleProductState = productReducer(
       initialState,
-      fetchSingleProduct.fulfilled(mockSingleProductData, 'fulfilled', 1)
+      fetchSingleProduct.fulfilled(mockSingleProductData, 'fulfilled', '1')
     );
 
     const updatedSingleProductState = {
@@ -156,7 +157,7 @@ describe('product reducers', () => {
     const errorResponse = new Error('error');
     const singleProductState = productReducer(
       initialState,
-      fetchSingleProduct.rejected(errorResponse, 'rejected', 1)
+      fetchSingleProduct.rejected(errorResponse, 'rejected', '1')
     );
 
     const updatedSingleProductState = {
@@ -175,7 +176,7 @@ describe('product reducers', () => {
       title: 'Product 5',
       price: 50,
       description: 'Description 5',
-      categoryId: 1,
+      categoryId: '1',
       images: ['Image 5a', 'Image5b'],
     };
 
@@ -200,18 +201,18 @@ describe('product reducers', () => {
       title: 'Product 5',
       price: 50,
       description: 'Description 5',
-      categoryId: 5,
+      categoryId: '5',
       images: ['Image 5a', 'Image5b'],
     };
 
     const apiResponseData: ProductType = {
-      id: 5,
+      _id: '5',
       title: newProductData.title,
       price: newProductData.price,
       description: newProductData.description,
       images: newProductData.images,
       category: {
-        id: newProductData.categoryId,
+        _id: newProductData.categoryId,
         name: 'Category 5',
         image: 'Image 5',
       },
@@ -240,7 +241,7 @@ describe('product reducers', () => {
       title: 'Product 5',
       price: 50,
       description: 'Description 5',
-      categoryId: 5,
+      categoryId: '1',
       images: ['Image 5a', 'Image5b'],
     };
 
@@ -357,7 +358,7 @@ describe('product reducers', () => {
 
     const newProductState = productReducer(
       productInitialState,
-      deleteProduct.pending('pending', 1)
+      deleteProduct.pending('pending', '1')
     );
 
     const expectedProductState = {
@@ -380,9 +381,9 @@ describe('product reducers', () => {
     const newProductState = productReducer(
       productInitialState,
       deleteProduct.fulfilled(
-        { productId: mockSingleProductData.id, data: true },
+        { productId: mockSingleProductData._id, data: true },
         'fulfilled',
-        1
+        '1'
       )
     );
 
@@ -407,7 +408,7 @@ describe('product reducers', () => {
 
     const newProductState = productReducer(
       productInitialState,
-      deleteProduct.rejected(errorResponse, 'rejected', 1)
+      deleteProduct.rejected(errorResponse, 'rejected', '1')
     );
 
     const expectedProductState = {
@@ -429,7 +430,7 @@ describe('product reducers', () => {
 
     const filterParams = {
       title: 'product1',
-      categoryId: 1,
+      categoryId: '1',
       price: 30,
     };
 
@@ -457,7 +458,7 @@ describe('product reducers', () => {
 
     const filterParams = {
       title: 'product1',
-      categoryId: 1,
+      categoryId: '1',
       price: 50,
     };
 
@@ -489,7 +490,7 @@ describe('product reducers', () => {
 
     const filterParams = {
       title: 'product1',
-      categoryId: 1,
+      categoryId: '1',
       price: 50,
     };
 

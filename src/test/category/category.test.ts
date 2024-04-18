@@ -10,8 +10,8 @@ const initialState: CategoryInitialState = {
 };
 
 const mockCategoryData = [
-  { id: 1, name: 'Category 1', image: 'Image 1' },
-  { id: 2, name: 'Category 2', image: 'Image 2' },
+  { _id: '1', name: 'Category 1', image: 'Image 1' },
+  { _id: '2', name: 'Category 2', image: 'Image 2' },
 ];
 
 describe('category Reducer', () => {

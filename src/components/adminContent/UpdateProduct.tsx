@@ -31,7 +31,7 @@ const UpdateProduct = () => {
   }, [location.state]);
 
   const fetchAllProductsMemoized = useCallback(() => {
-    dispatch(fetchSingleProduct(Number(id)));
+    dispatch(fetchSingleProduct(id as string));
   }, [dispatch, id]);
 
   useEffect(() => {

@@ -18,7 +18,7 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartType>) => {
       const itemExist = state.items.some(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
 
       state.totalAmount +=
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
 
       if (itemExist) {
         state.items = state.items.map((item) => {
-          if (item.id === action.payload.id) {
+          if (item._id === action.payload._id) {
             return {
               ...item,
               amount:
@@ -47,14 +47,16 @@ const cartSlice = createSlice({
 
     removeItem: (state, action: PayloadAction<CartType>) => {
       const itemExist = state.items.find(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
 
       if (itemExist) {
         state.totalAmount -= itemExist.price;
 
         if (itemExist?.amount === 1) {
-          state.items = state.items.filter((item) => item.id !== itemExist.id);
+          state.items = state.items.filter(
+            (item) => item._id !== itemExist._id
+          );
 
           localStorage.setItem('cartCollection', JSON.stringify(state));
           toast.success('Item Removed Successfully');
@@ -64,7 +66,7 @@ const cartSlice = createSlice({
             amount: (itemExist?.amount as number) - 1,
           };
           state.items = state.items.map((item) =>
-            item.id === itemExist?.id ? updatedItems : item
+            item._id === itemExist?._id ? updatedItems : item
           );
           localStorage.setItem('cartCollection', JSON.stringify(state));
           toast.success('Item Removed Successfully');
@@ -74,13 +76,15 @@ const cartSlice = createSlice({
 
     deleteItem: (state, action: PayloadAction<CartType>) => {
       const itemToDelete = state.items.find(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
 
       if (itemToDelete) {
         state.totalAmount -=
           itemToDelete.price * (itemToDelete.amount as number);
-        state.items = state.items.filter((item) => item.id !== itemToDelete.id);
+        state.items = state.items.filter(
+          (item) => item._id !== itemToDelete._id
+        );
         localStorage.setItem('cartCollection', JSON.stringify(state));
         toast.success('Item Removed successfully');
       }

@@ -6,12 +6,16 @@ import {
   ProductFilters,
   ProductInitialState,
   ProductType,
+  ProductsList,
 } from '../../types/Product';
+import { BASE_URL } from '../../utils/api';
 
-const URL = 'https://api.escuelajs.co/api/v1/products';
+// const URL = 'https://api.escuelajs.co/api/v1/products';
+const URL = `${BASE_URL}/products`;
 
 const initialState: ProductInitialState = {
   products: [],
+  totalNumber: 0,
   selectedSingleProduct: null,
   loading: false,
   error: '',
@@ -30,7 +34,9 @@ export const fetchAllProducts = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      const data: ProductType[] = await response.json();
+      // const data: ProductType[] = await response.json();
+      const productsResult: ProductsList = await response.json();
+      const data: ProductType[] = productsResult.products;
       return data;
     } catch (e) {
       const error = e as Error;
@@ -42,7 +48,7 @@ export const fetchAllProducts = createAsyncThunk(
 // Thunk action creator to fetch a single product by its ID
 export const fetchSingleProduct = createAsyncThunk(
   'fetchSingleProduct',
-  async (productId: number, { rejectWithValue }) => {
+  async (productId: string, { rejectWithValue }) => {
     try {
       const response = await fetch(`${URL}/${productId}`);
 
@@ -65,12 +71,12 @@ export const fetchSingleProduct = createAsyncThunk(
 export const updateSingleProduct = createAsyncThunk(
   'updateSingleProduct',
   async (updatedParams: ProductType, { rejectWithValue }) => {
-    const { title, description, price, id } = updatedParams;
+    const { title, description, price, _id } = updatedParams;
 
     const updatedData = { title, description, price };
 
     try {
-      const response = await fetch(`${URL}/${id}`, {
+      const response = await fetch(`${URL}/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +131,7 @@ export const createNewProduct = createAsyncThunk(
 // Thunk action creator to delete a product
 export const deleteProduct = createAsyncThunk(
   'deleteProduct',
-  async (productId: number, { rejectWithValue }) => {
+  async (productId: string, { rejectWithValue }) => {
     try {
       const response = await fetch(`${URL}/${productId}`);
 
@@ -287,7 +293,7 @@ const productSlice = createSlice({
     // add new product to products array if fulfilled
     builder.addCase(updateSingleProduct.fulfilled, (state, action) => {
       const updatedProductIndex = state.products.findIndex(
-        (product) => product.id === action.payload.id
+        (product) => product._id === action.payload._id
       );
 
       const updatedProducts = [...state.products];
@@ -324,7 +330,7 @@ const productSlice = createSlice({
       const { productId } = action.payload;
       return {
         ...state,
-        products: state.products.filter((product) => product.id !== productId),
+        products: state.products.filter((product) => product._id !== productId),
         loading: false,
         error: '',
       };

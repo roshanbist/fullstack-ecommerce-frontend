@@ -24,7 +24,7 @@ const ProductDashboard = () => {
   const navigate = useNavigate();
 
   const [filterProducts, setFilterProducts] = useState<ProductFilters>({
-    categoryId: 0,
+    categoryId: '0',
     price: 0,
     title: '',
   });
@@ -53,7 +53,7 @@ const ProductDashboard = () => {
 
   useEffect(() => {
     setFilterProducts({
-      categoryId: 0,
+      categoryId: '0',
       price: 0,
       title: '',
     });
@@ -63,13 +63,13 @@ const ProductDashboard = () => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({
         ...prevFilters,
-        categoryId: +e.target.value,
+        categoryId: e.target.value,
       }));
 
       dispatch(
         filterProductsList({
           ...filterProducts,
-          categoryId: +e.target.value,
+          categoryId: e.target.value,
         })
       );
     },
@@ -148,7 +148,7 @@ const ProductDashboard = () => {
               >
                 <option value=''>Filter by category</option>
                 {categories?.map((categ) => (
-                  <option key={categ.id} value={categ.id}>
+                  <option key={categ._id} value={categ._id}>
                     {categ.name}
                   </option>
                 ))}
@@ -174,7 +174,7 @@ const ProductDashboard = () => {
           ) : products && products.length > 0 ? (
             <div className='grid sm:grid-cols-3 lg:grid-cols-5 relative gap-5'>
               {products.slice(startIndex, lastIndex).map((product) => (
-                <AdminProductCard key={product.id} productData={product} />
+                <AdminProductCard key={product._id} productData={product} />
               ))}
             </div>
           ) : (
