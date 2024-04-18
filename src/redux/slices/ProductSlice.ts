@@ -163,20 +163,20 @@ export const filterProductsList = createAsyncThunk(
     }
 
     if (params.categoryId) {
-      queryParams += `categoryId=${params.categoryId}&`;
+      queryParams += `category=${params.categoryId}&`;
     }
 
     if (params.price) {
       if (params.price === 1) {
-        queryParams += `price_min=${params.price}&price_max=${
+        queryParams += `min_price=${params.price}&max_price=${
           params.price + 49
         }&`;
       } else if (params.price < 200) {
-        queryParams += `price_min=${params.price}&price_max=${
+        queryParams += `min_price=${params.price}&max_price=${
           params.price + 50
         }&`;
       } else if (params.price === 200) {
-        queryParams += `price_min=${params.price}&price_max=100000&`;
+        queryParams += `min_price=${params.price}&max_price=100000&`;
       }
     }
 
@@ -191,7 +191,9 @@ export const filterProductsList = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      const data: ProductType[] = await response.json();
+      // const data: ProductType[] = await response.json();
+      const productsResult: ProductsList = await response.json();
+      const data: ProductType[] = productsResult.products;
       return data;
     } catch (e) {
       const error = e as Error;

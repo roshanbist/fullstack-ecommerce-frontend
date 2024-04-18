@@ -45,9 +45,12 @@ const Register = () => {
       const inputFileUrl = inputFile && (await uploadFileService(inputFile));
 
       const newUserData: RegisterInputs = {
-        name: formData.name,
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        username: formData.username,
         email: formData.email,
         password: formData.password,
+        address: formData.address,
         avatar: inputFileUrl[0],
       };
 
@@ -80,26 +83,51 @@ const Register = () => {
           <form onSubmit={handleSubmit(onSubmit)} className='pb-7'>
             <div className='mb-6'>
               <label
-                htmlFor='fullName'
+                htmlFor='firstname'
                 className='block mb-2 font-medium text-color-primary'
               >
-                Name *
+                First Name *
               </label>
               <input
                 className='form-input'
                 required
                 type='text'
-                id='fullName'
-                placeholder='John'
-                {...register('name', {
+                id='firstname'
+                placeholder='john'
+                {...register('firstname', {
                   required: true,
                   minLength: 2,
                   maxLength: 30,
                 })}
               />
-              {errors.name && (
+              {errors.firstname && (
                 <span className='form-error animate-fadein'>
-                  Enter your name again, its too short
+                  Enter your first name again, its too short
+                </span>
+              )}
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='lastname'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Last Name *
+              </label>
+              <input
+                className='form-input'
+                required
+                type='text'
+                id='lastname'
+                placeholder='doe'
+                {...register('lastname', {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 30,
+                })}
+              />
+              {errors.lastname && (
+                <span className='form-error animate-fadein'>
+                  Enter your last name again, its too short
                 </span>
               )}
             </div>
@@ -153,6 +181,56 @@ const Register = () => {
             </div>
             <div className='mb-6'>
               <label
+                htmlFor='username'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Username *
+              </label>
+              <input
+                className='form-input'
+                required
+                type='text'
+                id='username'
+                placeholder='johndoe'
+                {...register('username', {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 30,
+                })}
+              />
+              {errors.username && (
+                <span className='form-error animate-fadein'>
+                  Enter your username again, its too short
+                </span>
+              )}
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='address'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Last Name *
+              </label>
+              <input
+                className='form-input'
+                required
+                type='text'
+                id='address'
+                placeholder='Tampere, Finland'
+                {...register('address', {
+                  required: true,
+                  minLength: 5,
+                  maxLength: 30,
+                })}
+              />
+              {errors.address && (
+                <span className='form-error animate-fadein'>
+                  Enter your address again, its too short
+                </span>
+              )}
+            </div>
+            <div className='mb-6'>
+              <label
                 className='block mb-2 font-medium text-color-primary'
                 htmlFor='file_input'
               >
@@ -170,7 +248,6 @@ const Register = () => {
                 <span className='form-error animate-fadein'>Upload image</span>
               )}
             </div>
-
             <button
               className='block btn-primary rounded-lg w-full'
               type='submit'

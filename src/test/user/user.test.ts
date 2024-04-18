@@ -28,19 +28,25 @@ describe('user reducers', () => {
   // register fulfill
   test('should register an account for new user', () => {
     const mockUserRegister: RegisterInputs = {
-      name: 'Nicolas',
+      firstname: 'Nicolas',
+      lastname: 'Pooran',
+      address: 'tampere, finland',
+      username: 'nicolaspooran',
       email: 'nicolas@gmail.com',
       password: '1234',
       avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
     };
 
     const apiResponseData: UserType = {
-      id: 1,
-      name: mockUserRegister.name,
+      _id: '1',
+      role: 'customer',
+      firstname: mockUserRegister.firstname,
+      lastname: mockUserRegister.lastname,
+      username: mockUserRegister.username,
+      address: mockUserRegister.address,
       email: mockUserRegister.email,
       password: mockUserRegister.password,
       avatar: mockUserRegister.avatar,
-      role: 'customer',
     };
 
     const userRegisterState = userReducer(
@@ -60,7 +66,10 @@ describe('user reducers', () => {
   // register pending
   test('should have loading pending when user register is pending', () => {
     const mockUserRegister: RegisterInputs = {
-      name: 'Nicolas',
+      firstname: 'Nicolas',
+      lastname: 'Pooran',
+      address: 'tampere, finland',
+      username: 'nicolaspooran',
       email: 'nicolas@gmail.com',
       password: '1234',
       avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
@@ -83,7 +92,10 @@ describe('user reducers', () => {
   // register rejected
   test('should have error when user register is rejected', () => {
     const mockUserRegister: RegisterInputs = {
-      name: 'Nicolas',
+      firstname: 'Nicolas',
+      lastname: 'Pooran',
+      address: 'tampere, finland',
+      username: 'nicolaspooran',
       email: 'nicolas@gmail.com',
       password: '1234',
       avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
@@ -115,9 +127,13 @@ describe('user reducers', () => {
 
     const currentLoggedUser: UserType = {
       ...mockUser,
-      id: 1,
-      name: 'Nicolas',
+      _id: '1',
+      // name: 'Nicolas',
       role: 'customer',
+      firstname: 'Nicolas',
+      lastname: 'Pooran',
+      address: 'tampere, finland',
+      username: 'nicolaspooran',
       avatar: 'https://i.imgur.com/LDOO4Qs.jpg',
     };
 
@@ -185,9 +201,15 @@ describe('user reducers', () => {
     const initialState: UserInitialState = {
       users: [],
       loggedUser: {
-        id: 1,
-        name: 'Nicolas',
+        _id: '1',
+        // name: 'Nicolas',
+        // email: 'nicolas@gmail.com',
+        // password: '1234',
         role: 'customer',
+        firstname: 'Nicolas',
+        lastname: 'Pooran',
+        address: 'tampere, finland',
+        username: 'nicolaspooran',
         email: 'nicolas@gmail.com',
         password: '1234',
         avatar: 'https://i.imgur.com/LDOO4Qs.jpg',

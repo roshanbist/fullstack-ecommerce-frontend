@@ -11,7 +11,7 @@ import {
   Login,
   Register,
   CustomerProfile,
-  Admin,
+  AdminProfile,
   Cart,
   PageNotFound,
 } from './pages';
@@ -68,7 +68,7 @@ function App() {
           path='/admin'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
-              {<Admin />}
+              {<AdminProfile />}
             </ProtectedRoute>
           }
         />

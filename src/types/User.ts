@@ -4,12 +4,15 @@ export type LoginInputs = {
 };
 
 export type RegisterInputs = LoginInputs & {
-  name: string;
+  firstname: string;
+  lastname: string;
+  username: string;
   avatar: string;
+  address: string;
 };
 
 export type UserType = RegisterInputs & {
-  id: number;
+  _id: string;
   role: 'admin' | 'customer';
 };
 
@@ -22,11 +25,19 @@ export type UserInitialState = {
 };
 
 export type AuthToken = {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
+  // access_token: string;
+  // refresh_token: string;
+};
+
+export type loginUserAuth = {
+  tokens: AuthToken;
+  user: UserType;
 };
 
 export type EditProfileType = {
-  name: string;
+  firstname: string;
+  lastname: string;
   email: string;
 };

@@ -20,7 +20,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (!userData) {
-      dispatch(getSingleUser(Number(id)));
+      dispatch(getSingleUser(id as string));
     }
   }, [dispatch, id, userData]);
 

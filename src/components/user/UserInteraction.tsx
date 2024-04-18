@@ -35,7 +35,7 @@ const UserInfo = () => {
         {loggedUser && loggedUser.avatar ? (
           <img
             src={loggedUser.avatar}
-            alt={loggedUser.name}
+            alt={loggedUser.username}
             className='w-full h-full object-cover animate-fade'
           />
         ) : (

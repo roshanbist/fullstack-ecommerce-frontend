@@ -1,16 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+
 import {
   AuthToken,
   LoginInputs,
   RegisterInputs,
   UserInitialState,
   UserType,
+  loginUserAuth,
 } from '../../types/User';
-import { toast } from 'react-toastify';
+import { BASE_URL } from '../../utils/api';
 
-const BASE_URL = 'https://api.escuelajs.co/api/v1/users';
-const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
+// const BASE_URL = 'https://api.escuelajs.co/api/v1/users';
+// const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
 const USER_PROFILE_URL = 'https://api.escuelajs.co/api/v1/auth/profile';
+
+const URL = `${BASE_URL}/users`;
+// const LOGIN_URL = `${BASE_URL}/users/login`;
+// const USER_PROFILE_URL = `${BASE_URL}/profile`;
 
 const initialState: UserInitialState = {
   loggedUser: null,
@@ -32,7 +39,7 @@ export const getLoggedUserInfo = createAsyncThunk(
       }
 
       const authUser: AuthToken = JSON.parse(userTokenString);
-      const accessToken = authUser?.access_token;
+      const accessToken = authUser?.accessToken;
 
       const response = await fetch(USER_PROFILE_URL, {
         headers: {
@@ -45,6 +52,7 @@ export const getLoggedUserInfo = createAsyncThunk(
         const errorMessage = await response.json();
         return rejectWithValue(errorMessage.message);
       }
+
       const data: UserType = await response.json();
       localStorage.setItem('userRole', data.role);
       return data;
@@ -79,9 +87,9 @@ export const getAllUsers = createAsyncThunk(
 // thunk action to get single user data
 export const getSingleUser = createAsyncThunk(
   'getSingleUser',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}/${id}`);
+      const response = await fetch(`${URL}/${id}`);
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -102,7 +110,7 @@ export const loginUser = createAsyncThunk(
   'loginUser',
   async (loginData: LoginInputs, { dispatch, rejectWithValue }) => {
     try {
-      const response = await fetch(LOGIN_URL, {
+      const response = await fetch(`${URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -115,11 +123,15 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      const data: AuthToken = await response.json();
-      localStorage.setItem('userToken', JSON.stringify(data));
+      const userResults: loginUserAuth = await response.json();
+      // const { tokens: AuthToken, user: UserType } = userResults;
 
-      const loggedUserDetail = await dispatch(getLoggedUserInfo());
-      return loggedUserDetail.payload as UserType;
+      localStorage.setItem('userToken', JSON.stringify(userResults.tokens));
+      // const loggedUserDetail = await dispatch(getLoggedUserInfo());
+      // return loggedUserDetail.payload as UserType;
+      const loggedUserDetail: UserType = userResults.user;
+      localStorage.setItem('userRole', loggedUserDetail.role);
+      return loggedUserDetail;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -132,7 +144,7 @@ export const registerUser = createAsyncThunk(
   'registerUser',
   async (registerData: RegisterInputs, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}/`, {
+      const response = await fetch(`${URL}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,9 +169,9 @@ export const registerUser = createAsyncThunk(
 // thunk action to update a user information
 export const updateUser = createAsyncThunk(
   'updateUser',
-  async ({ id, ...updateParams }: UserType, { dispatch, rejectWithValue }) => {
+  async ({ _id, ...updateParams }: UserType, { dispatch, rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}/${id}`, {
+      const response = await fetch(`${BASE_URL}/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -331,7 +343,7 @@ const userSlice = createSlice({
 
     builder.addCase(updateUser.fulfilled, (state, action) => {
       const updatedUserIndex = state.users.findIndex(
-        (user) => user.id === action.payload.id
+        (user) => user._id === action.payload._id
       );
 
       const updatedUsers = [...state.users];

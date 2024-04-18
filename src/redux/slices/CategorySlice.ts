@@ -2,8 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { Category, CategoryInitialState } from '../../types/Category';
 import { toast } from 'react-toastify';
+import { BASE_URL } from '../../utils/api';
 
-const URL = 'https://api.escuelajs.co/api/v1/categories';
+// const URL = 'https://api.escuelajs.co/api/v1/categories';
+const URL = `${BASE_URL}/categories`;
 
 const initialState: CategoryInitialState = {
   categories: [],

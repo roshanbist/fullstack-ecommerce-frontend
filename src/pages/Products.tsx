@@ -22,7 +22,7 @@ const Products = () => {
   const dispatch = useAppDispatch();
 
   const [filterProducts, setFilterProducts] = useState<ProductFilters>({
-    categoryId: '0',
+    categoryId: '',
     price: 0,
     title: '',
   });
@@ -51,7 +51,7 @@ const Products = () => {
 
   useEffect(() => {
     setFilterProducts({
-      categoryId: '0',
+      categoryId: '',
       price: 0,
       title: '',
     });

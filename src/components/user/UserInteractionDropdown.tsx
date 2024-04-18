@@ -114,10 +114,11 @@ const UserDropdown = ({
     <div className={`user-dropdown ${showDropdown ? 'active' : ''}`}>
       <div className='p-3.5 border-b-2 border-b-palette-accent mb-3.5'>
         <h2 className='transition-none text-lg mb-2 font-medium'>{`Welcome ${
-          loggedUserInfo ? loggedUserInfo.name : 'Guest'
+          loggedUserInfo ? loggedUserInfo.firstname : 'Guest'
         }`}</h2>
         <p className='transition-none tracking-wide'>
-          {loggedUserInfo && loggedUserInfo.role.toLowerCase() === 'admin'
+          {/* {loggedUserInfo && loggedUserInfo.role.toLowerCase() === 'admin' */}
+          {loggedUserInfo && loggedUserInfo.role === 'admin'
             ? 'Lets start managing the products.'
             : 'Lets start shopping.'}
         </p>
