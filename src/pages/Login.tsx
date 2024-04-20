@@ -34,8 +34,6 @@ const Login = () => {
   const onSubmit: SubmitHandler<LoginInputs> = async (loginData) => {
     const res = await dispatch(loginUser(loginData));
 
-    console.log('logged res', res);
-
     if (res.meta.requestStatus === 'fulfilled') {
       const { role } = res.payload as UserType;
 

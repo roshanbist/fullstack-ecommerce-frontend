@@ -14,6 +14,8 @@ const UserProfile = () => {
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
+
+  console.log('user profile logged user info', loggedUserInfo);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -43,9 +45,6 @@ const UserProfile = () => {
                     alt={loggedUserInfo?.username}
                   />
                 </div>
-                <p className='text-white font-bold text-xl tracking-wide'>
-                  {loggedUserInfo?.firstname}
-                </p>
                 <button
                   className='w-[60px] h-[60px] absolute -bottom-[30px] right-[30px] shadow-lg rounded-full flex justify-center items-center text-white bg-[#db7f1c] hover:bg-[#cb7416] text-[25px] transition-colors duration-300 ease-in-out'
                   onClick={() =>
@@ -59,8 +58,20 @@ const UserProfile = () => {
               </div>
               <div className='py-5'>
                 <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
-                  <p className='font-medium text-lg'>User</p>
-                  <p className='text-lg capitalize'>{loggedUserInfo?.role}</p>
+                  <p className='font-medium text-lg'>Name</p>
+                  <p className='text-lg capitalize'>{`${loggedUserInfo?.firstname} ${loggedUserInfo?.lastname}`}</p>
+                </div>
+                <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
+                  <p className='font-medium text-lg'>Username</p>
+                  <p className='text-lg capitalize'>
+                    {loggedUserInfo?.username}
+                  </p>
+                </div>
+                <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
+                  <p className='font-medium text-lg'>Address</p>
+                  <p className='text-lg capitalize'>
+                    {loggedUserInfo?.address}
+                  </p>
                 </div>
                 <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
                   <p className='font-medium text-lg'>Email</p>

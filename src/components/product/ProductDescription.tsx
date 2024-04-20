@@ -44,6 +44,13 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
         {productData.price.toFixed(2)}
       </span>
       <p className='tracking-wider mb-8'>{productData.description}</p>
+      <div className='size-list'>
+        <ul>
+          {productData.size?.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
       {loggedUserInfo && loggedUserInfo.role === 'customer' && (
         <div className='flex gap-4'>
           <div className='flex border border-color-primary items-center gap-x-4 py-4 px-6 rounded-xl'>

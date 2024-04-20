@@ -11,13 +11,7 @@ import {
 } from '../../types/User';
 import { BASE_URL } from '../../utils/api';
 
-// const BASE_URL = 'https://api.escuelajs.co/api/v1/users';
-// const LOGIN_URL = 'https://api.escuelajs.co/api/v1/auth/login';
-const USER_PROFILE_URL = 'https://api.escuelajs.co/api/v1/auth/profile';
-
 const URL = `${BASE_URL}/users`;
-// const LOGIN_URL = `${BASE_URL}/users/login`;
-// const USER_PROFILE_URL = `${BASE_URL}/profile`;
 
 const initialState: UserInitialState = {
   loggedUser: null,
@@ -41,12 +35,16 @@ export const getLoggedUserInfo = createAsyncThunk(
       const authUser: AuthToken = JSON.parse(userTokenString);
       const accessToken = authUser?.accessToken;
 
-      const response = await fetch(USER_PROFILE_URL, {
+      // console.log('accessToken', accessToken);
+
+      const response = await fetch(`${URL}/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       });
+
+      // console.log('response k ayo', response);
 
       if (!response.ok) {
         const errorMessage = await response.json();
@@ -54,6 +52,8 @@ export const getLoggedUserInfo = createAsyncThunk(
       }
 
       const data: UserType = await response.json();
+      // console.log('data aayo ta', data);
+
       localStorage.setItem('userRole', data.role);
       return data;
     } catch (e) {
@@ -127,11 +127,11 @@ export const loginUser = createAsyncThunk(
       // const { tokens: AuthToken, user: UserType } = userResults;
 
       localStorage.setItem('userToken', JSON.stringify(userResults.tokens));
-      // const loggedUserDetail = await dispatch(getLoggedUserInfo());
-      // return loggedUserDetail.payload as UserType;
-      const loggedUserDetail: UserType = userResults.user;
-      localStorage.setItem('userRole', loggedUserDetail.role);
-      return loggedUserDetail;
+      const loggedUserDetail = await dispatch(getLoggedUserInfo());
+      return loggedUserDetail.payload as UserType;
+      // const loggedUserDetail: UserType = userResults.user;
+      // localStorage.setItem('userRole', loggedUserDetail.role);
+      // return loggedUserDetail;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
