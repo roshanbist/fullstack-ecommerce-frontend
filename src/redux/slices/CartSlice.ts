@@ -17,16 +17,20 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<CartType>) => {
-      const itemExist = state.items.some(
-        (item) => item._id === action.payload._id
+      const existingItemIndex = state.items.findIndex(
+        (item) =>
+          item._id === action.payload._id && item.size === action.payload.size
       );
 
       state.totalAmount +=
         action.payload.price * (action.payload.amount as number);
 
-      if (itemExist) {
+      if (existingItemIndex !== -1) {
         state.items = state.items.map((item) => {
-          if (item._id === action.payload._id) {
+          if (
+            item._id === action.payload._id &&
+            item.size === action.payload.size
+          ) {
             return {
               ...item,
               amount:
@@ -42,49 +46,65 @@ const cartSlice = createSlice({
 
       // Save cart to localStorage
       localStorage.setItem('cartCollection', JSON.stringify(state));
+      console.log('cart total amount', state.totalAmount);
       toast.success('Item Added Successfully');
     },
 
     removeItem: (state, action: PayloadAction<CartType>) => {
-      const itemExist = state.items.find(
-        (item) => item._id === action.payload._id
+      const existingItemIndex = state.items.findIndex(
+        (item) =>
+          item._id === action.payload._id && item.size === action.payload.size
       );
 
-      if (itemExist) {
-        state.totalAmount -= itemExist.price;
+      if (existingItemIndex !== -1) {
+        const existingItem = state.items[existingItemIndex];
 
-        if (itemExist?.amount === 1) {
-          state.items = state.items.filter(
-            (item) => item._id !== itemExist._id
-          );
+        state.totalAmount -= existingItem.price;
 
-          localStorage.setItem('cartCollection', JSON.stringify(state));
-          toast.success('Item Removed Successfully');
+        if (existingItem?.amount === 1) {
+          // state.items = state.items.filter(
+          //   (item) => item.size !== existingItem.size
+          // );
+
+          state.items.splice(existingItemIndex, 1);
+
+          // localStorage.setItem('cartCollection', JSON.stringify(state));
+          // toast.success('Item Removed Successfully');
         } else {
           const updatedItems = {
-            ...itemExist,
-            amount: (itemExist?.amount as number) - 1,
+            ...existingItem,
+            amount: (existingItem?.amount as number) - 1,
           };
           state.items = state.items.map((item) =>
-            item._id === itemExist?._id ? updatedItems : item
+            item._id === existingItem?._id && item.size === existingItem?.size
+              ? updatedItems
+              : item
           );
-          localStorage.setItem('cartCollection', JSON.stringify(state));
-          toast.success('Item Removed Successfully');
         }
+
+        localStorage.setItem('cartCollection', JSON.stringify(state));
+        toast.success('Item Removed Successfully');
       }
     },
 
     deleteItem: (state, action: PayloadAction<CartType>) => {
-      const itemToDelete = state.items.find(
-        (item) => item._id === action.payload._id
+      const existingItemIndex = state.items.findIndex(
+        (item) =>
+          item._id === action.payload._id && item.size === action.payload.size
       );
 
-      if (itemToDelete) {
+      if (existingItemIndex !== -1) {
+        const existingItem = state.items[existingItemIndex];
+
         state.totalAmount -=
-          itemToDelete.price * (itemToDelete.amount as number);
-        state.items = state.items.filter(
-          (item) => item._id !== itemToDelete._id
-        );
+          existingItem.price * (existingItem.amount as number);
+        // console.log('cart total amount', state.totalAmount);
+
+        // state.items = state.items.filter(
+        //   (item) => item.size !== existingItem.size
+        // );
+        state.items.splice(existingItemIndex, 1);
+
         localStorage.setItem('cartCollection', JSON.stringify(state));
         toast.success('Item Removed successfully');
       }

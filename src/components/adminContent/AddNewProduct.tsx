@@ -39,6 +39,7 @@ const AddNewProduct = () => {
         description: formData.description,
         images: [...inputFileUrl],
         categoryId: formData.categoryId,
+        size: formData.size,
       };
 
       const result = await dispatch(createNewProduct(newProductData));
@@ -163,6 +164,29 @@ const AddNewProduct = () => {
                 {errors.categoryId && (
                   <span className='form-error animate-fadein'>
                     Category Id should match product type
+                  </span>
+                )}
+              </div>
+              <div className='mb-6'>
+                <label
+                  htmlFor='price'
+                  className='block mb-2 font-medium text-color-primary'
+                >
+                  Size *
+                </label>
+                <input
+                  className='form-input'
+                  required
+                  type='text'
+                  id='size'
+                  placeholder='S'
+                  {...register('size', {
+                    required: true,
+                  })}
+                />
+                {errors.size && (
+                  <span className='form-error animate-fadein'>
+                    size should be included
                   </span>
                 )}
               </div>

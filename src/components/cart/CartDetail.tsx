@@ -13,7 +13,7 @@ const CartDetail = () => {
   );
 
   return (
-    <div className='p-5 lg:p-10 bg-palette-ebony text-color-primary rounded-lg flex-1 max-md:mb-6'>
+    <div className='p-4 md:p-6 lg:p-7 bg-palette-ebony text-color-primary rounded-lg flex-1 max-md:mb-6'>
       <div className='sm:flex sm:justify-between mb-6 pb-6 border-b border-b-ebony'>
         <h1 className='text-lg lg:text-xl font-medium tracking-wide flex-1 max-md:mb-3'>
           Cart Items Selected
@@ -22,8 +22,8 @@ const CartDetail = () => {
           Total Items: {numberOfCartItems}
         </span>
       </div>
-      {items?.map((item) => (
-        <CartItem key={item._id} itemData={item} />
+      {items?.map((item, index) => (
+        <CartItem key={item._id + index} itemData={item} />
       ))}
     </div>
   );

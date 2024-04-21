@@ -7,7 +7,7 @@ export type ProductType = {
   description: string;
   images: string[];
   category: Category;
-  size?: string[];
+  size: string[];
 };
 
 export type ProductInitialState = {
@@ -24,6 +24,7 @@ export type NewProductType = {
   description: string;
   categoryId: string;
   images: string[];
+  size: string[];
 };
 
 export type ProductsList = {

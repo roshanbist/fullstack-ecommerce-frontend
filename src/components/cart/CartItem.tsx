@@ -41,7 +41,7 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
         />
       </div>
       <div className='sm:flex-1'>
-        <div className='sm:flex sm:justify-between mb-5 sm:mb-6 md:gap-3 lg:gap-5'>
+        <div className='sm:flex sm:justify-between mb-5 sm:mb-6 md:gap-3 lg:gap-4'>
           <h2
             className='lg:text-lg font-medium cursor-pointer flex-1'
             onClick={() => itemPageHandler(itemData?._id)}
@@ -52,7 +52,12 @@ const CartItem = ({ itemData }: { itemData: CartType }) => {
             € {(itemData?.price * (itemData?.amount as number)).toFixed(2)}
           </span>
         </div>
-        <div className='mb-5 flex gap-5 flex-wrap'>
+        <div className='mb-5 flex gap-4 flex-wrap'>
+          {itemData?.size && itemData?.size?.length > 0 && (
+            <span className='w-[40px] h-[40px] p-3 bg-blue-500 rounded-md text-white flex justify-center items-center'>
+              {itemData.size}
+            </span>
+          )}
           <span className='w-[80px] h-[35px] p-5 rounded-full bg-blue-500 text-white flex justify-center items-center'>
             x {itemData?.amount}
           </span>

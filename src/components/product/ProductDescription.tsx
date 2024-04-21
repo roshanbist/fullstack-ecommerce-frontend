@@ -10,6 +10,8 @@ import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
 
 const ProductDescription = ({ productData }: { productData: ProductType }) => {
   const [itemNumber, setItemNumber] = useState<number>(1);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const dispatch = useAppDispatch();
 
   const loggedUserInfo = useSelector(
@@ -25,7 +27,13 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
   };
 
   const addToCartHandler = (item: ProductType) => {
-    dispatch(addItem({ ...item, amount: itemNumber }));
+    if (!selectedSize) {
+      setErrorMessage('Please select the size');
+      return;
+    }
+
+    dispatch(addItem({ ...item, amount: itemNumber, size: selectedSize }));
+    setErrorMessage('');
   };
 
   useEffect(() => {
@@ -33,6 +41,8 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
       dispatch(getLoggedUserInfo());
     }
   }, [loggedUserInfo, dispatch]);
+
+  // console.log('product data', productData.size);
 
   return (
     <div className='sm:flex-1 p-3 md:p-5 text-color-primary sm:self-start'>
@@ -44,12 +54,41 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
         {productData.price.toFixed(2)}
       </span>
       <p className='tracking-wider mb-8'>{productData.description}</p>
-      <div className='size-list'>
-        <ul>
-          {productData.size?.map((item) => (
-            <li>{item}</li>
+      <div className='mb-8 '>
+        <span className='text-xl block mb-4 font-medium'>Size</span>
+        <ul className='flex flex-wrap gap-4'>
+          {productData.size?.map((item, index) => (
+            <li className={`mb-1`} key={item}>
+              <label
+                className={`relative flex items-center justify-center w-[50px] p-[10px] border-[2px] border-color-primary rounded-[5px] h-[50px] focus:outline-none uppercase shadow-sm cursor-pointer ${
+                  selectedSize === item
+                    ? 'border-blue-600 text-blue-600'
+                    : 'text-color-primary'
+                }`}
+                htmlFor={`radio-list-${index + 1}`}
+              >
+                <input
+                  type='radio'
+                  name='size-radio'
+                  id={`radio-list-${index + 1}`}
+                  aria-labelledby='product-choice'
+                  className='sr-only'
+                  value={item}
+                  onChange={() => {
+                    setSelectedSize(item);
+                    setErrorMessage('');
+                  }}
+                />
+                <span className='text-lg max-sm:text-sm'>{item}</span>
+              </label>
+            </li>
           ))}
         </ul>
+        {errorMessage && (
+          <span className='text-sm text-red-500 italic pt-1 block'>
+            {errorMessage}
+          </span>
+        )}
       </div>
       {loggedUserInfo && loggedUserInfo.role === 'customer' && (
         <div className='flex gap-4'>

@@ -8,8 +8,8 @@ export type CartType = {
   description: string;
   images: string[];
   category: Category;
+  size: string;
   amount?: number;
-  size?: string[];
 };
 
 export type CartInitialState = {

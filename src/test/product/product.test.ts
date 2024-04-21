@@ -28,6 +28,7 @@ const mockProductsData = [
     description: 'Description 1',
     category: { _id: '1', name: 'Category 1', image: 'Image 1' },
     images: ['Image 1'],
+    size: ['S', 'M'],
   },
   {
     _id: '2',
@@ -36,6 +37,7 @@ const mockProductsData = [
     description: 'Description 2',
     category: { _id: '2', name: 'Category 2', image: 'Image 2' },
     images: ['Image 2a', 'Image 2b'],
+    size: ['S', 'M'],
   },
   {
     _id: '3',
@@ -44,6 +46,7 @@ const mockProductsData = [
     description: 'Description 3',
     category: { _id: '3', name: 'Category 3', image: 'Image 3' },
     images: ['Image 3a', 'Image 3b'],
+    size: ['S', 'M'],
   },
 ];
 
@@ -54,6 +57,7 @@ const mockSingleProductData = {
   description: 'Description 4',
   category: { _id: '4', name: 'Category 4', image: 'Image 4' },
   images: ['Image 4a', 'Image4b'],
+  size: ['S', 'M'],
 };
 
 describe('product reducers', () => {
@@ -178,6 +182,7 @@ describe('product reducers', () => {
       description: 'Description 5',
       categoryId: '1',
       images: ['Image 5a', 'Image5b'],
+      size: ['S', 'M'],
     };
 
     const newProductState = productReducer(
@@ -203,6 +208,7 @@ describe('product reducers', () => {
       description: 'Description 5',
       categoryId: '5',
       images: ['Image 5a', 'Image5b'],
+      size: ['S', 'M'],
     };
 
     const apiResponseData: ProductType = {
@@ -211,6 +217,7 @@ describe('product reducers', () => {
       price: newProductData.price,
       description: newProductData.description,
       images: newProductData.images,
+      size: newProductData.size,
       category: {
         _id: newProductData.categoryId,
         name: 'Category 5',
@@ -243,6 +250,7 @@ describe('product reducers', () => {
       description: 'Description 5',
       categoryId: '1',
       images: ['Image 5a', 'Image5b'],
+      size: ['S', 'M'],
     };
 
     const newProductState = productReducer(

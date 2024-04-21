@@ -25,7 +25,7 @@ const Cart = () => {
           {itemExist ? (
             <Loader />
           ) : items && items.length > 0 ? (
-            <div className='md:flex md:justify-between md:gap-5 lg:gap-10'>
+            <div className='md:flex md:justify-between md:gap-5 lg:gap-7 xl:gap-10'>
               <CartDetail />
               <CartSummary />
             </div>

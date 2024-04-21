@@ -9,6 +9,9 @@ import { clearCart } from '../../redux/slices/CartSlice';
 const CartSummary = () => {
   const navigate = useNavigate();
   const totalAmount = useSelector((state: AppState) => state.carts.totalAmount);
+
+  console.log('totalAmount', totalAmount);
+
   const dispatch = useAppDispatch();
 
   const checkoutHandler = () => {
@@ -19,7 +22,7 @@ const CartSummary = () => {
   };
 
   return (
-    <div className='p-5 lg:p-10 bg-palette-ebony text-color-primary rounded-lg md:w-[36%] self-start'>
+    <div className='p-4 md:p-6 lg:p-7 bg-palette-ebony text-color-primary rounded-lg md:w-[36%] self-start'>
       <h1 className='text-lg lg:text-xl font-medium tracking-wide mb-5 sm:mb-7 pb-5 sm:pb-7 border-b border-b-ebony'>
         Cart Summary
       </h1>

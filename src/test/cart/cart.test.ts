@@ -16,6 +16,7 @@ const initialState: CartInitialState = {
       category: { _id: '1', name: 'Category 1', image: 'Image 1' },
       images: ['Image 1'],
       amount: 2,
+      size: 'S',
     },
 
     {
@@ -26,6 +27,7 @@ const initialState: CartInitialState = {
       category: { _id: '2', name: 'Category 2', image: 'Image 2' },
       images: ['Image 2'],
       amount: 3,
+      size: 'S',
     },
   ],
   totalAmount: 80,
@@ -39,6 +41,7 @@ const cartMockItem = {
   category: { _id: '3', name: 'Category 3', image: 'Image 3' },
   images: ['Image 3'],
   amount: 3,
+  size: 'S',
 };
 
 // test suits
@@ -63,6 +66,7 @@ describe('cart reducers', () => {
       category: { _id: '2', name: 'Category 2', image: 'Image 2' },
       images: ['Image 2'],
       amount: 3,
+      size: 'S',
     };
 
     const stateAfterRemove = cartReducer(
@@ -89,6 +93,7 @@ describe('cart reducers', () => {
       category: { _id: '2', name: 'Category 2', image: 'Image 2' },
       images: ['Image 2'],
       amount: 3,
+      size: 'S',
     };
 
     const stateAfterDelete = cartReducer(
@@ -113,6 +118,7 @@ describe('cart reducers', () => {
       category: { _id: '4', name: 'Category 4', image: 'Image 4' },
       images: ['Image 4'],
       amount: 3,
+      size: 'S',
     };
 
     const stateAfterDelete = cartReducer(
@@ -132,6 +138,7 @@ describe('cart reducers', () => {
       category: { _id: '1', name: 'Category 1', image: 'Image 1' },
       images: ['Image 1'],
       amount: 3,
+      size: 'S',
     };
 
     const stateAfterAdd = cartReducer(initialState, addItem(itemToAdd));
