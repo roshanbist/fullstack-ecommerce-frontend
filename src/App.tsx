@@ -99,9 +99,11 @@ function App() {
         <Route
           path='/cart'
           element={
-            <ProtectedRoute allowedRoles={['customer']}>
-              {<Cart />}
-            </ProtectedRoute>
+            // <ProtectedRoute allowedRoles={['customer']}>
+            // {
+            <Cart />
+            // }
+            // </ProtectedRoute>
           }
         />
         <Route path='*' element={<PageNotFound />} />

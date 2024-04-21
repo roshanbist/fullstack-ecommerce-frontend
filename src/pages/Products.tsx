@@ -9,8 +9,8 @@ import {
 } from '../redux/slices/ProductSlice';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
-import { priceOption } from '../constants';
-import { ProductFilters } from '../types/Product';
+import { priceOption, sortTitle } from '../constants';
+import { FilterProduct } from '../types/Product';
 import Pagination from '../components/pagination/Pagination';
 import usePagination from '../hook/usePagination';
 import { PaginationProps } from '../types/Pagination';
@@ -21,10 +21,11 @@ import NoMatchFound from '../components/noMatchFound/NoMatchFound';
 const Products = () => {
   const dispatch = useAppDispatch();
 
-  const [filterProducts, setFilterProducts] = useState<ProductFilters>({
+  const [filterProducts, setFilterProducts] = useState<FilterProduct>({
     categoryId: '',
     price: 0,
     title: '',
+    sortTitle: 'asc',
   });
 
   const { products, loading, error } = useSelector(
@@ -42,8 +43,8 @@ const Products = () => {
     usePagination(paginationInput);
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    dispatch(fetchAllProducts(filterProducts));
+  }, [dispatch, filterProducts]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -54,6 +55,7 @@ const Products = () => {
       categoryId: '',
       price: 0,
       title: '',
+      sortTitle: 'asc',
     });
   }, []);
 
@@ -71,6 +73,8 @@ const Products = () => {
     [dispatch, filterProducts]
   );
 
+  // console.log('filterproduct', filterProducts);
+
   const priceHandler = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({
@@ -80,6 +84,20 @@ const Products = () => {
 
       dispatch(
         filterProductsList({ ...filterProducts, price: +e.target.value })
+      );
+    },
+    [dispatch, filterProducts]
+  );
+
+  const sortTitleHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterProducts((prevFilters) => ({
+        ...prevFilters,
+        sortTitle: e.target.value,
+      }));
+
+      dispatch(
+        filterProductsList({ ...filterProducts, sortTitle: e.target.value })
       );
     },
     [dispatch, filterProducts]
@@ -148,6 +166,21 @@ const Products = () => {
                 {priceOption?.map((price, index) => (
                   <option key={index} value={price.value}>
                     {price.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
+              <select
+                className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
+                value={filterProducts.sortTitle}
+                onChange={sortTitleHandler}
+              >
+                <option value={'ASC'}>Sort title</option>
+                {sortTitle?.map((item, index) => (
+                  <option key={index} value={item.value}>
+                    {item.label}
                   </option>
                 ))}
               </select>

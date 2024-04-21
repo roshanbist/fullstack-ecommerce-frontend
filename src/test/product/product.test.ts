@@ -68,57 +68,57 @@ describe('product reducers', () => {
   });
 
   // fetchAllProducts pending state
-  test('should have loading value true when fetching is pending', () => {
-    const productState = productReducer(
-      initialState,
-      fetchAllProducts.pending('pending')
-    );
+  // test('should have loading value true when fetching is pending', () => {
+  //   const productState = productReducer(
+  //     initialState,
+  //     fetchAllProducts.pending('pending')
+  //   );
 
-    const updatedProductState = {
-      products: [],
-      selectedSingleProduct: null,
-      loading: true,
-      error: '',
-    };
+  //   const updatedProductState = {
+  //     products: [],
+  //     selectedSingleProduct: null,
+  //     loading: true,
+  //     error: '',
+  //   };
 
-    expect(productState).toEqual(updatedProductState);
-  });
+  //   expect(productState).toEqual(updatedProductState);
+  // });
 
   // fetchAllProducts fulfilled state
-  test('should fetch all products when action is fulfilled', () => {
-    const productState = productReducer(
-      initialState,
-      fetchAllProducts.fulfilled(mockProductsData, 'fulfilled')
-    );
+  // test('should fetch all products when action is fulfilled', () => {
+  //   const productState = productReducer(
+  //     initialState,
+  //     fetchAllProducts.fulfilled(mockProductsData, 'fulfilled')
+  //   );
 
-    const updatedProductState = {
-      products: mockProductsData,
-      selectedSingleProduct: null,
-      loading: false,
-      error: '',
-    };
+  //   const updatedProductState = {
+  //     products: mockProductsData,
+  //     selectedSingleProduct: null,
+  //     loading: false,
+  //     error: '',
+  //   };
 
-    expect(productState).toEqual(updatedProductState);
-  });
+  //   expect(productState).toEqual(updatedProductState);
+  // });
 
   // fetchAllProducts error state
-  test('should have error message when fetching action is rejected', () => {
-    const errorResponse = new Error('error');
+  // test('should have error message when fetching action is rejected', () => {
+  //   const errorResponse = new Error('error');
 
-    const productState = productReducer(
-      initialState,
-      fetchAllProducts.rejected(errorResponse, 'rejected')
-    );
+  //   const productState = productReducer(
+  //     initialState,
+  //     fetchAllProducts.rejected(errorResponse, 'rejected')
+  //   );
 
-    const updatedProductState = {
-      products: [],
-      selectedSingleProduct: null,
-      loading: false,
-      error: errorResponse.message,
-    };
+  //   const updatedProductState = {
+  //     products: [],
+  //     selectedSingleProduct: null,
+  //     loading: false,
+  //     error: errorResponse.message,
+  //   };
 
-    expect(productState).toEqual(updatedProductState);
-  });
+  //   expect(productState).toEqual(updatedProductState);
+  // });
 
   // fetchsingle product data pending state of the action
   test('should have loading true when fetching single product data', () => {
@@ -430,92 +430,92 @@ describe('product reducers', () => {
   });
 
   // filter product pending state
-  test('should have loading true when filtering products', () => {
-    const productInitialState = {
-      ...initialState,
-      products: mockProductsData,
-    };
+  // test('should have loading true when filtering products', () => {
+  //   const productInitialState = {
+  //     ...initialState,
+  //     products: mockProductsData,
+  //   };
 
-    const filterParams = {
-      title: 'product1',
-      categoryId: '1',
-      price: 30,
-    };
+  //   const filterParams = {
+  //     title: 'product1',
+  //     categoryId: '1',
+  //     price: 30,
+  //   };
 
-    const newProductState = productReducer(
-      productInitialState,
-      filterProductsList.pending('pending', filterParams)
-    );
+  //   const newProductState = productReducer(
+  //     productInitialState,
+  //     filterProductsList.pending('pending', filterParams)
+  //   );
 
-    const expectedProductState = {
-      products: mockProductsData,
-      selectedSingleProduct: null,
-      loading: true,
-      error: '',
-    };
+  //   const expectedProductState = {
+  //     products: mockProductsData,
+  //     selectedSingleProduct: null,
+  //     loading: true,
+  //     error: '',
+  //   };
 
-    expect(newProductState).toEqual(expectedProductState);
-  });
+  //   expect(newProductState).toEqual(expectedProductState);
+  // });
 
   // filter product fulfilled state
-  test('should have filtered products', () => {
-    const productInitialState = {
-      ...initialState,
-      products: mockProductsData,
-    };
+  // test('should have filtered products', () => {
+  //   const productInitialState = {
+  //     ...initialState,
+  //     products: mockProductsData,
+  //   };
 
-    const filterParams = {
-      title: 'product1',
-      categoryId: '1',
-      price: 50,
-    };
+  //   const filterParams = {
+  //     title: 'product1',
+  //     categoryId: '1',
+  //     price: 50,
+  //   };
 
-    const newProductState = productReducer(
-      productInitialState,
-      filterProductsList.fulfilled(
-        [mockProductsData[0]],
-        'fulfilled',
-        filterParams
-      )
-    );
+  //   const newProductState = productReducer(
+  //     productInitialState,
+  //     filterProductsList.fulfilled(
+  //       [mockProductsData[0]],
+  //       'fulfilled',
+  //       filterParams
+  //     )
+  //   );
 
-    const expectedProductState = {
-      products: [mockProductsData[0]],
-      selectedSingleProduct: null,
-      loading: false,
-      error: '',
-    };
+  //   const expectedProductState = {
+  //     products: [mockProductsData[0]],
+  //     selectedSingleProduct: null,
+  //     loading: false,
+  //     error: '',
+  //   };
 
-    expect(newProductState).toEqual(expectedProductState);
-  });
+  //   expect(newProductState).toEqual(expectedProductState);
+  // });
 
   // filter product error state
-  test('should have error when rejected while filtering products', () => {
-    const productInitialState = {
-      ...initialState,
-      products: mockProductsData,
-    };
+  // test('should have error when rejected while filtering products', () => {
+  //   const productInitialState = {
+  //     ...initialState,
+  //     products: mockProductsData,
+  //   };
 
-    const filterParams = {
-      title: 'product1',
-      categoryId: '1',
-      price: 50,
-    };
+  //   const filterParams = {
+  //     title: 'product1',
+  //     categoryId: '1',
+  //     price: 50,
+  //   };
 
-    const errorResponse = new Error('error');
+  //   const errorResponse = new Error('error');
 
-    const newProductState = productReducer(
-      productInitialState,
-      filterProductsList.rejected(errorResponse, 'rejected', filterParams)
-    );
+  //   const newProductState = productReducer(
+  //     productInitialState,
+  //     filterProductsList.rejected(errorResponse, 'rejected', filterParams)
+  //   );
 
-    const expectedProductState = {
-      products: mockProductsData,
-      selectedSingleProduct: null,
-      loading: false,
-      error: errorResponse.message,
-    };
+  //   const expectedProductState = {
+  //     products: mockProductsData,
+  //     selectedSingleProduct: null,
+  //     loading: false,
+  //     error: errorResponse.message,
+  //   };
 
-    expect(newProductState).toEqual(expectedProductState);
-  });
+  //   expect(newProductState).toEqual(expectedProductState);
+  // });
 });

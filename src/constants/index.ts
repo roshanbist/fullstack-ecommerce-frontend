@@ -47,3 +47,8 @@ export const priceOption: PriceOption[] = [
   { value: '150', label: '€150 to €200' },
   { value: '200', label: 'Above €200' },
 ];
+
+export const sortTitle: PriceOption[] = [
+  { value: 'asc', label: 'Sort title by ascending' },
+  { value: 'desc', label: 'Sort title by descending' },
+];

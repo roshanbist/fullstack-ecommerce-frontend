@@ -1,20 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { AppState, useAppDispatch } from '../../redux/store';
 import { clearCart } from '../../redux/slices/CartSlice';
+import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
 
 const CartSummary = () => {
   const navigate = useNavigate();
-  const totalAmount = useSelector((state: AppState) => state.carts.totalAmount);
-
-  console.log('totalAmount', totalAmount);
-
   const dispatch = useAppDispatch();
 
+  const totalAmount = useSelector((state: AppState) => state.carts.totalAmount);
+
+  // console.log('totalAmount', totalAmount);
+
+  const loggedUserInfo = useSelector(
+    (state: AppState) => state.users.loggedUser
+  );
+
+  useEffect(() => {
+    if (!loggedUserInfo) {
+      dispatch(getLoggedUserInfo);
+    }
+  }, [loggedUserInfo, dispatch]);
+
   const checkoutHandler = () => {
+    if (!loggedUserInfo) {
+      toast.info('Please login to your account first');
+
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
+
+      return;
+    }
+
+    // If the user is logged in, proceed with the checkout process
     toast.success('Thank you for Ordering');
     localStorage.removeItem('cartCollection');
     dispatch(clearCart());

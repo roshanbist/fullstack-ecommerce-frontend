@@ -33,22 +33,22 @@ const CartButton = () => {
 
   return (
     <>
-      {loggedUserInfo && loggedUserInfo.role === 'customer' && (
-        <button
-          type='button'
-          className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative animate-fade'
-          onClick={cartHandler}
-        >
-          <FontAwesomeIcon icon={faCartShopping} className='text-[26px]' />
-          {numberOfCartItems !== 0 ? (
-            <span className='animate-fade absolute rounded-[44px] bg-blue-500 text-[12px] px-2 -top-[16px] -right-3.5 py-1.5 text-white font-medium leading-[1]'>
-              {numberOfCartItems}
-            </span>
-          ) : (
-            ''
-          )}
-        </button>
-      )}
+      {/* {loggedUserInfo && loggedUserInfo.role === 'customer' && ( */}
+      <button
+        type='button'
+        className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative animate-fade'
+        onClick={cartHandler}
+      >
+        <FontAwesomeIcon icon={faCartShopping} className='text-[26px]' />
+        {numberOfCartItems !== 0 ? (
+          <span className='animate-fade absolute rounded-[44px] bg-blue-500 text-[12px] px-2 -top-[16px] -right-3.5 py-1.5 text-white font-medium leading-[1]'>
+            {numberOfCartItems}
+          </span>
+        ) : (
+          ''
+        )}
+      </button>
+      {/* // )} */}
     </>
   );
 };

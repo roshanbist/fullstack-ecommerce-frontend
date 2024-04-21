@@ -42,8 +42,6 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
     }
   }, [loggedUserInfo, dispatch]);
 
-  // console.log('product data', productData.size);
-
   return (
     <div className='sm:flex-1 p-3 md:p-5 text-color-primary sm:self-start'>
       <h1 className='text-xl md:text-2xl font-medium pb-4 mb-5 border-b border-color-primary tracking-wide'>
@@ -60,10 +58,10 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
           {productData.size?.map((item, index) => (
             <li className={`mb-1`} key={item}>
               <label
-                className={`relative flex items-center justify-center w-[50px] p-[10px] border-[2px] border-color-primary rounded-[5px] h-[50px] focus:outline-none uppercase shadow-sm cursor-pointer ${
+                className={`relative flex items-center justify-center w-[50px] p-[10px] border-[2px] rounded-[5px] h-[50px] focus:outline-none uppercase shadow-sm cursor-pointer ${
                   selectedSize === item
                     ? 'border-blue-600 text-blue-600'
-                    : 'text-color-primary'
+                    : 'border-color-primary text-color-primary'
                 }`}
                 htmlFor={`radio-list-${index + 1}`}
               >
@@ -90,37 +88,37 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
           </span>
         )}
       </div>
-      {loggedUserInfo && loggedUserInfo.role === 'customer' && (
-        <div className='flex gap-4'>
-          <div className='flex border border-color-primary items-center gap-x-4 py-4 px-6 rounded-xl'>
-            <span
-              className='icon-minus cursor-pointer text-color-primary'
-              role='button'
-              onClick={removeHandler}
-            >
-              <FontAwesomeIcon icon={faMinus} className='text-lg' />
-            </span>
-            <p className='w-4 text-center select-none font-medium'>
-              {itemNumber}
-            </p>
-            <input type='hidden' name='quantity' value='1' />
-            <span
-              className='icon-plus cursor-pointer text-color-primary'
-              role='button'
-              onClick={addHandler}
-            >
-              <FontAwesomeIcon icon={faPlus} className='text-lg' />
-            </span>
-          </div>
-          <button
-            className='btn-primary w-full max-w-full rounded-xl'
-            type='submit'
-            onClick={() => addToCartHandler(productData)}
+      {/* {loggedUserInfo && loggedUserInfo.role === 'customer' && ( */}
+      <div className='flex gap-4'>
+        <div className='flex border border-color-primary items-center gap-x-4 py-4 px-6 rounded-xl'>
+          <span
+            className='icon-minus cursor-pointer text-color-primary'
+            role='button'
+            onClick={removeHandler}
           >
-            Add To Cart
-          </button>
+            <FontAwesomeIcon icon={faMinus} className='text-lg' />
+          </span>
+          <p className='w-4 text-center select-none font-medium'>
+            {itemNumber}
+          </p>
+          <input type='hidden' name='quantity' value='1' />
+          <span
+            className='icon-plus cursor-pointer text-color-primary'
+            role='button'
+            onClick={addHandler}
+          >
+            <FontAwesomeIcon icon={faPlus} className='text-lg' />
+          </span>
         </div>
-      )}
+        <button
+          className='btn-primary w-full max-w-full rounded-xl'
+          type='submit'
+          onClick={() => addToCartHandler(productData)}
+        >
+          Add To Cart
+        </button>
+      </div>
+      {/* // )} */}
     </div>
   );
 };

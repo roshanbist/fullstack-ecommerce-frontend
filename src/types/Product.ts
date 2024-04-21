@@ -37,10 +37,23 @@ export type PriceOption = {
   label: string;
 };
 
-export type ProductFilters = {
+export type sortTitle = {
+  value: string;
+  label: string;
+};
+
+// export type ProductFilters = {
+//   title?: string;
+//   categoryId?: string;
+//   price?: number;
+//   sortTitle?: string;
+// };
+
+export type FilterProduct = {
+  title?: string;
   categoryId?: string;
   price?: number;
-  title?: string;
+  sortTitle?: string;
 };
 
 export type TestNewProductType = {

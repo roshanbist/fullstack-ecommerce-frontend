@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import { AppState, useAppDispatch } from '../../redux/store';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { ProductFilters } from '../../types/Product';
+import { FilterProduct } from '../../types/Product';
 import { PaginationProps } from '../../types/Pagination';
 import usePagination from '../../hook/usePagination';
 import {
@@ -15,7 +15,7 @@ import {
 import { fetchAllCategories } from '../../redux/slices/CategorySlice';
 import Pagination from '../pagination/Pagination';
 import AdminProductCard from './AdminProductCard';
-import { priceOption } from '../../constants';
+import { priceOption, sortTitle } from '../../constants';
 import Loader from '../loader/Loader';
 import NoMatchFound from '../noMatchFound/NoMatchFound';
 
@@ -23,10 +23,11 @@ const ProductDashboard = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [filterProducts, setFilterProducts] = useState<ProductFilters>({
+  const [filterProducts, setFilterProducts] = useState<FilterProduct>({
     categoryId: '0',
     price: 0,
     title: '',
+    sortTitle: 'ASC',
   });
 
   const { products, loading, error } = useSelector(
@@ -44,8 +45,8 @@ const ProductDashboard = () => {
     usePagination(paginationInput);
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    dispatch(fetchAllProducts(filterProducts));
+  }, [dispatch, filterProducts]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -56,6 +57,7 @@ const ProductDashboard = () => {
       categoryId: '0',
       price: 0,
       title: '',
+      sortTitle: 'ASC',
     });
   }, []);
 
@@ -115,6 +117,20 @@ const ProductDashboard = () => {
     navigate('/add-new-product');
   };
 
+  const sortTitleHandler = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterProducts((prevFilters) => ({
+        ...prevFilters,
+        sortTitle: e.target.value,
+      }));
+
+      dispatch(
+        filterProductsList({ ...filterProducts, sortTitle: e.target.value })
+      );
+    },
+    [dispatch, filterProducts]
+  );
+
   return (
     <ContentWrapper>
       <div className='max-container'>
@@ -164,6 +180,20 @@ const ProductDashboard = () => {
                 {priceOption?.map((price, index) => (
                   <option key={index} value={price.value}>
                     {price.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
+              <select
+                className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
+                value={filterProducts.sortTitle}
+                onChange={sortTitleHandler}
+              >
+                <option value={'ASC'}>Sort title</option>
+                {sortTitle?.map((item, index) => (
+                  <option key={index} value={item.value}>
+                    {item.label}
                   </option>
                 ))}
               </select>

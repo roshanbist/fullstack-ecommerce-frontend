@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
 import {
+  FilterProduct,
   NewProductType,
-  ProductFilters,
+  // ProductFilters,
   ProductInitialState,
   ProductType,
   ProductsList,
@@ -24,9 +25,44 @@ const initialState: ProductInitialState = {
 // Thunk action creator to fetch all products asynchronously
 export const fetchAllProducts = createAsyncThunk(
   'fetchAllProducts',
-  async (_, { rejectWithValue }) => {
+  async (filterParams: Partial<FilterProduct> = {}, { rejectWithValue }) => {
+    let newUrl: string = URL;
+    let querySeparator: string = '?';
+
+    const { title, price, categoryId, sortTitle } = filterParams;
+
+    if (title) {
+      newUrl += `${querySeparator}title=${title}`;
+      querySeparator = '&';
+    }
+
+    if (price) {
+      if (price === 1) {
+        newUrl += `${querySeparator}min_price=${price}&max_price=${price + 49}`;
+        querySeparator = '&';
+      } else if (price < 200) {
+        newUrl += `${querySeparator}min_price=${price}&max_price=${price + 50}`;
+        querySeparator = '&';
+      } else if (price === 200) {
+        newUrl += `${querySeparator}min_price=${price}&max_price=${Infinity}`;
+        querySeparator = '&';
+      }
+    }
+
+    if (categoryId) {
+      newUrl += `${querySeparator}category=${categoryId}`;
+      querySeparator = '&';
+    }
+
+    if (sortTitle) {
+      newUrl += `${querySeparator}sort_title=${sortTitle}`;
+      querySeparator = '&';
+    }
+
+    console.log('query params', newUrl);
+
     try {
-      const response = await fetch(URL);
+      const response = await fetch(newUrl);
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -153,52 +189,44 @@ export const deleteProduct = createAsyncThunk(
 // filter products
 export const filterProductsList = createAsyncThunk(
   'filterProducts',
-  async (params: ProductFilters, { rejectWithValue }) => {
-    let queryParams = '';
-
-    if (params.title) {
-      const titleText = params.title.trim();
-
-      queryParams += `title=${titleText}&`;
-    }
-
-    if (params.categoryId) {
-      queryParams += `category=${params.categoryId}&`;
-    }
-
-    if (params.price) {
-      if (params.price === 1) {
-        queryParams += `min_price=${params.price}&max_price=${
-          params.price + 49
-        }&`;
-      } else if (params.price < 200) {
-        queryParams += `min_price=${params.price}&max_price=${
-          params.price + 50
-        }&`;
-      } else if (params.price === 200) {
-        queryParams += `min_price=${params.price}&max_price=100000&`;
-      }
-    }
-
-    queryParams = queryParams.slice(0, -1);
-
-    try {
-      const response = await fetch(`${URL}/?${queryParams}`);
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        toast.error(errorResponse.message);
-        return rejectWithValue(errorResponse.message);
-      }
-
-      // const data: ProductType[] = await response.json();
-      const productsResult: ProductsList = await response.json();
-      const data: ProductType[] = productsResult.products;
-      return data;
-    } catch (e) {
-      const error = e as Error;
-      return rejectWithValue(error.message);
-    }
+  async (params: FilterProduct, { rejectWithValue }) => {
+    // let queryParams = '';
+    // if (params.title) {
+    //   const titleText = params.title.trim();
+    //   queryParams += `title=${titleText}&`;
+    // }
+    // if (params.categoryId) {
+    //   queryParams += `category=${params.categoryId}&`;
+    // }
+    // if (params.price) {
+    //   if (params.price === 1) {
+    //     queryParams += `min_price=${params.price}&max_price=${
+    //       params.price + 49
+    //     }&`;
+    //   } else if (params.price < 200) {
+    //     queryParams += `min_price=${params.price}&max_price=${
+    //       params.price + 50
+    //     }&`;
+    //   } else if (params.price === 200) {
+    //     queryParams += `min_price=${params.price}&max_price=100000&`;
+    //   }
+    // }
+    // queryParams = queryParams.slice(0, -1);
+    // try {
+    //   const response = await fetch(`${URL}/?${queryParams}`);
+    //   if (!response.ok) {
+    //     const errorResponse = await response.json();
+    //     toast.error(errorResponse.message);
+    //     return rejectWithValue(errorResponse.message);
+    //   }
+    //   // const data: ProductType[] = await response.json();
+    //   const productsResult: ProductsList = await response.json();
+    //   const data: ProductType[] = productsResult.products;
+    //   return data;
+    // } catch (e) {
+    //   const error = e as Error;
+    //   return rejectWithValue(error.message);
+    // }
   }
 );
 
@@ -357,32 +385,32 @@ const productSlice = createSlice({
     });
 
     // delete product to products array if fulfilled
-    builder.addCase(filterProductsList.fulfilled, (state, action) => {
-      return {
-        ...state,
-        products: action.payload,
-        loading: false,
-        error: '',
-      };
-    });
+    // builder.addCase(filterProductsList.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     products: action.payload,
+    //     loading: false,
+    //     error: '',
+    //   };
+    // });
 
     // handle pending state
-    builder.addCase(filterProductsList.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-        error: '',
-      };
-    });
+    // builder.addCase(filterProductsList.pending, (state, action) => {
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //     error: '',
+    //   };
+    // });
 
     // handle rejected state
-    builder.addCase(filterProductsList.rejected, (state, action) => {
-      return {
-        ...state,
-        error: action.error.message,
-        loading: false,
-      };
-    });
+    // builder.addCase(filterProductsList.rejected, (state, action) => {
+    //   return {
+    //     ...state,
+    //     error: action.error.message,
+    //     loading: false,
+    //   };
+    // });
   },
 });
 

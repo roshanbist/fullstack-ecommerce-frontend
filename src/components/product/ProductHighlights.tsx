@@ -14,7 +14,7 @@ const ProductHighlights = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
+    dispatch(fetchAllProducts({}));
   }, [dispatch]);
 
   return (

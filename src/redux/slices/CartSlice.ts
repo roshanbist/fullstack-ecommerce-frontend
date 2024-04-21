@@ -46,7 +46,6 @@ const cartSlice = createSlice({
 
       // Save cart to localStorage
       localStorage.setItem('cartCollection', JSON.stringify(state));
-      console.log('cart total amount', state.totalAmount);
       toast.success('Item Added Successfully');
     },
 
