@@ -12,6 +12,7 @@ import {
   Register,
   CustomerProfile,
   AdminProfile,
+  MyOrderList,
   Cart,
   PageNotFound,
 } from './pages';
@@ -53,6 +54,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               {<CustomerProfile />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/order-list'
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              {<MyOrderList />}
             </ProtectedRoute>
           }
         />

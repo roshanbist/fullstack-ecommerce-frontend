@@ -42,7 +42,7 @@ const Products = () => {
   };
 
   // console.log('offset data', filterProducts.offset);
-  console.log('curernt page', currentPage);
+  // console.log('curernt page', currentPage);
 
   useEffect(() => {
     dispatch(fetchAllProducts(filterProducts));

@@ -68,6 +68,15 @@ const UserDropdown = ({
         </Link>
       </li>
       <li className='border-b border-b-palette-accent'>
+        <Link
+          className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/order-list'}
+          onClick={dropdownCloseHandler}
+        >
+          My Order List
+        </Link>
+      </li>
+      <li className='border-b border-b-palette-accent'>
         <button
           className='w-full text-left block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
           onClick={logoutHandler}

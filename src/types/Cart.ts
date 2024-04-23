@@ -9,7 +9,7 @@ export type CartType = {
   images: string[];
   category: Category;
   size: string;
-  amount?: number;
+  amount: number;
 };
 
 export type CartInitialState = {

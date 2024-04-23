@@ -7,3 +7,4 @@ export { default as CustomerProfile } from './CustomerProfile';
 export { default as AdminProfile } from './AdminProfile';
 export { default as Cart } from './Cart';
 export { default as PageNotFound } from './PageNotFound';
+export { default as MyOrderList } from './MyOrderList';

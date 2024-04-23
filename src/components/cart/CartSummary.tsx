@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { clearCart } from '../../redux/slices/CartSlice';
 import { getLoggedUserInfo } from '../../redux/slices/UserSlice';
+import { BASE_URL } from '../../utils/api';
 
 const CartSummary = () => {
   const navigate = useNavigate();
@@ -13,34 +14,108 @@ const CartSummary = () => {
 
   const totalAmount = useSelector((state: AppState) => state.carts.totalAmount);
 
+  const orderProducts = useSelector((state: AppState) => state.carts.items);
+  // const totalPrice = useSelector((state: AppState) => state.carts.totalAmount);
+
+  // console.log('cartProducts', cartProducts, totalAmount);
+
   // console.log('totalAmount', totalAmount);
 
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
 
+  // const { accessToken } = JSON.parse(
+  //   localStorage.getItem('userToken') as string
+  // );
+
+  // console.log('userTokenstring', accessToken);
+
   useEffect(() => {
     if (!loggedUserInfo) {
       dispatch(getLoggedUserInfo);
     }
-  }, [loggedUserInfo, dispatch]);
+  }, [dispatch, loggedUserInfo]);
 
-  const checkoutHandler = () => {
-    if (!loggedUserInfo) {
-      toast.info('Please login to your account first');
+  // const checkoutHandler = async () => {
+  //   if (loggedUserInfo) {
+  //     // If the user is logged in, proceed with the checkout process
 
-      setTimeout(() => {
-        navigate('/login');
-      }, 1000);
+  //     // send cart information to backend
+  //     //endpoints :
+  //     // method: POST
+  //     // data: cartitems
 
-      return;
+  //     const response = await fetch(`${BASE_URL}/users`, {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ items: cartProducts }),
+  //     });
+
+  //     console.log('response', response);
+
+  //     // toast.success('Thank you for Ordering');
+  //     // localStorage.removeItem('cartCollection');
+  //     // dispatch(clearCart());
+  //     // navigate('/');
+  //   } else {
+  //     toast.info('Please login to your account');
+  //     setTimeout(() => {
+  //       navigate('/login');
+  //     }, 1000);
+
+  //     return;
+  //   }
+  // };
+
+  const checkoutHandler = async () => {
+    try {
+      if (loggedUserInfo) {
+        const { accessToken } = JSON.parse(
+          localStorage.getItem('userToken') as string
+        );
+
+        const response = await fetch(`${BASE_URL}/orders`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            items: orderProducts,
+            totalPrice: totalAmount,
+          }),
+        });
+
+        if (response.status === 201) {
+          // const data = await response.json();
+
+          // console.log('data', data);
+          // Handle successful response (e.g., display success message)
+          toast.success('Thank you for Ordering');
+          localStorage.removeItem('cartCollection');
+          dispatch(clearCart());
+          // better to take your order page
+          navigate('/');
+        } else {
+          // Handle unsuccessful response (e.g., display error message)
+          const errorData = await response.json();
+          toast.error(errorData.message || 'An error occurred');
+        }
+      } else {
+        toast.info('Please login to your account');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      }
+    } catch (error) {
+      // Handle unexpected errors (e.g., network issues)
+      console.error('An error occurred:', error);
+      toast.error('An unexpected error occurred');
     }
-
-    // If the user is logged in, proceed with the checkout process
-    toast.success('Thank you for Ordering');
-    localStorage.removeItem('cartCollection');
-    dispatch(clearCart());
-    navigate('/');
   };
 
   return (

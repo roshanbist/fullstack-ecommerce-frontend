@@ -67,7 +67,7 @@ export const fetchAllProducts = createAsyncThunk(
 
     // console.log('offset', offset, 'limit', limit);
 
-    console.log('query', newUrl);
+    // console.log('query', newUrl);
 
     try {
       const response = await fetch(newUrl);
