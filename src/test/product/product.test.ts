@@ -14,7 +14,7 @@ import {
 
 const initialState: ProductInitialState = {
   products: [],
-  totalNumber: 0,
+  total: 0,
   selectedSingleProduct: null,
   loading: false,
   error: '',

@@ -28,6 +28,7 @@ const Pagination = (props: PaginationUIProps) => {
       containerClassName='flex items-center justify-center mt-8 mb-8 pagination' // <ul>
       activeClassName='active'
       renderOnZeroPageCount={null}
+      forcePage={props.currentPage}
     />
   );
 };

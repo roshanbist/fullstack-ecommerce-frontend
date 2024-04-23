@@ -13,11 +13,14 @@ const usePagination = (props: PaginationProps) => {
     setStartIndex(currentPage * props.showPerPage);
     setLastIndex(startIndex + props.showPerPage);
     setTotalPage(Math.ceil(props.totalItems / props.showPerPage));
-  }, [currentPage, props.showPerPage, startIndex, props.totalItems]);
+  }, [currentPage, props.showPerPage, props.totalItems, startIndex]);
 
   const handlePageChange = (data: { selected: number }) => {
     setCurrentPage(data.selected);
   };
+
+  // const startIndex = currentPage * props.showPerPage;
+  // const lastIndex = Math.min(startIndex + props.showPerPage, props.totalItems);
 
   return {
     currentPage,

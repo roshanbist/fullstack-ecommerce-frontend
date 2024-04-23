@@ -95,7 +95,7 @@ body.mobile-nav {
   }
 
   .page-item.active .page-link {
-    @apply bg-blue-600 text-white;
+    @apply bg-blue-600 text-white cursor-default;
   }
 
   .user-dropdown {

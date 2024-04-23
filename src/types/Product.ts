@@ -12,7 +12,7 @@ export type ProductType = {
 
 export type ProductInitialState = {
   products: ProductType[];
-  totalNumber: number;
+  total: number;
   selectedSingleProduct?: ProductType | null;
   loading: boolean;
   error?: string | null;
@@ -54,6 +54,8 @@ export type FilterProduct = {
   categoryId?: string;
   price?: number;
   sortTitle?: string;
+  offset?: number;
+  limit?: number;
 };
 
 export type TestNewProductType = {

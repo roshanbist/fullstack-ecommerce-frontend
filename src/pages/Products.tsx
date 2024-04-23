@@ -1,19 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import lodash from 'lodash';
+import { debounce } from 'lodash';
 
 import { AppState, useAppDispatch } from '../redux/store';
-import {
-  fetchAllProducts,
-  filterProductsList,
-} from '../redux/slices/ProductSlice';
+import { fetchAllProducts } from '../redux/slices/ProductSlice';
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
 import { fetchAllCategories } from '../redux/slices/CategorySlice';
 import { priceOption, sortTitle } from '../constants';
 import { FilterProduct } from '../types/Product';
 import Pagination from '../components/pagination/Pagination';
-import usePagination from '../hook/usePagination';
-import { PaginationProps } from '../types/Pagination';
 import ProductCard from '../components/product/ProductCard';
 import Loader from '../components/loader/Loader';
 import NoMatchFound from '../components/noMatchFound/NoMatchFound';
@@ -25,22 +20,29 @@ const Products = () => {
     categoryId: '',
     price: 0,
     title: '',
-    sortTitle: 'asc',
+    sortTitle: '',
+    offset: 1,
+    limit: 4,
   });
 
-  const { products, loading, error } = useSelector(
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const { products, total, loading, error } = useSelector(
     (state: AppState) => state.products
   );
 
   const { categories } = useSelector((state: AppState) => state.categories);
 
-  let paginationInput: PaginationProps = {
-    totalItems: products.length,
-    showPerPage: 12,
+  const handlePageChange = (data: { selected: number }) => {
+    setCurrentPage(data.selected);
+    setFilterProducts((prevFilters) => ({
+      ...prevFilters,
+      offset: data.selected + 1,
+    }));
   };
 
-  const { currentPage, startIndex, lastIndex, totalPage, handlePageChange } =
-    usePagination(paginationInput);
+  // console.log('offset data', filterProducts.offset);
+  console.log('curernt page', currentPage);
 
   useEffect(() => {
     dispatch(fetchAllProducts(filterProducts));
@@ -55,74 +57,64 @@ const Products = () => {
       categoryId: '',
       price: 0,
       title: '',
-      sortTitle: 'asc',
+      sortTitle: '',
+      offset: 1,
+      limit: 4,
     });
   }, []);
 
-  const categoryHandler = useCallback(
+  const onCategoryChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({
         ...prevFilters,
         categoryId: e.target.value,
+        offset: 1,
       }));
-
-      dispatch(
-        filterProductsList({ ...filterProducts, categoryId: e.target.value })
-      );
+      setCurrentPage(0);
     },
-    [dispatch, filterProducts]
+    []
   );
 
-  // console.log('filterproduct', filterProducts);
-
-  const priceHandler = useCallback(
+  const onPriceChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setFilterProducts((prevFilters) => ({
         ...prevFilters,
         price: +e.target.value,
+        offset: 1,
       }));
-
-      dispatch(
-        filterProductsList({ ...filterProducts, price: +e.target.value })
-      );
+      setCurrentPage(0);
     },
-    [dispatch, filterProducts]
+    []
   );
 
-  const sortTitleHandler = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setFilterProducts((prevFilters) => ({
-        ...prevFilters,
-        sortTitle: e.target.value,
-      }));
-
-      dispatch(
-        filterProductsList({ ...filterProducts, sortTitle: e.target.value })
-      );
-    },
-    [dispatch, filterProducts]
-  );
-
-  const inputSearchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  const onSortTitle = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterProducts((prevFilters) => ({
       ...prevFilters,
-      title: value,
+      sortTitle: e.target.value,
+      offset: 1,
     }));
+    setCurrentPage(0);
+  }, []);
 
-    const searchValue = value;
-
-    debouncedHandleSearch(searchValue);
-  };
-
-  const debounceSearchByTitle = (value: string) => {
-    dispatch(filterProductsList({ ...filterProducts, title: value }));
-  };
-
-  const debouncedHandleSearch = useCallback(
-    lodash.debounce(debounceSearchByTitle, 600),
-    [filterProducts.title]
+  const onTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      setFilterProducts((prevFilters) => ({
+        ...prevFilters,
+        title: value,
+        offset: 1,
+      }));
+      setCurrentPage(0);
+    },
+    []
   );
+
+  const debounceHandleSearch = debounce(onTitleChange, 500);
+  const debounceHandleCategory = debounce(onCategoryChange, 300);
+  const debounceHandlePrice = debounce(onPriceChange, 300);
+  const debounceHandleSortTitle = debounce(onSortTitle, 200);
+
+  const totalPage = Math.ceil(total / (filterProducts.limit as number));
 
   return (
     <ContentWrapper>
@@ -135,18 +127,18 @@ const Products = () => {
           <div className='mb-5'>
             <input
               className='form-input border border-palette-accent bg-palette-ebony'
-              type='search'
-              value={filterProducts.title}
+              type='text'
+              // value={filterProducts.title}
               placeholder='Search here'
-              onChange={inputSearchHandler}
+              onChange={debounceHandleSearch}
             />
           </div>
-          <div className='mb-5 flex flex-wrap max-md:-mx-[5px] sm:gap-5'>
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
+          <div className='flex flex-wrap max-md:-mx-[5px] sm:gap-5'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                value={filterProducts.categoryId}
-                onChange={categoryHandler}
+                // value={filterProducts.categoryId}
+                onChange={debounceHandleCategory}
               >
                 <option value=''>Filter by category</option>
                 {categories?.map((categ) => (
@@ -156,11 +148,11 @@ const Products = () => {
                 ))}
               </select>
             </div>
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                value={filterProducts.price}
-                onChange={priceHandler}
+                // value={filterProducts.price}
+                onChange={debounceHandlePrice}
               >
                 <option value={0}>Filter by price</option>
                 {priceOption?.map((price, index) => (
@@ -171,13 +163,13 @@ const Products = () => {
               </select>
             </div>
 
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
+            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                value={filterProducts.sortTitle}
-                onChange={sortTitleHandler}
+                // value={filterProducts.sortTitle}
+                onChange={debounceHandleSortTitle}
               >
-                <option value={'ASC'}>Sort title</option>
+                <option value={''}>Sort title</option>
                 {sortTitle?.map((item, index) => (
                   <option key={index} value={item.value}>
                     {item.label}
@@ -190,7 +182,7 @@ const Products = () => {
             <Loader />
           ) : products && products.length > 0 ? (
             <div className='grid sm:grid-cols-2 lg:grid-cols-3 relative gap-7'>
-              {products.slice(startIndex, lastIndex).map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product._id} productData={product} />
               ))}
             </div>

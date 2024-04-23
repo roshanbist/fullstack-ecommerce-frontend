@@ -16,7 +16,7 @@ const URL = `${BASE_URL}/products`;
 
 const initialState: ProductInitialState = {
   products: [],
-  totalNumber: 0,
+  total: 0,
   selectedSingleProduct: null,
   loading: false,
   error: '',
@@ -29,7 +29,7 @@ export const fetchAllProducts = createAsyncThunk(
     let newUrl: string = URL;
     let querySeparator: string = '?';
 
-    const { title, price, categoryId, sortTitle } = filterParams;
+    const { title, price, categoryId, sortTitle, offset, limit } = filterParams;
 
     if (title) {
       newUrl += `${querySeparator}title=${title}`;
@@ -59,7 +59,15 @@ export const fetchAllProducts = createAsyncThunk(
       querySeparator = '&';
     }
 
-    console.log('query params', newUrl);
+    if (offset && limit) {
+      newUrl += `${querySeparator}offset=${
+        (offset - 1) * limit
+      }&limit=${limit}`;
+    }
+
+    // console.log('offset', offset, 'limit', limit);
+
+    console.log('query', newUrl);
 
     try {
       const response = await fetch(newUrl);
@@ -71,8 +79,10 @@ export const fetchAllProducts = createAsyncThunk(
       }
 
       // const data: ProductType[] = await response.json();
-      const productsResult: ProductsList = await response.json();
-      const data: ProductType[] = productsResult.products;
+      // const productsResult: ProductsList = await response.json();
+      const data: ProductsList = await response.json();
+      // console.log('productsResult', productsResult);
+      // const data: ProductType[] = productsResult.products;
       return data;
     } catch (e) {
       const error = e as Error;
@@ -240,7 +250,8 @@ const productSlice = createSlice({
     builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.products,
+        total: action.payload.total,
         loading: false,
         error: '',
       };
