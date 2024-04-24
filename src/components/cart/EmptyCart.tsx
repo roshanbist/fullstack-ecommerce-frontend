@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CartImage from '../../assets/images/empty-cart.png';
+import { EmptyCartMessage } from '../../types/Cart';
 
-const EmptyCart = () => {
+const EmptyCart = ({ message }: { message: EmptyCartMessage }) => {
   const navigate = useNavigate();
 
   return (
@@ -12,12 +13,9 @@ const EmptyCart = () => {
         <img src={CartImage} className='w-full' alt='Empty Cart' />
       </div>
       <p className='text-xl font-medium tracking-wide mb-5'>
-        Your cart is empty
+        {message.message1}
       </p>
-      <p className='tracking-wide mb-8'>
-        Looks like you have not added anything to your cart. Explore the
-        products.
-      </p>
+      <p className='tracking-wide mb-8'>{message.message2}</p>
       <button
         className='btn-primary rounded-lg animate-bounce'
         onClick={() => navigate('/products')}

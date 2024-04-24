@@ -7,6 +7,7 @@ import CartSummary from '../components/cart/CartSummary';
 import EmptyCart from '../components/cart/EmptyCart';
 import { AppState } from '../redux/store';
 import Loader from '../components/loader/Loader';
+import { EmptyCartMessage } from '../types/Cart';
 
 const Cart = () => {
   const [itemExist, setItemExist] = useState<boolean>(true);
@@ -17,6 +18,12 @@ const Cart = () => {
       setItemExist(false);
     }
   }, [items]);
+
+  const emptyCartMessage = {
+    message1: ' Your cart is empty',
+    message2:
+      'Looks like you have not added anything to your cart. Explore the products.',
+  };
 
   return (
     <ContentWrapper>
@@ -30,7 +37,8 @@ const Cart = () => {
               <CartSummary />
             </div>
           ) : (
-            items && items.length === 0 && <EmptyCart />
+            items &&
+            items.length === 0 && <EmptyCart message={emptyCartMessage} />
           )}
         </section>
       </div>

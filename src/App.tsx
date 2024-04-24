@@ -23,6 +23,7 @@ import EditProfile from './components/user/EditProfile';
 import ProductDashboard from './components/adminContent/ProductDashboard';
 import AddNewProduct from './components/adminContent/AddNewProduct';
 import UpdateProduct from './components/adminContent/UpdateProduct';
+import OrderDetail from './components/order/OrderDetail';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -58,10 +59,18 @@ function App() {
           }
         />
         <Route
-          path='/order-list'
+          path='/orders'
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               {<MyOrderList />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/orders/:orderId'
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              {<OrderDetail />}
             </ProtectedRoute>
           }
         />

@@ -16,3 +16,8 @@ export type CartInitialState = {
   items: CartType[];
   totalAmount: number;
 };
+
+export type EmptyCartMessage = {
+  message1: string;
+  message2: string;
+};

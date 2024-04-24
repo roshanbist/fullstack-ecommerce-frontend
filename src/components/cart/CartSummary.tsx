@@ -13,6 +13,7 @@ const CartSummary = () => {
   const dispatch = useAppDispatch();
 
   const totalAmount = useSelector((state: AppState) => state.carts.totalAmount);
+  const totalAmountAfterDiscount = Number(0.9 * totalAmount).toFixed(2);
 
   const orderProducts = useSelector((state: AppState) => state.carts.items);
   // const totalPrice = useSelector((state: AppState) => state.carts.totalAmount);
@@ -20,6 +21,8 @@ const CartSummary = () => {
   // console.log('cartProducts', cartProducts, totalAmount);
 
   // console.log('totalAmount', totalAmount);
+
+  // const shippingAddress
 
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
@@ -86,7 +89,8 @@ const CartSummary = () => {
           },
           body: JSON.stringify({
             items: orderProducts,
-            totalPrice: totalAmount,
+            totalPrice: totalAmountAfterDiscount,
+            shippingAddress: loggedUserInfo.address,
           }),
         });
 

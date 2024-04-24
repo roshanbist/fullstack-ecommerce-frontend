@@ -1,54 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import ContentWrapper from '../components/contentWrapper/ContentWrapper';
-import axios from 'axios';
-import { BASE_URL } from '../utils/api';
-import { toast } from 'react-toastify';
-import { OrderList } from '../types/orderList';
 import OrderInfo from '../components/order/OrderInfo';
+import Loader from '../components/loader/Loader';
+import EmptyCart from '../components/cart/EmptyCart';
+import { AppState, useAppDispatch } from '../redux/store';
+import { getAllOrders } from '../redux/slices/OrderSlice';
 
 const MyOrderList = () => {
-  const [orderList, setOrderList] = useState<OrderList[] | null>(null);
+  const dispatch = useAppDispatch();
 
-  const { accessToken } = JSON.parse(
-    localStorage.getItem('userToken') as string
-  );
-
-  console.log('orderList', orderList);
+  const { orders, loading } = useSelector((state: AppState) => state.orders);
 
   useEffect(() => {
-    const orderCollection = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/orders`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+    dispatch(getAllOrders());
+  }, [dispatch]);
 
-        if (response.status !== 200) {
-          const errorData = await response.json();
-          toast.error(errorData.message || 'An error occurred');
-        }
-
-        // setTo state
-        const orderData: OrderList[] = await response.json();
-        setOrderList(orderData);
-      } catch (error) {
-        console.error('An error occurred:', error);
-        toast.error('An unexpected error occurred');
-      }
-    };
-
-    orderCollection();
-  }, [accessToken]);
+  const emptyOrderMessage = {
+    message1: ' You have not ordered anything yet!',
+    message2: 'Hurry up, make some order',
+  };
 
   return (
     <ContentWrapper>
       <div className='max-container py-[50px] animate-fade'>
         <section className='max-w-[870px] mx-auto'>
-          {orderList &&
-            orderList.length > 0 &&
-            orderList.map((order, index) => (
+          {loading ? (
+            <Loader />
+          ) : orders && orders.length > 0 ? (
+            orders.map((order, index) => (
               <OrderInfo order={order} key={index} />
-            ))}
+            ))
+          ) : (
+            orders &&
+            orders.length === 0 && <EmptyCart message={emptyOrderMessage} />
+          )}
         </section>
       </div>
     </ContentWrapper>
