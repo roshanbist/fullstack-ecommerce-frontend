@@ -63,9 +63,7 @@ const UserProfile = () => {
                 </div>
                 <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
                   <p className='font-medium text-lg'>Username</p>
-                  <p className='text-lg capitalize'>
-                    {loggedUserInfo?.username}
-                  </p>
+                  <p className='text-lg'>{loggedUserInfo?.username}</p>
                 </div>
                 <div className='px-5 mb-5 pb-5 border-b border-b-palette-accent text-color-primary'>
                   <p className='font-medium text-lg'>Address</p>

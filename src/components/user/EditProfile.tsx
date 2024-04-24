@@ -8,8 +8,10 @@ import { AppState, useAppDispatch } from '../../redux/store';
 import { getSingleUser, updateUser } from '../../redux/slices/UserSlice';
 import { UserType } from '../../types/User';
 import GoBackButton from '../goBackButton/GoBackButton';
+import { uploadFileService } from '../../utils/uploadFileService';
 
 const EditProfile = () => {
+  // const [inputFile, setInputFile] = useState<File[]>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -39,12 +41,33 @@ const EditProfile = () => {
     setUpdatedData(location.state?.loggedUserInfo || {});
   }, [location.state]);
 
+  const imageChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      // setInputFile(selectedFiles);
+      const inputFileUrl = await uploadFileService(selectedFiles);
+      setUpdatedData((prevData: UserType) => ({
+        ...prevData,
+        avatar: inputFileUrl[0],
+      }));
+    }
+  };
+
   const submitHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       let userNewData: UserType = updatedData;
+
       const differences: string[] = [];
-      const keysToCheck = ['email', 'name'];
+
+      const keysToCheck = [
+        'firstname',
+        'lastname',
+        'username',
+        'address',
+        'avatar',
+      ];
 
       for (const key of keysToCheck) {
         if (
@@ -84,35 +107,89 @@ const EditProfile = () => {
           <form className='pb-7' onSubmit={submitHandler}>
             <div className='mb-6'>
               <label
-                htmlFor='fullName'
+                htmlFor='firstname'
                 className='block mb-2 font-medium text-color-primary'
               >
-                Name
+                First Name
               </label>
               <input
                 className='form-input'
                 type='text'
-                id='fullName'
-                name='name'
-                value={updatedData && updatedData?.name}
+                id='firstname'
+                name='firstname'
+                value={updatedData && updatedData?.firstname}
                 onChange={inputChangeHandler}
               />
             </div>
             <div className='mb-6'>
               <label
-                htmlFor='email'
+                htmlFor='lastname'
                 className='block mb-2 font-medium text-color-primary'
               >
-                Email
+                Last Name
               </label>
               <input
                 className='form-input'
-                type='email'
-                id='email'
-                name='email'
-                value={updatedData && updatedData?.email}
+                type='text'
+                id='lastname'
+                name='lastname'
+                value={updatedData && updatedData?.lastname}
                 onChange={inputChangeHandler}
               />
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='username'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Username
+              </label>
+              <input
+                className='form-input'
+                type='text'
+                id='username'
+                name='username'
+                value={updatedData && updatedData?.username}
+                onChange={inputChangeHandler}
+              />
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='address'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Address
+              </label>
+              <input
+                className='form-input'
+                type='text'
+                id='address'
+                name='address'
+                value={updatedData && updatedData?.address}
+                onChange={inputChangeHandler}
+              />
+            </div>
+            <div className='mb-6'>
+              <label
+                className='block mb-2 font-medium text-color-primary'
+                htmlFor='avatar'
+              >
+                Change Image
+              </label>
+              <input
+                className='file-input'
+                id='avatar'
+                type='file'
+                name='avatar'
+                onChange={imageChangeHandler}
+                accept='images/*'
+              />
+              {/* <div className='mt-2 w-[50px] h-[50px] overflow-hidden border border-color-primary'>
+                <img
+                  src={`${updatedData && updatedData?.avatar}`}
+                  alt='image '
+                />
+              </div> */}
             </div>
             <button
               className='block btn-primary rounded-lg w-full'

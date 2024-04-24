@@ -37,7 +37,7 @@ export type PriceOption = {
   label: string;
 };
 
-export type sortTitle = {
+export type sortTitleOption = {
   value: string;
   label: string;
 };
@@ -67,3 +67,9 @@ export type TestNewProductType = {
   images: string[];
   category?: Category;
 };
+
+export enum Size {
+  Small = 'S',
+  Medium = 'M',
+  Large = 'L',
+}

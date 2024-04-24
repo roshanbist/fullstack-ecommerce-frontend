@@ -216,7 +216,7 @@ const Register = () => {
                 required
                 type='text'
                 id='address'
-                placeholder='Tampere, Finland'
+                placeholder='street Adress, postal code, city, country'
                 {...register('address', {
                   required: true,
                   minLength: 5,

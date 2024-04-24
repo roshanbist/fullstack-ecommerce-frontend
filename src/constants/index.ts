@@ -5,7 +5,7 @@ import {
   faTiktok,
   faXTwitter,
 } from '@fortawesome/free-brands-svg-icons';
-import { PriceOption } from '../types/Product';
+import { PriceOption, Size, sortTitleOption } from '../types/Product';
 
 export const navLinks = [
   { href: '/', label: 'Home' },
@@ -48,7 +48,11 @@ export const priceOption: PriceOption[] = [
   { value: '200', label: 'Above €200' },
 ];
 
-export const sortTitle: PriceOption[] = [
+export const sortTitle: sortTitleOption[] = [
   { value: 'asc', label: 'Sort title by ascending' },
   { value: 'desc', label: 'Sort title by descending' },
 ];
+
+export const productSize = Object.keys(Size).map((key) => ({
+  label: Size[key as keyof typeof Size],
+}));

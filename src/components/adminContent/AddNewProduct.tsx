@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { NewProductType } from '../../types/Product';
-import { useAppDispatch } from '../../redux/store';
+import { NewProductType, Size } from '../../types/Product';
+import { AppState, useAppDispatch } from '../../redux/store';
 import { uploadFileService } from '../../utils/uploadFileService';
 import { createNewProduct } from '../../redux/slices/ProductSlice';
 import GoBackButton from '../goBackButton/GoBackButton';
+import { useSelector } from 'react-redux';
+import { fetchAllCategories } from '../../redux/slices/CategorySlice';
+import { productSize } from '../../constants';
 
 const AddNewProduct = () => {
   const {
@@ -21,6 +24,7 @@ const AddNewProduct = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [inputFile, setInputFile] = useState<File[]>([]);
+  const [sizeSelected, setSizeSelected] = useState<string[]>([]);
 
   const fileUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -29,9 +33,21 @@ const AddNewProduct = () => {
     }
   };
 
+  const categories = useSelector(
+    (state: AppState) => state.categories.categories
+  );
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
+
+  // console.log('categories', categories);
+
   const onSubmit: SubmitHandler<NewProductType> = async (formData) => {
     try {
       const inputFileUrl = inputFile && (await uploadFileService(inputFile));
+
+      console.log('formdata', formData);
 
       const newProductData: NewProductType = {
         title: formData.title,
@@ -149,9 +165,23 @@ const AddNewProduct = () => {
                   htmlFor='price'
                   className='block mb-2 font-medium text-color-primary'
                 >
-                  CategoryID *
+                  Category *
                 </label>
-                <input
+                <select
+                  {...register('categoryId', { required: true })}
+                  className='form-input'
+                >
+                  <option value='' className='text-color-primary'>
+                    Select category
+                  </option>
+                  {categories &&
+                    categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                </select>
+                {/* <input
                   className='form-input'
                   required
                   type='text'
@@ -160,10 +190,10 @@ const AddNewProduct = () => {
                   {...register('categoryId', {
                     required: true,
                   })}
-                />
+                /> */}
                 {errors.categoryId && (
                   <span className='form-error animate-fadein'>
-                    Category Id should match product type
+                    Category should be selected
                   </span>
                 )}
               </div>
@@ -174,7 +204,7 @@ const AddNewProduct = () => {
                 >
                   Size *
                 </label>
-                <input
+                {/* <input
                   className='form-input'
                   required
                   type='text'
@@ -183,12 +213,57 @@ const AddNewProduct = () => {
                   {...register('size', {
                     required: true,
                   })}
-                />
-                {errors.size && (
-                  <span className='form-error animate-fadein'>
-                    size should be included
-                  </span>
-                )}
+                /> */}
+                <ul
+                  className='flex flex-wrap'
+                  {...register('size', { required: true })}
+                >
+                  {productSize.map((size) => (
+                    <li className='mr-3' key={size.label}>
+                      <div className='flex items-center'>
+                        <input
+                          id={`checkbox-${size.label}`}
+                          type='checkbox'
+                          value=''
+                          className='w-5 h-5 mr-2 border-color-primary bg-gray-100 rounded'
+                        />
+                        <label
+                          htmlFor={`checkbox-${size.label}`}
+                          className='font-medium text-color-primary'
+                        >
+                          {size.label}
+                        </label>
+                      </div>
+                    </li>
+                  ))}
+                  {errors.size && (
+                    <span className='form-error animate-fadein'>
+                      Atleast one size should be selected
+                    </span>
+                  )}
+                </ul>
+
+                {/* {Object.keys(Size).map((size) => (
+                  <li className={`mb-1`} key={size}>
+                    <label
+                      className={`relative flex items-center justify-center w-[50px] p-[10px] border-[2px] rounded-[5px] h-[50px] focus:outline-none uppercase shadow-sm cursor-pointer border-color-primary text-color-primary`}
+                      htmlFor={size}
+                    >
+                      <input
+                        type='checkbox'
+                        id={size}
+                        aria-labelledby='product-choice'
+                        className='sr-only'
+                        value={size}
+                        // onChange={() => {
+                        //   setSelectedSize(item);
+                        //   setErrorMessage('');
+                        // }}
+                      />
+                      <span className='text-lg max-sm:text-sm'>{size}</span>
+                    </label>
+                  </li>
+                ))} */}
               </div>
               <div className='mb-6'>
                 <label

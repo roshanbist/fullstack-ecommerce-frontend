@@ -36,7 +36,7 @@ const ProductDashboard = () => {
     title: '',
     sortTitle: '',
     offset: 1,
-    limit: 4,
+    limit: 10,
   });
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -79,7 +79,7 @@ const ProductDashboard = () => {
       title: '',
       sortTitle: '',
       offset: 1,
-      limit: 4,
+      limit: 10,
     });
   }, []);
 

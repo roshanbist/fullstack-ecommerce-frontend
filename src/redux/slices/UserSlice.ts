@@ -68,7 +68,7 @@ export const getAllUsers = createAsyncThunk(
   'getAllUsers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(BASE_URL);
+      const response = await fetch(URL);
 
       // check if the response has error
       if (!response.ok) {
@@ -144,7 +144,7 @@ export const registerUser = createAsyncThunk(
   'registerUser',
   async (registerData: RegisterInputs, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${URL}/`, {
+      const response = await fetch(`${URL}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,9 +171,14 @@ export const updateUser = createAsyncThunk(
   'updateUser',
   async ({ _id, ...updateParams }: UserType, { dispatch, rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}/${_id}`, {
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+
+      const response = await fetch(`${URL}`, {
         method: 'PUT',
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updateParams),
