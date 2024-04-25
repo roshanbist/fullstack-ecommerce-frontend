@@ -22,7 +22,7 @@ const Products = () => {
     title: '',
     sortTitle: '',
     offset: 1,
-    limit: 4,
+    limit: 9,
   });
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -59,7 +59,7 @@ const Products = () => {
       title: '',
       sortTitle: '',
       offset: 1,
-      limit: 4,
+      limit: 9,
     });
   }, []);
 
