@@ -361,7 +361,7 @@ const productSlice = createSlice({
       };
     });
 
-    // add new product to products array if fulfilled
+    // add update single product if fulfilled
     builder.addCase(updateSingleProduct.fulfilled, (state, action) => {
       const updatedProductIndex = state.products.findIndex(
         (product) => product._id === action.payload._id

@@ -20,10 +20,13 @@ import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import EditProfile from './components/user/EditProfile';
-import ProductDashboard from './components/adminContent/ProductDashboard';
-import AddNewProduct from './components/adminContent/AddNewProduct';
-import UpdateProduct from './components/adminContent/UpdateProduct';
+import ProductDashboard from './components/adminContent/product/ProductDashboard';
+import AddNewProduct from './components/adminContent/product/AddNewProduct';
+import UpdateProduct from './components/adminContent/product/UpdateProduct';
 import OrderDetail from './components/order/OrderDetail';
+import AdminCategoryDashboard from './components/adminContent/category/AdminCategoryDashboard';
+import AddNewCategory from './components/adminContent/category/AddNewCategory';
+import UpdateCategory from './components/adminContent/category/UpdateCategory';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -111,6 +114,30 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<UpdateProduct />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/category-dashboard'
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<AdminCategoryDashboard />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/add-new-category'
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<AddNewCategory />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/update-category/:id'
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<UpdateCategory />}
             </ProtectedRoute>
           }
         />

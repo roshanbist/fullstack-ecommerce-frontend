@@ -3,21 +3,21 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 
-import { AppState, useAppDispatch } from '../../redux/store';
-import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { FilterProduct } from '../../types/Product';
+import { AppState, useAppDispatch } from '../../../redux/store';
+import ContentWrapper from '../../contentWrapper/ContentWrapper';
+import { FilterProduct } from '../../../types/Product';
 // import { PaginationProps } from '../../types/Pagination';
 // import usePagination from '../../hook/usePagination';
 import {
   fetchAllProducts,
   // filterProductsList,
-} from '../../redux/slices/ProductSlice';
-import { fetchAllCategories } from '../../redux/slices/CategorySlice';
-import Pagination from '../pagination/Pagination';
+} from '../../../redux/slices/ProductSlice';
+import { fetchAllCategories } from '../../../redux/slices/CategorySlice';
+import Pagination from '../../pagination/Pagination';
 import AdminProductCard from './AdminProductCard';
-import { priceOption, sortTitle } from '../../constants';
-import Loader from '../loader/Loader';
-import NoMatchFound from '../noMatchFound/NoMatchFound';
+import { priceOption, sortTitle } from '../../../constants';
+import Loader from '../../loader/Loader';
+import NoMatchFound from '../../noMatchFound/NoMatchFound';
 
 const ProductDashboard = () => {
   const dispatch = useAppDispatch();
