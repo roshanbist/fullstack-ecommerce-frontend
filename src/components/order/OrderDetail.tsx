@@ -10,6 +10,7 @@ import Loader from '../loader/Loader';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import { getSingleOrder } from '../../redux/slices/OrderSlice';
+import GoBackButton from '../goBackButton/GoBackButton';
 
 const OrderDetail = () => {
   // const [orderData, setOrderData] = useState<OrderList | null>(null);
@@ -68,6 +69,9 @@ const OrderDetail = () => {
           selectedSingleOrder && (
             <div className='md:flex md:justify-between md:gap-5 lg:gap-7 xl:gap-10'>
               <div className='mb-10 flex-1 bg-palette-ebony border border-palette-accent rounded-xl py-[15px] md:py-[30px] self-start'>
+                <div className='px-[15px] md:px-[30px]'>
+                  <GoBackButton />
+                </div>
                 <div className='flex flex-wrap justify-between items-center border-b pb-5 mb-5 px-[15px] md:px-[30px]'>
                   <div className='text-color-primary font-medium'>
                     <h4>Order: {selectedSingleOrder._id}</h4>

@@ -73,7 +73,7 @@ export const getSingleOrder = createAsyncThunk(
 
 // Thunk action creator to delete a order
 export const deleteOrderById = createAsyncThunk(
-  'deleteProduct',
+  'deleteOrderById',
   async (orderId: string, { rejectWithValue }) => {
     try {
       const { accessToken } = JSON.parse(
@@ -81,7 +81,11 @@ export const deleteOrderById = createAsyncThunk(
       );
 
       const response = await fetch(`${URL}/${orderId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
       });
 
       if (!response.ok) {
@@ -90,9 +94,9 @@ export const deleteOrderById = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      const data: boolean = await response.json();
-      toast.success('Item Deleted Successfully');
-      return { data: data, orderId };
+      // const data: boolean = await response.json();
+      toast.success('Order Deleted Successfully');
+      return orderId;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -164,7 +168,7 @@ const orderSlice = createSlice({
 
     // delete order if fulfilled
     builder.addCase(deleteOrderById.fulfilled, (state, action) => {
-      const { orderId } = action.payload;
+      const orderId = action.payload;
       return {
         ...state,
         orders: state.orders.filter((order) => order._id !== orderId),
