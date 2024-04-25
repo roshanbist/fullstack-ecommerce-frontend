@@ -41,3 +41,8 @@ export type EditProfileType = {
   lastname: string;
   email: string;
 };
+
+export type PasswordUpdate = {
+  oldPassword: string;
+  newPassword: string;
+};

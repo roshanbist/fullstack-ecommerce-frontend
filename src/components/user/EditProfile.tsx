@@ -195,9 +195,19 @@ const EditProfile = () => {
               className='block btn-primary rounded-lg w-full'
               type='submit'
             >
-              Update
+              Update Profile
             </button>
           </form>
+
+          <div>
+            <button
+              className='block btn-primary rounded-lg w-full'
+              type='submit'
+              onClick={() => navigate('/update-password')}
+            >
+              Change password
+            </button>
+          </div>
         </div>
       </div>
     </ContentWrapper>

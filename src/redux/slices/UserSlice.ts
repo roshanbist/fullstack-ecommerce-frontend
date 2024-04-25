@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import {
   AuthToken,
   LoginInputs,
+  PasswordUpdate,
   RegisterInputs,
   UserInitialState,
   UserType,
@@ -201,6 +202,44 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+// thunk action to update a user information
+export const updatePassword = createAsyncThunk(
+  'updatePassword',
+  async (
+    updatedPasswordParam: PasswordUpdate,
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+
+      const response = await fetch(`${URL}/update-password`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedPasswordParam),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        toast.error(errorMessage.message);
+        return rejectWithValue(errorMessage.message);
+      }
+
+      const data: UserType = await response.json();
+      dispatch(userInformation(data));
+      toast.success('Password changed successfully');
+      return data;
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -371,6 +410,38 @@ const userSlice = createSlice({
     });
 
     builder.addCase(updateUser.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: 'failed',
+        error: action.error.message,
+      };
+    });
+
+    builder.addCase(updatePassword.fulfilled, (state, action) => {
+      const updatedUserIndex = state.users.findIndex(
+        (user) => user._id === action.payload._id
+      );
+
+      const updatedUsers = [...state.users];
+      updatedUsers[updatedUserIndex] = action.payload;
+
+      return {
+        ...state,
+        users: updatedUsers,
+        loading: 'succeeded',
+        error: '',
+      };
+    });
+
+    builder.addCase(updatePassword.pending, (state, action) => {
+      return {
+        ...state,
+        loading: 'pending',
+        error: '',
+      };
+    });
+
+    builder.addCase(updatePassword.rejected, (state, action) => {
       return {
         ...state,
         loading: 'failed',

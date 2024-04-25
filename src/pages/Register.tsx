@@ -56,13 +56,11 @@ const Register = () => {
 
       const result = await dispatch(registerUser(newUserData));
       if (result.meta.requestStatus === 'fulfilled') {
-        toast.success('Customer register successfully');
+        toast.success('User register successfully');
         navigate('/login');
         reset();
       } else if (result.meta.requestStatus === 'rejected') {
-        toast.error(
-          'Error occurred during registration. Please try again later'
-        );
+        toast.error('Error occurred during registration. Please try again');
       }
     } catch (e) {
       const error = e as Error;
@@ -209,7 +207,7 @@ const Register = () => {
                 htmlFor='address'
                 className='block mb-2 font-medium text-color-primary'
               >
-                Last Name *
+                Address *
               </label>
               <input
                 className='form-input'
@@ -220,7 +218,7 @@ const Register = () => {
                 {...register('address', {
                   required: true,
                   minLength: 5,
-                  maxLength: 30,
+                  maxLength: 80,
                 })}
               />
               {errors.address && (

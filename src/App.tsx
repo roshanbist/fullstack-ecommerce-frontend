@@ -27,6 +27,7 @@ import OrderDetail from './components/order/OrderDetail';
 import AdminCategoryDashboard from './components/adminContent/category/AdminCategoryDashboard';
 import AddNewCategory from './components/adminContent/category/AddNewCategory';
 import UpdateCategory from './components/adminContent/category/UpdateCategory';
+import UpdatePassword from './components/user/UpdatePassword';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -82,6 +83,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['customer', 'admin']}>
               {<EditProfile />}
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/update-password'
+          element={
+            <ProtectedRoute allowedRoles={['customer', 'admin']}>
+              {<UpdatePassword />}
             </ProtectedRoute>
           }
         />
