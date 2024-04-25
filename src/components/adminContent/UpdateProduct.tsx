@@ -11,6 +11,10 @@ import {
   fetchSingleProduct,
   updateSingleProduct,
 } from '../../redux/slices/ProductSlice';
+import { uploadFileService } from '../../utils/uploadFileService';
+import { fetchAllCategories } from '../../redux/slices/CategorySlice';
+import { productSize } from '../../constants';
+import { sortSizes } from '../../utils/api';
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -20,6 +24,10 @@ const UpdateProduct = () => {
 
   const singleProduct = useSelector(
     (state: AppState) => state.products.selectedSingleProduct
+  );
+
+  const categories = useSelector(
+    (state: AppState) => state.categories.categories
   );
 
   const [updatedProductData, setUpdatedProductData] = useState(
@@ -53,14 +61,65 @@ const UpdateProduct = () => {
     }));
   };
 
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
+
+  const handleCheckboxChange = (index: number, isChecked: boolean) => {
+    const selectedSize = productSize[index];
+    if (isChecked) {
+      setUpdatedProductData((prevData: ProductType) => ({
+        ...prevData,
+        size: sortSizes([...prevData.size, selectedSize]),
+      }));
+    } else {
+      setUpdatedProductData((prevData: ProductType) => ({
+        ...prevData,
+        size: prevData.size.filter((size) => size !== selectedSize),
+      }));
+    }
+  };
+
+  const imageUploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFiles = Array.from(e.target.files);
+      const inputFileUrl = await uploadFileService(selectedFiles);
+      setUpdatedProductData((prevData: ProductType) => ({
+        ...prevData,
+        images: inputFileUrl,
+      }));
+    }
+  };
+
+  const handleCategoryChange = (categoryId: string) => {
+    setUpdatedProductData((prevData: ProductType) => ({
+      ...prevData,
+      categoryId: categoryId,
+    }));
+  };
+
   const submitHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       let newUpdatedProductData: ProductType = updatedProductData;
 
+      console.log('new udpated prdouct data', newUpdatedProductData);
+
+      // const selectedSortSize = sortSizes(selectedSizes);
+
       const differences: string[] = [];
-      const keysToCheck = ['title', 'description', 'price'];
+      const keysToCheck = [
+        'title',
+        'description',
+        'price',
+        'categoryId',
+        'images',
+        'size',
+      ];
+
+      //  const initialProductData: ProductType | undefined =
+      //    location.state?.productData;
 
       for (const key of keysToCheck) {
         if (
@@ -70,6 +129,8 @@ const UpdateProduct = () => {
           differences.push(key);
         }
       }
+
+      console.log('difference', differences);
 
       if (differences.length > 0) {
         const res = await dispatch(updateSingleProduct(newUpdatedProductData));
@@ -143,6 +204,74 @@ const UpdateProduct = () => {
                 maxLength={550}
                 value={updatedProductData && updatedProductData?.description}
                 onChange={inputChangeHandler}
+              />
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='category'
+                className='block mb-2 font-medium text-color-primary'
+              >
+                Category
+              </label>
+              <select
+                className='form-input'
+                id='category'
+                onChange={(e) => handleCategoryChange(e.target.value)}
+              >
+                <option value='' className='text-color-primary'>
+                  {updatedProductData.category.name}
+                </option>
+                {categories &&
+                  categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className='mb-6'>
+              <label className='block mb-2 font-medium text-color-primary'>
+                Size
+              </label>
+              <div className='flex flex-wrap items-center'>
+                {productSize.map((size, index) => (
+                  <div key={index} className='mr-4 flex items-center'>
+                    <input
+                      type='checkbox'
+                      id={`size-${size}`}
+                      checked={updatedProductData.size.includes(
+                        productSize[index]
+                      )}
+                      className='w-5 h-5 mr-2 border-color-primary bg-gray-100 rounded'
+                      onChange={(e) =>
+                        handleCheckboxChange(index, e.target.checked)
+                      }
+                    />
+                    <label
+                      className='font-medium text-color-primary'
+                      htmlFor={`size-${size}`}
+                    >
+                      {size}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className='mb-6'>
+              <label
+                className='block mb-2 font-medium text-color-primary'
+                htmlFor='images'
+              >
+                Update Product Image
+              </label>
+              <input
+                className='file-input'
+                id='images'
+                type='file'
+                onChange={imageUploadHandler}
+                name='images'
+                accept='images/*'
+                multiple
               />
             </div>
             <button

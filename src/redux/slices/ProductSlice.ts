@@ -117,17 +117,20 @@ export const fetchSingleProduct = createAsyncThunk(
 export const updateSingleProduct = createAsyncThunk(
   'updateSingleProduct',
   async (updatedParams: ProductType, { rejectWithValue }) => {
-    const { title, description, price, _id } = updatedParams;
-
-    const updatedData = { title, description, price };
+    // const updatedData = { title, description, price, size };
 
     try {
+      const { _id } = updatedParams;
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
       const response = await fetch(`${URL}/${_id}`, {
         method: 'PUT',
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(updatedParams),
       });
 
       if (!response.ok) {
@@ -152,9 +155,14 @@ export const createNewProduct = createAsyncThunk(
   'createNewProduct',
   async (params: NewProductType, { rejectWithValue }) => {
     try {
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+
       const response = await fetch(URL, {
         method: 'POST',
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(params),
@@ -179,16 +187,38 @@ export const deleteProduct = createAsyncThunk(
   'deleteProduct',
   async (productId: string, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${URL}/${productId}`);
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+
+      // const response = await fetch(`${URL}/${productId}`, {
+      //   method: 'DELETE',
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+
+      const response = await fetch(`${URL}/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log('response', response);
 
       if (!response.ok) {
         const errorResponse = await response.json();
         return rejectWithValue(errorResponse.message);
       }
 
-      const data: boolean = await response.json();
+      // const data = await response.json();
+      // console.log('data after delete', data);
       toast.success('Item Deleted Successfully');
-      return { data: data, productId };
+      // return { data: data, productId };
+      return productId;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -368,7 +398,7 @@ const productSlice = createSlice({
 
     // delete product to products array if fulfilled
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      const { productId } = action.payload;
+      const productId = action.payload;
       return {
         ...state,
         products: state.products.filter((product) => product._id !== productId),

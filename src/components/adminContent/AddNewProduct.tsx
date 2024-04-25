@@ -12,6 +12,7 @@ import GoBackButton from '../goBackButton/GoBackButton';
 import { useSelector } from 'react-redux';
 import { fetchAllCategories } from '../../redux/slices/CategorySlice';
 import { productSize } from '../../constants';
+import { sortSizes } from '../../utils/api';
 
 const AddNewProduct = () => {
   const {
@@ -24,7 +25,8 @@ const AddNewProduct = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [inputFile, setInputFile] = useState<File[]>([]);
-  const [sizeSelected, setSizeSelected] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [showError, setShowError] = useState(false);
 
   const fileUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -41,13 +43,27 @@ const AddNewProduct = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  // console.log('categories', categories);
+  const handleCheckboxChange = (index: number, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedSizes((prevSizes) => [...prevSizes, productSize[index]]);
+      setShowError(false);
+    } else {
+      setSelectedSizes((prevSizes) =>
+        prevSizes.filter((size) => size !== productSize[index])
+      );
+    }
+  };
 
   const onSubmit: SubmitHandler<NewProductType> = async (formData) => {
     try {
       const inputFileUrl = inputFile && (await uploadFileService(inputFile));
 
-      console.log('formdata', formData);
+      if (selectedSizes.length === 0) {
+        setShowError(true);
+        return;
+      }
+
+      const selectedSortSize = sortSizes(selectedSizes);
 
       const newProductData: NewProductType = {
         title: formData.title,
@@ -55,8 +71,10 @@ const AddNewProduct = () => {
         description: formData.description,
         images: [...inputFileUrl],
         categoryId: formData.categoryId,
-        size: formData.size,
+        size: selectedSortSize,
       };
+
+      console.log('newproduct data', newProductData);
 
       const result = await dispatch(createNewProduct(newProductData));
 
@@ -181,16 +199,6 @@ const AddNewProduct = () => {
                       </option>
                     ))}
                 </select>
-                {/* <input
-                  className='form-input'
-                  required
-                  type='text'
-                  id='categoryId'
-                  placeholder='1'
-                  {...register('categoryId', {
-                    required: true,
-                  })}
-                /> */}
                 {errors.categoryId && (
                   <span className='form-error animate-fadein'>
                     Category should be selected
@@ -204,67 +212,33 @@ const AddNewProduct = () => {
                 >
                   Size *
                 </label>
-                {/* <input
-                  className='form-input'
-                  required
-                  type='text'
-                  id='size'
-                  placeholder='S'
-                  {...register('size', {
-                    required: true,
-                  })}
-                /> */}
-                <ul
-                  className='flex flex-wrap'
-                  {...register('size', { required: true })}
-                >
-                  {productSize.map((size) => (
-                    <li className='mr-3' key={size.label}>
-                      <div className='flex items-center'>
-                        <input
-                          id={`checkbox-${size.label}`}
-                          type='checkbox'
-                          value=''
-                          className='w-5 h-5 mr-2 border-color-primary bg-gray-100 rounded'
-                        />
-                        <label
-                          htmlFor={`checkbox-${size.label}`}
-                          className='font-medium text-color-primary'
-                        >
-                          {size.label}
-                        </label>
-                      </div>
-                    </li>
-                  ))}
-                  {errors.size && (
-                    <span className='form-error animate-fadein'>
-                      Atleast one size should be selected
-                    </span>
-                  )}
-                </ul>
-
-                {/* {Object.keys(Size).map((size) => (
-                  <li className={`mb-1`} key={size}>
-                    <label
-                      className={`relative flex items-center justify-center w-[50px] p-[10px] border-[2px] rounded-[5px] h-[50px] focus:outline-none uppercase shadow-sm cursor-pointer border-color-primary text-color-primary`}
-                      htmlFor={size}
-                    >
+                <div className='flex flex-wrap items-center'>
+                  {productSize.map((size, index) => (
+                    <div key={index} className='mr-4 flex items-center'>
                       <input
                         type='checkbox'
-                        id={size}
-                        aria-labelledby='product-choice'
-                        className='sr-only'
-                        value={size}
-                        // onChange={() => {
-                        //   setSelectedSize(item);
-                        //   setErrorMessage('');
-                        // }}
+                        id={`size-${size}`}
+                        className='w-5 h-5 mr-2 border-color-primary bg-gray-100 rounded'
+                        onChange={(e) =>
+                          handleCheckboxChange(index, e.target.checked)
+                        }
                       />
-                      <span className='text-lg max-sm:text-sm'>{size}</span>
-                    </label>
-                  </li>
-                ))} */}
+                      <label
+                        className='font-medium text-color-primary'
+                        htmlFor={`size-${size}`}
+                      >
+                        {size}
+                      </label>
+                    </div>
+                  ))}
+                  {showError && (
+                    <span className='w-full block form-error animate-fadein'>
+                      At least one size should be selected
+                    </span>
+                  )}
+                </div>
               </div>
+
               <div className='mb-6'>
                 <label
                   className='block mb-2 font-medium text-color-primary'

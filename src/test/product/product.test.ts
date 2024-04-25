@@ -388,11 +388,7 @@ describe('product reducers', () => {
 
     const newProductState = productReducer(
       productInitialState,
-      deleteProduct.fulfilled(
-        { productId: mockSingleProductData._id, data: true },
-        'fulfilled',
-        '1'
-      )
+      deleteProduct.fulfilled(mockSingleProductData._id, 'fulfilled', '1')
     );
 
     const expectedProductState = {

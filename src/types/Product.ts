@@ -27,6 +27,15 @@ export type NewProductType = {
   size: string[];
 };
 
+// export type CreateProductType = {
+//   title: string;
+//   price: number;
+//   description: string;
+//   category: string;
+//   images: string[];
+//   size: string[];
+// };
+
 export type ProductsList = {
   total: number;
   products: ProductType[];

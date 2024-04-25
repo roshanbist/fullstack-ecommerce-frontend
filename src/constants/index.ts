@@ -53,6 +53,4 @@ export const sortTitle: sortTitleOption[] = [
   { value: 'desc', label: 'Sort title by descending' },
 ];
 
-export const productSize = Object.keys(Size).map((key) => ({
-  label: Size[key as keyof typeof Size],
-}));
+export const productSize = ['S', 'M', 'L'];

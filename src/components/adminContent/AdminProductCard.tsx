@@ -12,8 +12,8 @@ const AdminProductCard = ({ productData }: { productData: ProductType }) => {
 
   const productImage = ImageUrlClear(productData.images[0]);
 
-  const productDeleteHandler = (id: string) => {
-    dispatch(deleteProduct(id));
+  const productDeleteHandler = async (id: string) => {
+    await dispatch(deleteProduct(id));
   };
 
   return (
