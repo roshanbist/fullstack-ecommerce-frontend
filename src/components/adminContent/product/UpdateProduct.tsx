@@ -104,7 +104,7 @@ const UpdateProduct = () => {
     try {
       let newUpdatedProductData: ProductType = updatedProductData;
 
-      console.log('new udpated prdouct data', newUpdatedProductData);
+      // console.log('new udpated prdouct data', newUpdatedProductData);
 
       // const selectedSortSize = sortSizes(selectedSizes);
 
@@ -130,12 +130,12 @@ const UpdateProduct = () => {
         }
       }
 
-      console.log('difference', differences);
+      // console.log('difference', differences);
 
       if (differences.length > 0) {
         const res = await dispatch(updateSingleProduct(newUpdatedProductData));
         if (res.meta.requestStatus === 'fulfilled') {
-          navigate('/product-dashboard');
+          navigate('/admin/product-dashboard');
         }
       } else {
         toast.info('Product information has not been changed');

@@ -25,7 +25,7 @@ const MyOrderList = () => {
   return (
     <ContentWrapper>
       <div className='max-container py-[50px] animate-fade'>
-        <section className='max-w-[870px] mx-auto'>
+        <div className='max-w-[870px] mx-auto'>
           {loading ? (
             <Loader />
           ) : orders && orders.length > 0 ? (
@@ -36,7 +36,7 @@ const MyOrderList = () => {
             orders &&
             orders.length === 0 && <EmptyCart message={emptyOrderMessage} />
           )}
-        </section>
+        </div>
       </div>
     </ContentWrapper>
   );

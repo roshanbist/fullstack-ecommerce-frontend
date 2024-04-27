@@ -32,7 +32,7 @@ const AdminCategoryCard = ({ categoryData }: { categoryData: Category }) => {
             <button
               className='btn-primary min-w-0 w-full px-5 py-2 text-[14px] rounded-lg'
               onClick={() =>
-                navigate(`/update-category/${categoryData._id}`, {
+                navigate(`/admin/update-category/${categoryData._id}`, {
                   state: { categoryData },
                 })
               }

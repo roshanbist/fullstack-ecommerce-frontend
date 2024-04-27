@@ -77,7 +77,7 @@ const UpdateCategory = () => {
     try {
       let newUpdatedCategoryData: Category = updatedCategoryData;
 
-      console.log('new udpated prdouct data', newUpdatedCategoryData);
+      // console.log('new udpated prdouct data', newUpdatedCategoryData);
 
       // const selectedSortSize = sortSizes(selectedSizes);
 
@@ -93,14 +93,14 @@ const UpdateCategory = () => {
         }
       }
 
-      console.log('difference', differences);
+      // console.log('difference', differences);
 
       if (differences.length > 0) {
         const res = await dispatch(
           updateSingleCategory(newUpdatedCategoryData)
         );
         if (res.meta.requestStatus === 'fulfilled') {
-          navigate('/category-dashboard');
+          navigate('/admin/category-dashboard');
         }
       } else {
         toast.info('Category information has not been changed');

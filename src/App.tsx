@@ -28,6 +28,7 @@ import AdminCategoryDashboard from './components/adminContent/category/AdminCate
 import AddNewCategory from './components/adminContent/category/AddNewCategory';
 import UpdateCategory from './components/adminContent/category/UpdateCategory';
 import UpdatePassword from './components/user/UpdatePassword';
+import UsersList from './components/adminContent/users/UsersList';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -104,7 +105,7 @@ function App() {
           }
         />
         <Route
-          path='/product-dashboard'
+          path='/admin/product-dashboard'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<ProductDashboard />}
@@ -112,7 +113,7 @@ function App() {
           }
         />
         <Route
-          path='/add-new-product'
+          path='/admin/add-new-product'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<AddNewProduct />}
@@ -120,7 +121,7 @@ function App() {
           }
         />
         <Route
-          path='/update-product/:id'
+          path='/admin/update-product/:id'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<UpdateProduct />}
@@ -128,7 +129,7 @@ function App() {
           }
         />
         <Route
-          path='/category-dashboard'
+          path='/admin/category-dashboard'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<AdminCategoryDashboard />}
@@ -136,7 +137,7 @@ function App() {
           }
         />
         <Route
-          path='/add-new-category'
+          path='/admin/add-new-category'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<AddNewCategory />}
@@ -144,10 +145,18 @@ function App() {
           }
         />
         <Route
-          path='/update-category/:id'
+          path='/admin/update-category/:id'
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               {<UpdateCategory />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/admin/users-list/'
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              {<UsersList />}
             </ProtectedRoute>
           }
         />

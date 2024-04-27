@@ -189,7 +189,7 @@ const ProductDashboard = () => {
   const totalPage = Math.ceil(total / (filterProducts.limit as number));
 
   const addProductHandler = () => {
-    navigate('/add-new-product');
+    navigate('/admin/add-new-product');
   };
 
   // const sortTitleHandler = useCallback(

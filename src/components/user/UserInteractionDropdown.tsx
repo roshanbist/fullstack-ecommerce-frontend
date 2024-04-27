@@ -102,7 +102,7 @@ const UserDropdown = ({
       <li className='border-b border-b-palette-accent'>
         <Link
           className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-          to={'/product-dashboard'}
+          to={'/admin/product-dashboard'}
           onClick={dropdownCloseHandler}
         >
           Product Dashboard
@@ -111,10 +111,19 @@ const UserDropdown = ({
       <li className='border-b border-b-palette-accent'>
         <Link
           className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
-          to={'/category-dashboard'}
+          to={'/admin/category-dashboard'}
           onClick={dropdownCloseHandler}
         >
           Category Dashboard
+        </Link>
+      </li>
+      <li className='border-b border-b-palette-accent'>
+        <Link
+          className='text-color-primary block py-3 px-5 hover:bg-blue-600 font-medium hover:text-white transition-colors ease-in-out duration-300'
+          to={'/admin/users-list'}
+          onClick={dropdownCloseHandler}
+        >
+          Users list
         </Link>
       </li>
       <li className='border-b border-b-palette-accent'>

@@ -31,7 +31,7 @@ const AdminCategoryDashboard = () => {
             </h1>
             <button
               className='btn-primary ml-3 rounded-xl'
-              onClick={() => navigate('/add-new-category')}
+              onClick={() => navigate('/admin/add-new-category')}
             >
               Add Category
             </button>

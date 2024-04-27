@@ -69,7 +69,15 @@ export const getAllUsers = createAsyncThunk(
   'getAllUsers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(URL);
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+      const response = await fetch(URL, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
       // check if the response has error
       if (!response.ok) {
@@ -233,6 +241,40 @@ export const updatePassword = createAsyncThunk(
       dispatch(userInformation(data));
       toast.success('Password changed successfully');
       return data;
+    } catch (e) {
+      const error = e as Error;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// thunk action to delete a user
+export const deleteUserById = createAsyncThunk(
+  'deleteUserById',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const { accessToken } = JSON.parse(
+        localStorage.getItem('userToken') as string
+      );
+
+      const response = await fetch(`${URL}/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        toast.error(errorMessage.message);
+        return rejectWithValue(errorMessage.message);
+      }
+
+      // const data: UserType = await response.json();
+      // dispatch(userInformation(data));
+      toast.success('User deleted successfully');
+      return userId;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -442,6 +484,32 @@ const userSlice = createSlice({
     });
 
     builder.addCase(updatePassword.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: 'failed',
+        error: action.error.message,
+      };
+    });
+
+    builder.addCase(deleteUserById.fulfilled, (state, action) => {
+      const userId = action.payload;
+      return {
+        ...state,
+        users: state.users.filter((user) => user._id !== userId),
+        loading: 'succeeded',
+        error: '',
+      };
+    });
+
+    builder.addCase(deleteUserById.pending, (state, action) => {
+      return {
+        ...state,
+        loading: 'pending',
+        error: '',
+      };
+    });
+
+    builder.addCase(deleteUserById.rejected, (state, action) => {
       return {
         ...state,
         loading: 'failed',

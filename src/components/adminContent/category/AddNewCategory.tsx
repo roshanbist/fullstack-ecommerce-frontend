@@ -41,7 +41,7 @@ const AddNewCategory = () => {
 
       if (result.meta.requestStatus === 'fulfilled') {
         toast.success('Category added successfully');
-        navigate('/category-dashboard');
+        navigate('/admin/category-dashboard');
         reset();
       } else if (result.meta.requestStatus === 'rejected') {
         toast.error('Error occurred. Please try again later');

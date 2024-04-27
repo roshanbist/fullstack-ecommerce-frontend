@@ -80,7 +80,7 @@ const AddNewProduct = () => {
 
       if (result.meta.requestStatus === 'fulfilled') {
         toast.success('Product added successfully');
-        navigate('/product-dashboard');
+        navigate('/admin/product-dashboard');
         reset();
       } else if (result.meta.requestStatus === 'rejected') {
         toast.error('Error occurred. Please try again later');
