@@ -6,6 +6,7 @@ import categoryReducer, {
 const initialState: CategoryInitialState = {
   categories: [],
   categLoading: false,
+  selectedSingleCategory: null,
   categError: '',
 };
 
@@ -32,6 +33,7 @@ describe('category Reducer', () => {
       categories: mockCategoryData,
       categLoading: false,
       categError: '',
+      selectedSingleCategory: null,
     };
 
     expect(newCategoryState).toEqual(updateCategoryState);
@@ -48,6 +50,7 @@ describe('category Reducer', () => {
       categories: [],
       categLoading: true,
       categError: '',
+      selectedSingleCategory: null,
     };
 
     expect(newCategoryState).toEqual(updateCategoryState);
@@ -66,6 +69,7 @@ describe('category Reducer', () => {
       categories: [],
       categLoading: false,
       categError: errorResponse.message,
+      selectedSingleCategory: null,
     };
 
     expect(newCategoryState).toEqual(updateCategoryState);

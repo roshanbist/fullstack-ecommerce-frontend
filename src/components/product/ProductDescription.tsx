@@ -88,7 +88,7 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
           </span>
         )}
       </div>
-      {/* {loggedUserInfo && loggedUserInfo.role === 'customer' && ( */}
+
       <div className='flex gap-4'>
         <div className='flex border border-color-primary items-center gap-x-4 py-4 px-6 rounded-xl'>
           <span
@@ -118,7 +118,6 @@ const ProductDescription = ({ productData }: { productData: ProductType }) => {
           Add To Cart
         </button>
       </div>
-      {/* // )} */}
     </div>
   );
 };

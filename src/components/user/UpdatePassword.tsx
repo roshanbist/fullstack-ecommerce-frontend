@@ -1,10 +1,11 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { PasswordUpdate } from '../../types/User';
 import { logoutUser, updatePassword } from '../../redux/slices/UserSlice';
 import { useAppDispatch } from '../../redux/store';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import ContentWrapper from '../contentWrapper/ContentWrapper';
 import { clearCart } from '../../redux/slices/CartSlice';
 import GoBackButton from '../goBackButton/GoBackButton';
@@ -29,17 +30,11 @@ const UpdatePassword = () => {
 
       const result = await dispatch(updatePassword(newPasswordData));
       if (result.meta.requestStatus === 'fulfilled') {
-        // toast.success('Password changed successfully');
-        // navigate('/');
         dispatch(logoutUser());
         dispatch(clearCart());
         navigate('/login');
         reset();
       }
-
-      // else if (result.meta.requestStatus === 'rejected') {
-      //   toast.error('Unable to change password. Please try again');
-      // }
     } catch (e) {
       const error = e as Error;
       toast.error(error.message);

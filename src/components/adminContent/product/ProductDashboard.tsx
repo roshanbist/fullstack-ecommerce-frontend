@@ -6,12 +6,7 @@ import { debounce } from 'lodash';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import ContentWrapper from '../../contentWrapper/ContentWrapper';
 import { FilterProduct } from '../../../types/Product';
-// import { PaginationProps } from '../../types/Pagination';
-// import usePagination from '../../hook/usePagination';
-import {
-  fetchAllProducts,
-  // filterProductsList,
-} from '../../../redux/slices/ProductSlice';
+import { fetchAllProducts } from '../../../redux/slices/ProductSlice';
 import { fetchAllCategories } from '../../../redux/slices/CategorySlice';
 import Pagination from '../../pagination/Pagination';
 import AdminProductCard from './AdminProductCard';
@@ -22,13 +17,6 @@ import NoMatchFound from '../../noMatchFound/NoMatchFound';
 const ProductDashboard = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  // const [filterProducts, setFilterProducts] = useState<FilterProduct>({
-  //   categoryId: '0',
-  //   price: 0,
-  //   title: '',
-  //   sortTitle: '',
-  // });
 
   const [filterProducts, setFilterProducts] = useState<FilterProduct>({
     categoryId: '',
@@ -47,12 +35,6 @@ const ProductDashboard = () => {
 
   const { categories } = useSelector((state: AppState) => state.categories);
 
-  // let paginationInput: PaginationProps = {
-  //   totalItems: products.length,
-  //   // totalItems: total,
-  //   showPerPage: 15,
-  // };
-
   const handlePageChange = (data: { selected: number }) => {
     setCurrentPage(data.selected);
     setFilterProducts((prevFilters) => ({
@@ -60,9 +42,6 @@ const ProductDashboard = () => {
       offset: data.selected + 1,
     }));
   };
-
-  // const { currentPage, startIndex, lastIndex, totalPage, handlePageChange } =
-  //   usePagination(paginationInput);
 
   useEffect(() => {
     dispatch(fetchAllProducts(filterProducts));
@@ -82,58 +61,6 @@ const ProductDashboard = () => {
       limit: 10,
     });
   }, []);
-
-  // const categoryHandler = useCallback(
-  //   (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //     setFilterProducts((prevFilters) => ({
-  //       ...prevFilters,
-  //       categoryId: e.target.value,
-  //     }));
-
-  //     dispatch(
-  //       filterProductsList({
-  //         ...filterProducts,
-  //         categoryId: e.target.value,
-  //       })
-  //     );
-  //   },
-  //   [dispatch, filterProducts]
-  // );
-
-  // const inputSearchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value } = e.target;
-  //   setFilterProducts((prevFilters) => ({
-  //     ...prevFilters,
-  //     title: value.trim().toLowerCase(),
-  //   }));
-
-  //   const searchValue = value.trim();
-
-  //   return debouncedHandleSearch(searchValue);
-  // };
-
-  // const debounceSearchByTitle = (value: string) => {
-  //   dispatch(filterProductsList({ ...filterProducts, title: value.trim() }));
-  // };
-
-  // const debouncedHandleSearch = useCallback(
-  //   lodash.debounce(debounceSearchByTitle, 600),
-  //   [filterProducts.title]
-  // );
-
-  // const priceHandler = useCallback(
-  //   (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //     setFilterProducts((prevFilters) => ({
-  //       ...prevFilters,
-  //       price: +e.target.value,
-  //     }));
-
-  //     dispatch(
-  //       filterProductsList({ ...filterProducts, price: +e.target.value })
-  //     );
-  //   },
-  //   [dispatch, filterProducts]
-  // );
 
   const onCategoryChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -192,20 +119,6 @@ const ProductDashboard = () => {
     navigate('/admin/add-new-product');
   };
 
-  // const sortTitleHandler = useCallback(
-  //   (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //     setFilterProducts((prevFilters) => ({
-  //       ...prevFilters,
-  //       sortTitle: e.target.value,
-  //     }));
-
-  //     dispatch(
-  //       filterProductsList({ ...filterProducts, sortTitle: e.target.value })
-  //     );
-  //   },
-  //   [dispatch, filterProducts]
-  // );
-
   return (
     <ContentWrapper>
       <div className='max-container'>
@@ -225,9 +138,7 @@ const ProductDashboard = () => {
             <input
               className='form-input border border-palette-accent bg-palette-ebony'
               type='search'
-              // value={filterProducts.title}
               placeholder='Search here'
-              // onChange={inputSearchHandler}
               onChange={debounceHandleSearch}
             />
           </div>
@@ -235,8 +146,6 @@ const ProductDashboard = () => {
             <div className='w-[50%] sm:w-[220px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.categoryId}
-                // onChange={categoryHandler}
                 onChange={debounceHandleCategory}
               >
                 <option value=''>Filter by category</option>
@@ -250,8 +159,6 @@ const ProductDashboard = () => {
             <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.price}
-                // onChange={priceHandler}
                 onChange={debounceHandlePrice}
               >
                 <option value={0}>Filter by price</option>
@@ -265,8 +172,6 @@ const ProductDashboard = () => {
             <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.sortTitle}
-                // onChange={sortTitleHandler}
                 onChange={debounceHandleSortTitle}
               >
                 <option value={''}>Sort title</option>

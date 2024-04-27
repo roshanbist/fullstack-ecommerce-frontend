@@ -36,8 +36,6 @@ export const getLoggedUserInfo = createAsyncThunk(
       const authUser: AuthToken = JSON.parse(userTokenString);
       const accessToken = authUser?.accessToken;
 
-      // console.log('accessToken', accessToken);
-
       const response = await fetch(`${URL}/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -45,15 +43,12 @@ export const getLoggedUserInfo = createAsyncThunk(
         },
       });
 
-      // console.log('response k ayo', response);
-
       if (!response.ok) {
         const errorMessage = await response.json();
         return rejectWithValue(errorMessage.message);
       }
 
       const data: UserType = await response.json();
-      // console.log('data aayo ta', data);
 
       localStorage.setItem('userRole', data.role);
       return data;
@@ -133,14 +128,10 @@ export const loginUser = createAsyncThunk(
       }
 
       const userResults: loginUserAuth = await response.json();
-      // const { tokens: AuthToken, user: UserType } = userResults;
 
       localStorage.setItem('userToken', JSON.stringify(userResults.tokens));
       const loggedUserDetail = await dispatch(getLoggedUserInfo());
       return loggedUserDetail.payload as UserType;
-      // const loggedUserDetail: UserType = userResults.user;
-      // localStorage.setItem('userRole', loggedUserDetail.role);
-      // return loggedUserDetail;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
@@ -271,8 +262,6 @@ export const deleteUserById = createAsyncThunk(
         return rejectWithValue(errorMessage.message);
       }
 
-      // const data: UserType = await response.json();
-      // dispatch(userInformation(data));
       toast.success('User deleted successfully');
       return userId;
     } catch (e) {

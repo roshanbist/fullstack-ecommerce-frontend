@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import ContentWrapper from '../../contentWrapper/ContentWrapper';
-import { NewProductType, Size } from '../../../types/Product';
+import { NewProductType } from '../../../types/Product';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { uploadFileService } from '../../../utils/uploadFileService';
 import { createNewProduct } from '../../../redux/slices/ProductSlice';
 import GoBackButton from '../../goBackButton/GoBackButton';
-import { useSelector } from 'react-redux';
 import { fetchAllCategories } from '../../../redux/slices/CategorySlice';
 import { productSize } from '../../../constants';
-import { sortSizes } from '../../../utils/api';
+import { sortSizes } from '../../../utils/commonUtil';
 
 const AddNewProduct = () => {
   const {
@@ -73,8 +73,6 @@ const AddNewProduct = () => {
         categoryId: formData.categoryId,
         size: selectedSortSize,
       };
-
-      console.log('newproduct data', newProductData);
 
       const result = await dispatch(createNewProduct(newProductData));
 

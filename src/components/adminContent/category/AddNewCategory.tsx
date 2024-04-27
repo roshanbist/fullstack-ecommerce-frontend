@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { CategoryBase } from '../../../types/Category';
 import { useAppDispatch } from '../../../redux/store';
-import { useNavigate } from 'react-router-dom';
 import ContentWrapper from '../../contentWrapper/ContentWrapper';
 import GoBackButton from '../../goBackButton/GoBackButton';
 import { uploadFileService } from '../../../utils/uploadFileService';
 import { createNewCategory } from '../../../redux/slices/CategorySlice';
-import { toast } from 'react-toastify';
 
 const AddNewCategory = () => {
   const {

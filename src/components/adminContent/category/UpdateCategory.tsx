@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import ContentWrapper from '../../contentWrapper/ContentWrapper';
 import { AppState, useAppDispatch } from '../../../redux/store';
@@ -10,7 +11,6 @@ import {
 } from '../../../redux/slices/CategorySlice';
 import { Category } from '../../../types/Category';
 import { uploadFileService } from '../../../utils/uploadFileService';
-import { toast } from 'react-toastify';
 import GoBackButton from '../../goBackButton/GoBackButton';
 
 const UpdateCategory = () => {
@@ -36,20 +36,6 @@ const UpdateCategory = () => {
   useEffect(() => {
     setUpdatedCategoryData(location.state?.categoryData || {});
   }, [location.state]);
-
-  //   const fetchAllCategoryMemoized = useCallback(() => {
-  //     dispatch(fetchSingleCategory(id as string));
-  //   }, [dispatch, id]);
-
-  //   useEffect(() => {
-  //     fetchAllCategoryMemoized();
-  //   }, [fetchAllCategoryMemoized]);
-
-  //   useEffect(() => {
-  //     if (singleCategory) {
-  //       setUpdatedCategoryData(singleCategory);
-  //     }
-  //   }, [id, singleCategory]);
 
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -77,10 +63,6 @@ const UpdateCategory = () => {
     try {
       let newUpdatedCategoryData: Category = updatedCategoryData;
 
-      // console.log('new udpated prdouct data', newUpdatedCategoryData);
-
-      // const selectedSortSize = sortSizes(selectedSizes);
-
       const differences: string[] = [];
       const keysToCheck = ['name', 'image'];
 
@@ -92,8 +74,6 @@ const UpdateCategory = () => {
           differences.push(key);
         }
       }
-
-      // console.log('difference', differences);
 
       if (differences.length > 0) {
         const res = await dispatch(

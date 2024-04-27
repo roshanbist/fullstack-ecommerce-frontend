@@ -4,14 +4,12 @@ import { toast } from 'react-toastify';
 import {
   FilterProduct,
   NewProductType,
-  // ProductFilters,
   ProductInitialState,
   ProductType,
   ProductsList,
 } from '../../types/Product';
 import { BASE_URL } from '../../utils/api';
 
-// const URL = 'https://api.escuelajs.co/api/v1/products';
 const URL = `${BASE_URL}/products`;
 
 const initialState: ProductInitialState = {
@@ -65,10 +63,6 @@ export const fetchAllProducts = createAsyncThunk(
       }&limit=${limit}`;
     }
 
-    // console.log('offset', offset, 'limit', limit);
-
-    // console.log('query', newUrl);
-
     try {
       const response = await fetch(newUrl);
 
@@ -78,11 +72,8 @@ export const fetchAllProducts = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      // const data: ProductType[] = await response.json();
-      // const productsResult: ProductsList = await response.json();
       const data: ProductsList = await response.json();
-      // console.log('productsResult', productsResult);
-      // const data: ProductType[] = productsResult.products;
+
       return data;
     } catch (e) {
       const error = e as Error;
@@ -117,8 +108,6 @@ export const fetchSingleProduct = createAsyncThunk(
 export const updateSingleProduct = createAsyncThunk(
   'updateSingleProduct',
   async (updatedParams: ProductType, { rejectWithValue }) => {
-    // const updatedData = { title, description, price, size };
-
     try {
       const { _id } = updatedParams;
       const { accessToken } = JSON.parse(
@@ -191,14 +180,6 @@ export const deleteProduct = createAsyncThunk(
         localStorage.getItem('userToken') as string
       );
 
-      // const response = await fetch(`${URL}/${productId}`, {
-      //   method: 'DELETE',
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-
       const response = await fetch(`${URL}/${productId}`, {
         method: 'DELETE',
         headers: {
@@ -207,66 +188,18 @@ export const deleteProduct = createAsyncThunk(
         },
       });
 
-      console.log('response', response);
-
       if (!response.ok) {
         const errorResponse = await response.json();
         return rejectWithValue(errorResponse.message);
       }
 
-      // const data = await response.json();
-      // console.log('data after delete', data);
       toast.success('Item Deleted Successfully');
-      // return { data: data, productId };
+
       return productId;
     } catch (e) {
       const error = e as Error;
       return rejectWithValue(error.message);
     }
-  }
-);
-
-// filter products
-export const filterProductsList = createAsyncThunk(
-  'filterProducts',
-  async (params: FilterProduct, { rejectWithValue }) => {
-    // let queryParams = '';
-    // if (params.title) {
-    //   const titleText = params.title.trim();
-    //   queryParams += `title=${titleText}&`;
-    // }
-    // if (params.categoryId) {
-    //   queryParams += `category=${params.categoryId}&`;
-    // }
-    // if (params.price) {
-    //   if (params.price === 1) {
-    //     queryParams += `min_price=${params.price}&max_price=${
-    //       params.price + 49
-    //     }&`;
-    //   } else if (params.price < 200) {
-    //     queryParams += `min_price=${params.price}&max_price=${
-    //       params.price + 50
-    //     }&`;
-    //   } else if (params.price === 200) {
-    //     queryParams += `min_price=${params.price}&max_price=100000&`;
-    //   }
-    // }
-    // queryParams = queryParams.slice(0, -1);
-    // try {
-    //   const response = await fetch(`${URL}/?${queryParams}`);
-    //   if (!response.ok) {
-    //     const errorResponse = await response.json();
-    //     toast.error(errorResponse.message);
-    //     return rejectWithValue(errorResponse.message);
-    //   }
-    //   // const data: ProductType[] = await response.json();
-    //   const productsResult: ProductsList = await response.json();
-    //   const data: ProductType[] = productsResult.products;
-    //   return data;
-    // } catch (e) {
-    //   const error = e as Error;
-    //   return rejectWithValue(error.message);
-    // }
   }
 );
 
@@ -424,34 +357,6 @@ const productSlice = createSlice({
         loading: false,
       };
     });
-
-    // delete product to products array if fulfilled
-    // builder.addCase(filterProductsList.fulfilled, (state, action) => {
-    //   return {
-    //     ...state,
-    //     products: action.payload,
-    //     loading: false,
-    //     error: '',
-    //   };
-    // });
-
-    // handle pending state
-    // builder.addCase(filterProductsList.pending, (state, action) => {
-    //   return {
-    //     ...state,
-    //     loading: true,
-    //     error: '',
-    //   };
-    // });
-
-    // handle rejected state
-    // builder.addCase(filterProductsList.rejected, (state, action) => {
-    //   return {
-    //     ...state,
-    //     error: action.error.message,
-    //     loading: false,
-    //   };
-    // });
   },
 });
 

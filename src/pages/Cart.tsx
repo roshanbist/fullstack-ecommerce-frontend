@@ -7,7 +7,6 @@ import CartSummary from '../components/cart/CartSummary';
 import EmptyCart from '../components/cart/EmptyCart';
 import { AppState } from '../redux/store';
 import Loader from '../components/loader/Loader';
-import { EmptyCartMessage } from '../types/Cart';
 
 const Cart = () => {
   const [itemExist, setItemExist] = useState<boolean>(true);

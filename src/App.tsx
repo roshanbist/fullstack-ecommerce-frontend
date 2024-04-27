@@ -16,6 +16,7 @@ import {
   Cart,
   PageNotFound,
 } from './pages';
+
 import { useAppDispatch } from './redux/store';
 import { getLoggedUserInfo } from './redux/slices/UserSlice';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
@@ -160,16 +161,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path='/cart'
-          element={
-            // <ProtectedRoute allowedRoles={['customer']}>
-            // {
-            <Cart />
-            // }
-            // </ProtectedRoute>
-          }
-        />
+        <Route path='/cart' element={<Cart />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
       <Footer />

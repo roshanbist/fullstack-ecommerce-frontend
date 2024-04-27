@@ -16,63 +16,16 @@ const CartSummary = () => {
   const totalAmountAfterDiscount = Number(0.9 * totalAmount).toFixed(2);
 
   const orderProducts = useSelector((state: AppState) => state.carts.items);
-  // const totalPrice = useSelector((state: AppState) => state.carts.totalAmount);
-
-  // console.log('cartProducts', cartProducts, totalAmount);
-
-  // console.log('totalAmount', totalAmount);
-
-  // const shippingAddress
 
   const loggedUserInfo = useSelector(
     (state: AppState) => state.users.loggedUser
   );
-
-  // const { accessToken } = JSON.parse(
-  //   localStorage.getItem('userToken') as string
-  // );
-
-  // console.log('userTokenstring', accessToken);
 
   useEffect(() => {
     if (!loggedUserInfo) {
       dispatch(getLoggedUserInfo);
     }
   }, [dispatch, loggedUserInfo]);
-
-  // const checkoutHandler = async () => {
-  //   if (loggedUserInfo) {
-  //     // If the user is logged in, proceed with the checkout process
-
-  //     // send cart information to backend
-  //     //endpoints :
-  //     // method: POST
-  //     // data: cartitems
-
-  //     const response = await fetch(`${BASE_URL}/users`, {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ items: cartProducts }),
-  //     });
-
-  //     console.log('response', response);
-
-  //     // toast.success('Thank you for Ordering');
-  //     // localStorage.removeItem('cartCollection');
-  //     // dispatch(clearCart());
-  //     // navigate('/');
-  //   } else {
-  //     toast.info('Please login to your account');
-  //     setTimeout(() => {
-  //       navigate('/login');
-  //     }, 1000);
-
-  //     return;
-  //   }
-  // };
 
   const checkoutHandler = async () => {
     try {
@@ -95,17 +48,11 @@ const CartSummary = () => {
         });
 
         if (response.status === 201) {
-          // const data = await response.json();
-
-          // console.log('data', data);
-          // Handle successful response (e.g., display success message)
           toast.success('Thank you for Ordering');
           localStorage.removeItem('cartCollection');
           dispatch(clearCart());
-          // better to take your order page
           navigate('/');
         } else {
-          // Handle unsuccessful response (e.g., display error message)
           const errorData = await response.json();
           toast.error(errorData.message || 'An error occurred');
         }
@@ -116,8 +63,6 @@ const CartSummary = () => {
         }, 1000);
       }
     } catch (error) {
-      // Handle unexpected errors (e.g., network issues)
-      console.error('An error occurred:', error);
       toast.error('An unexpected error occurred');
     }
   };

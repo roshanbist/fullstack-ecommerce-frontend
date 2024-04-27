@@ -2,9 +2,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { UserType } from '../../../types/User';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch } from '../../../redux/store';
 import { deleteUserById } from '../../../redux/slices/UserSlice';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const UsersTable = ({ users }: { users: UserType[] }) => {
   const dispatch = useAppDispatch();

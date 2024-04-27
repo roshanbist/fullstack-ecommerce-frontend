@@ -26,8 +26,6 @@ export const getAllOrders = createAsyncThunk(
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      //   console.log('response', response);
-
       if (!response.ok) {
         const errorResponse = await response.json();
         toast.error(errorResponse.message);
@@ -94,7 +92,6 @@ export const deleteOrderById = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      // const data: boolean = await response.json();
       toast.success('Order Deleted Successfully');
       return orderId;
     } catch (e) {

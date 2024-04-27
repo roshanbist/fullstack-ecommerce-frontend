@@ -27,15 +27,6 @@ export type NewProductType = {
   size: string[];
 };
 
-// export type CreateProductType = {
-//   title: string;
-//   price: number;
-//   description: string;
-//   category: string;
-//   images: string[];
-//   size: string[];
-// };
-
 export type ProductsList = {
   total: number;
   products: ProductType[];
@@ -50,13 +41,6 @@ export type sortTitleOption = {
   value: string;
   label: string;
 };
-
-// export type ProductFilters = {
-//   title?: string;
-//   categoryId?: string;
-//   price?: number;
-//   sortTitle?: string;
-// };
 
 export type FilterProduct = {
   title?: string;

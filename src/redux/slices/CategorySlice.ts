@@ -8,7 +8,6 @@ import {
 import { toast } from 'react-toastify';
 import { BASE_URL } from '../../utils/api';
 
-// const URL = 'https://api.escuelajs.co/api/v1/categories';
 const URL = `${BASE_URL}/categories`;
 
 const initialState: CategoryInitialState = {
@@ -98,8 +97,6 @@ export const createNewCategory = createAsyncThunk(
 export const updateSingleCategory = createAsyncThunk(
   'updateSingleCategory',
   async (updatedParams: Category, { rejectWithValue }) => {
-    // const updatedData = { title, description, price, size };
-
     try {
       const { _id } = updatedParams;
       const { accessToken } = JSON.parse(
@@ -153,10 +150,7 @@ export const deleteCategory = createAsyncThunk(
         return rejectWithValue(errorResponse.message);
       }
 
-      // const data = await response.json();
-      // console.log('data after delete', data);
       toast.success('Category Deleted Successfully');
-      // return { data: data, categoryId };
       return categoryId;
     } catch (e) {
       const error = e as Error;

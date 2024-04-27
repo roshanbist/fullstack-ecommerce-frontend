@@ -11,7 +11,6 @@ import GoBackButton from '../goBackButton/GoBackButton';
 import { uploadFileService } from '../../utils/uploadFileService';
 
 const EditProfile = () => {
-  // const [inputFile, setInputFile] = useState<File[]>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -44,7 +43,7 @@ const EditProfile = () => {
   const imageChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFiles = Array.from(e.target.files);
-      // setInputFile(selectedFiles);
+
       const inputFileUrl = await uploadFileService(selectedFiles);
       setUpdatedData((prevData: UserType) => ({
         ...prevData,
@@ -184,12 +183,6 @@ const EditProfile = () => {
                 onChange={imageChangeHandler}
                 accept='images/*'
               />
-              {/* <div className='mt-2 w-[50px] h-[50px] overflow-hidden border border-color-primary'>
-                <img
-                  src={`${updatedData && updatedData?.avatar}`}
-                  alt='image '
-                />
-              </div> */}
             </div>
             <button
               className='block btn-primary rounded-lg w-full'

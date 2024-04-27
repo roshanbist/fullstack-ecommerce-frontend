@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import ContentWrapper from '../contentWrapper/ContentWrapper';
-import { OrderList } from '../../types/orderList';
-import { BASE_URL } from '../../utils/api';
+
 import Loader from '../loader/Loader';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -13,14 +11,8 @@ import { getSingleOrder } from '../../redux/slices/OrderSlice';
 import GoBackButton from '../goBackButton/GoBackButton';
 
 const OrderDetail = () => {
-  // const [orderData, setOrderData] = useState<OrderList | null>(null);
-  // const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const { orderId } = useParams();
-
-  // const { accessToken } = JSON.parse(
-  //   localStorage.getItem('userToken') as string
-  // );
 
   const { selectedSingleOrder, loading } = useSelector(
     (state: AppState) => state.orders
@@ -29,32 +21,6 @@ const OrderDetail = () => {
   useEffect(() => {
     dispatch(getSingleOrder(orderId as string));
   }, [dispatch, orderId]);
-
-  // useEffect(() => {
-  //   const singleOrderDetail = async () => {
-  //     try {
-  //       const response = await fetch(`${BASE_URL}/orders/${orderId}`, {
-  //         headers: { Authorization: `Bearer ${accessToken}` },
-  //       });
-
-  //       if (response.status !== 200) {
-  //         const errorData = await response.json();
-  //         toast.error(errorData.message || 'An error occurred');
-  //         setLoading(true);
-  //       }
-
-  //       // setTo state
-  //       const orderData: OrderList = await response.json();
-  //       setOrderData(orderData);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('An error occurred:', error);
-  //       toast.error('An unexpected error occurred');
-  //     }
-  //   };
-
-  //   singleOrderDetail();
-  // }, [accessToken, orderId]);
 
   const priceBeforeDiscount =
     selectedSingleOrder &&

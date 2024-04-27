@@ -61,14 +61,7 @@ const cartSlice = createSlice({
         state.totalAmount -= existingItem.price;
 
         if (existingItem?.amount === 1) {
-          // state.items = state.items.filter(
-          //   (item) => item.size !== existingItem.size
-          // );
-
           state.items.splice(existingItemIndex, 1);
-
-          // localStorage.setItem('cartCollection', JSON.stringify(state));
-          // toast.success('Item Removed Successfully');
         } else {
           const updatedItems = {
             ...existingItem,
@@ -97,11 +90,7 @@ const cartSlice = createSlice({
 
         state.totalAmount -=
           existingItem.price * (existingItem.amount as number);
-        // console.log('cart total amount', state.totalAmount);
 
-        // state.items = state.items.filter(
-        //   (item) => item.size !== existingItem.size
-        // );
         state.items.splice(existingItemIndex, 1);
 
         localStorage.setItem('cartCollection', JSON.stringify(state));

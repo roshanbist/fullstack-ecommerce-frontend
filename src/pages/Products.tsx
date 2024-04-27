@@ -41,9 +41,6 @@ const Products = () => {
     }));
   };
 
-  // console.log('offset data', filterProducts.offset);
-  // console.log('curernt page', currentPage);
-
   useEffect(() => {
     dispatch(fetchAllProducts(filterProducts));
   }, [dispatch, filterProducts]);
@@ -128,7 +125,6 @@ const Products = () => {
             <input
               className='form-input border border-palette-accent bg-palette-ebony'
               type='text'
-              // value={filterProducts.title}
               placeholder='Search here'
               onChange={debounceHandleSearch}
             />
@@ -137,7 +133,6 @@ const Products = () => {
             <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.categoryId}
                 onChange={debounceHandleCategory}
               >
                 <option value=''>Filter by category</option>
@@ -151,7 +146,6 @@ const Products = () => {
             <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.price}
                 onChange={debounceHandlePrice}
               >
                 <option value={0}>Filter by price</option>
@@ -166,7 +160,6 @@ const Products = () => {
             <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
-                // value={filterProducts.sortTitle}
                 onChange={debounceHandleSortTitle}
               >
                 <option value={''}>Sort title</option>

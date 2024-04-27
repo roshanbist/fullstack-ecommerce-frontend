@@ -128,7 +128,6 @@ describe('user reducers', () => {
     const currentLoggedUser: UserType = {
       ...mockUser,
       _id: '1',
-      // name: 'Nicolas',
       role: 'customer',
       firstname: 'Nicolas',
       lastname: 'Pooran',
@@ -202,9 +201,6 @@ describe('user reducers', () => {
       users: [],
       loggedUser: {
         _id: '1',
-        // name: 'Nicolas',
-        // email: 'nicolas@gmail.com',
-        // password: '1234',
         role: 'customer',
         firstname: 'Nicolas',
         lastname: 'Pooran',

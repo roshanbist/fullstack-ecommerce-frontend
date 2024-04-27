@@ -1,16 +1,12 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Category } from '../../../types/Category';
 import { useAppDispatch } from '../../../redux/store';
-import { useNavigate } from 'react-router-dom';
 import { deleteCategory } from '../../../redux/slices/CategorySlice';
-// import { ImageUrlClear } from '../../../utils/ImageUrlClear';
 
 const AdminCategoryCard = ({ categoryData }: { categoryData: Category }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  //   const categoryImage = ImageUrlClear(categoryData.image[0]);
 
   const categoryDeleteHandler = async (id: string) => {
     await dispatch(deleteCategory(id));

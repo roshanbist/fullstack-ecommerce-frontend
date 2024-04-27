@@ -144,7 +144,6 @@ const UserDropdown = ({
           loggedUserInfo ? loggedUserInfo.firstname : 'Guest'
         }`}</h2>
         <p className='transition-none tracking-wide'>
-          {/* {loggedUserInfo && loggedUserInfo.role.toLowerCase() === 'admin' */}
           {loggedUserInfo && loggedUserInfo.role === 'admin'
             ? 'Lets start managing the products.'
             : 'Lets start shopping.'}

@@ -5,8 +5,6 @@ export type CategoryBase = {
 
 export type Category = CategoryBase & {
   _id: string;
-  // name: string;
-  // image: string;
 };
 
 export type CategoryInitialState = {

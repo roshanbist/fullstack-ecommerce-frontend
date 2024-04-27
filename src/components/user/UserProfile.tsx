@@ -15,7 +15,6 @@ const UserProfile = () => {
     (state: AppState) => state.users.loggedUser
   );
 
-  // console.log('user profile logged user info', loggedUserInfo);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

@@ -33,7 +33,6 @@ const CartButton = () => {
 
   return (
     <>
-      {/* {loggedUserInfo && loggedUserInfo.role === 'customer' && ( */}
       <button
         type='button'
         className='text-blue-500 w-[30px] h-[30px] flex items-center ml-5 relative animate-fade'
@@ -48,7 +47,6 @@ const CartButton = () => {
           ''
         )}
       </button>
-      {/* // )} */}
     </>
   );
 };

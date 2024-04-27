@@ -14,7 +14,7 @@ import {
 import { uploadFileService } from '../../../utils/uploadFileService';
 import { fetchAllCategories } from '../../../redux/slices/CategorySlice';
 import { productSize } from '../../../constants';
-import { sortSizes } from '../../../utils/api';
+import { sortSizes } from '../../../utils/commonUtil';
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -104,10 +104,6 @@ const UpdateProduct = () => {
     try {
       let newUpdatedProductData: ProductType = updatedProductData;
 
-      // console.log('new udpated prdouct data', newUpdatedProductData);
-
-      // const selectedSortSize = sortSizes(selectedSizes);
-
       const differences: string[] = [];
       const keysToCheck = [
         'title',
@@ -118,9 +114,6 @@ const UpdateProduct = () => {
         'size',
       ];
 
-      //  const initialProductData: ProductType | undefined =
-      //    location.state?.productData;
-
       for (const key of keysToCheck) {
         if (
           newUpdatedProductData[key as keyof ProductType] !==
@@ -129,8 +122,6 @@ const UpdateProduct = () => {
           differences.push(key);
         }
       }
-
-      // console.log('difference', differences);
 
       if (differences.length > 0) {
         const res = await dispatch(updateSingleProduct(newUpdatedProductData));
