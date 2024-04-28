@@ -288,7 +288,7 @@ This application ensures a seamless experience across all devices, adapting effo
 ### Testing
 
 All the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
-Total 33 tests runs and passed in 4 test suites.
+Total 34 tests runs and passed in 4 test suites.
 
 ```bash
    npm test
