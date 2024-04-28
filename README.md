@@ -86,14 +86,14 @@ Ensure you have the following dependencies installed on your system:
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/roshanbist/shoplyst.git
+git clone https://github.com/roshanbist/fullstack-ecommerce-frontend.git
 
 ```
 
 2. Navigate to the project directory.
 
    ```bash
-   cd shoplyst
+   cd fullstack-ecommerce-frontend
 
    ```
 
