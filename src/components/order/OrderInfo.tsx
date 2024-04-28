@@ -35,7 +35,7 @@ const OrderInfo = ({ order }: { order: OrderList }) => {
             className='flex flex-wrap justify-between px-[15px] md:px-[30px] border-b pb-4 mb-4'
             key={index}
           >
-            <div className='w-[80px] h-[80px] rounded-sm max-sm:mb-5 md:mr-5'>
+            <div className='w-[80px] h-[80px] rounded-sm max-sm:mb-5 mr-5'>
               <img
                 className='w-full h-full object-cover rounded-sm cursor-pointer'
                 src={item.images[0]}

@@ -129,8 +129,8 @@ const Products = () => {
               onChange={debounceHandleSearch}
             />
           </div>
-          <div className='flex flex-wrap max-md:-mx-[5px] sm:gap-5'>
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
+          <div className='sm:mb-5 flex flex-wrap -mx-[10px]'>
+            <div className='w-[50%] sm:w-[200px] px-[10px] max-md:mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 onChange={debounceHandleCategory}
@@ -143,7 +143,7 @@ const Products = () => {
                 ))}
               </select>
             </div>
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
+            <div className='w-[50%] sm:w-[200px] px-[10px] max-md:mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 onChange={debounceHandlePrice}
@@ -157,7 +157,7 @@ const Products = () => {
               </select>
             </div>
 
-            <div className='w-[50%] sm:w-[200px] px-[5px] sm:p-0 mb-5'>
+            <div className='w-[50%] sm:w-[200px] px-[10px] max-md:mb-5'>
               <select
                 className='border border-palette-accent bg-palette-ebony h-[50px] rounded-lg p-3 text-color-primary shadow-lg w-full outline-none'
                 onChange={debounceHandleSortTitle}

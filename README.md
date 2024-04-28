@@ -10,8 +10,8 @@
 		<em>Developed with the software and tools below.</em>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
-	<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
+<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" alt="Redux">
   <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" alt="React Router">
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TAILWIND CSS">
@@ -21,7 +21,7 @@
 
 # Shoplyst
 
-'Shoplyst' is a frontend project developed with React, Typescript, Redux Toolkit, React Router Dom, and Tailwind CSS. Its core aim is to offer a user-friendly ecommerce experience, allowing customers to seamlessly explore diverse product categories like electronics, clothing, and furniture for online purchase. Powered by the [Platzi Fake Store API](https://fakeapi.platzi.com/), it ensures dynamic product data, catering to both customer exploration and efficient admin product management.
+'Shoplyst' is a frontend project developed with React, Typescript, Redux Toolkit, React Router Dom, and Tailwind CSS. Its core aim is to offer a user-friendly ecommerce experience, allowing customers to seamlessly explore diverse product categories like electronics, clothing, and furniture for online purchase. Powered by the api developed in Express js with typescript, it ensures dynamic product data, catering to both customer exploration and efficient admin product management with proper authentication. This is a frontedd part of Fullstack Project developed at Integrify 2024. The user interface facilitates both light mode and dark mode for the better user experience.
 
 ## Table of Contents
 
@@ -35,11 +35,12 @@
   - [Redux Store](#redux-store)
     - [User Reducer](#user-reducer)
     - [Product Reducer](#product-reducer)
+    - [Category Reducer](#category-reducer)
     - [Cart Reducer](#cart-reducer)
-  - [Theme Toggle (Light/Dark mode)](#theme-toggle-light-dark-mode)
+    - [Order Reducer](#order-reducer)
   - [Toast Notifications](#toast-notifications)
   - [Responsive Design](#responsive-design)
-- [API Endpoint](#api-endpoint)
+  - [Testing](#testing)
 - [Deployment](#deployment)
 
 ## Explore Shoplyst Live
@@ -55,6 +56,9 @@
 ![App Screenshot](appScreenshot/profile.png)
 ![App Screenshot](appScreenshot/empty-cart.png)
 ![App Screenshot](appScreenshot/cart-product.png)
+![App Screenshot](appScreenshot/order-list.png)
+![App Screenshot](appScreenshot/admin-product-dashboard.png)
+![App Screenshot](appScreenshot/admin-add-product.png)
 
 ## Technologies Used
 
@@ -111,12 +115,6 @@ git clone https://github.com/roshanbist/shoplyst.git
 ## Project Folder Structure
 
 ```
-└── .gitignore
-└── package.json
-└── 📁public
-    └── favicon.ico
-    └── index.html
-└── README.md
 └── 📁src
     └── App.tsx
     └── 📁assets
@@ -128,10 +126,19 @@ git clone https://github.com/roshanbist/shoplyst.git
             └── productPlaceholder.png
     └── 📁components
         └── 📁adminContent
-            └── AddNewProduct.tsx
-            └── AdminProductCard.tsx
-            └── ProductDashboard.tsx
-            └── UpdateProduct.tsx
+            └── 📁category
+                └── AddNewCategory.tsx
+                └── AdminCategoryCard.tsx
+                └── AdminCategoryDashboard.tsx
+                └── UpdateCategory.tsx
+            └── 📁product
+                └── AddNewProduct.tsx
+                └── AdminProductCard.tsx
+                └── ProductDashboard.tsx
+                └── UpdateProduct.tsx
+            └── 📁users
+                └── UsersList.tsx
+                └── UsersTable.tsx
         └── 📁banner
             └── Banner.tsx
         └── 📁cart
@@ -158,6 +165,9 @@ git clone https://github.com/roshanbist/shoplyst.git
             └── Newsletter.tsx
         └── 📁noMatchFound
             └── NoMatchFound.tsx
+        └── 📁order
+            └── OrderDetail.tsx
+            └── OrderInfo.tsx
         └── 📁pagination
             └── Pagination.tsx
         └── 📁product
@@ -173,23 +183,23 @@ git clone https://github.com/roshanbist/shoplyst.git
             └── ThemeToggle.tsx
         └── 📁user
             └── EditProfile.tsx
+            └── UpdatePassword.tsx
             └── UserInteraction.tsx
             └── UserInteractionDropdown.tsx
             └── UserProfile.tsx
     └── 📁constants
         └── index.ts
-    └── 📁hook
-        └── usePagination.ts
     └── index.css
     └── index.tsx
     └── logo.svg
     └── 📁pages
-        └── Admin.tsx
+        └── AdminProfile.tsx
         └── Cart.tsx
         └── CustomerProfile.tsx
         └── Home.tsx
         └── index.ts
         └── Login.tsx
+        └── MyOrderList.tsx
         └── PageNotFound.tsx
         └── ProductDetail.tsx
         └── Products.tsx
@@ -199,6 +209,7 @@ git clone https://github.com/roshanbist/shoplyst.git
         └── 📁slices
             └── CartSlice.ts
             └── CategorySlice.ts
+            └── OrderSlice.ts
             └── ProductSlice.ts
             └── UserSlice.ts
         └── store.ts
@@ -216,15 +227,16 @@ git clone https://github.com/roshanbist/shoplyst.git
     └── 📁types
         └── Cart.ts
         └── Category.ts
+        └── orderList.ts
         └── Pagination.ts
         └── Product.ts
         └── User.ts
     └── 📁utils
+        └── api.ts
+        └── commonUtil.ts
         └── ImageUrlClear.ts
         └── uploadFile.ts
         └── uploadFileService.ts
-└── tailwind.config.js
-└── tsconfig.json
 ```
 
 # Features
@@ -233,16 +245,25 @@ git clone https://github.com/roshanbist/shoplyst.git
 
 ### User Reducer
 
-- **Register User**
-- **Login User**
+- **Register user**
+- **Login user**
+- **Get all user (Admin access required)**
+- **Get single user by Id**
+- **Update user**
+- **Update password**
+- **Delete user by id (Admin access required)**
 
 ### Product Reducer
 
 - **Get all products**
-- **Find a single product**
-- **Filter products by price**
-- **Filter product by categories**
-- **CRUD Operation**
+- **Get a single product**
+- **Filter products by title, categories, and price**
+- **CRUD Operation for product (Admin access required)**
+
+### Category Reducer
+
+- **Get all categories**
+- **CRUD Operation for category (Admin access required)**
 
 ### Cart Reducer
 
@@ -250,15 +271,30 @@ git clone https://github.com/roshanbist/shoplyst.git
 - **Remove product from cart**
 - **Update product quantity in the cart**
 
-### Theme toggle (Light / Dark mode)
+### Order Reducer
+
+- **Get all Order**
+- **Get detail of single order**
+- **Delete order by order id**
 
 ### Toast Notifications
 
+This application offers seamless interaction with a notification feature, that keep users updated on every action they take. Whether it's adding or removing products from the cart, placing orders, users stay informed directly from the User Interface.
+
 ### Responsive Design
 
-## API Endpoint
+This application ensures a seamless experience across all devices, adapting effortlessly to various screen sizes facilitating usability on the go. Whether on a smartphone or tablet, or desktop users can navigate and interact with ease.
 
-- Use the API endpoint [Platzi Fake Store API](https://fakeapi.platzi.com/).
+### Testing
+
+All the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
+Total 33 tests runs and passed in 4 test suites.
+
+```bash
+   npm test
+```
+
+![Testing Screenshot](appScreenshot/frontend-testing.png)
 
 ## Deployment
 

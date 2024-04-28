@@ -56,7 +56,7 @@ const OrderDetail = () => {
                     className='flex flex-wrap justify-between px-[15px] md:px-[30px] border-b pb-5 mb-5'
                     key={index}
                   >
-                    <div className='w-[120px] h-[120px] rounded-lg max-sm:mb-5 md:mr-5'>
+                    <div className='w-[120px] h-[120px] rounded-lg max-sm:mb-5 mr-5'>
                       <img
                         className='w-full h-full object-cover rounded-lg cursor-pointer'
                         src={item.images[0]}
