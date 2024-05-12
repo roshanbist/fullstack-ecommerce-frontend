@@ -299,4 +299,4 @@ Total 34 tests runs and passed in 4 test suites.
 ## Deployment
 
 The application is deployed on vercel. Clicke here to see the [Live Demo](https://fullstack-ecommerce-frontend-sage.vercel.app/).
-The Backend of the application can be checked here. [Backend Demo](https://fullstack-ecommerce-backend-sx23.onrender.com/api/v1/products)
+The Backend of the application can be found here. [Backend Demo](https://fullstack-ecommerce-backend-sx23.onrender.com/api/v1/products)
