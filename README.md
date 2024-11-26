@@ -1,13 +1,13 @@
-# Frontend project
+# Frontend Module for SHOPLYST
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/6764957/52892445-9045cf80-3136-11e9-9d5e-a1c47e505372.png" width="100" alt="project-logo">
 </p>
 <p align="center">
-    <h1 align="center">Frontend E-Commerce Project</h1>
+    <h1 align="center">SHOPLYST FRONTEND</h1>
 </p>
 <p align="center">
-		<em>Developed with the software and tools below.</em>
+		<em>The Shoplyst frontend module was developed using the following software and tools:</em>
 </p>
 <p align="center">
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
@@ -21,7 +21,11 @@
 
 # Shoplyst
 
-'Shoplyst' is a frontend project developed with React, Typescript, Redux Toolkit, React Router Dom, and Tailwind CSS. Its core aim is to offer a user-friendly ecommerce experience, allowing customers to seamlessly explore diverse product categories like electronics, clothing, and furniture for online purchase. Powered by the api developed in Express js with typescript, it ensures dynamic product data, catering to both customer exploration and efficient admin product management with proper authentication. This is a frontedd part of Fullstack Project developed at Integrify 2024. The user interface facilitates both light mode and dark mode for the better user experience.
+The Shoplyst frontend module is part of a full-stack e-commerce learning project developed using React, TypeScript, Redux Toolkit, React Router DOM, and Tailwind CSS. Its primary goal is to provide a user-friendly shopping experience, enabling customers to explore various product categories such as electronics, clothing, and furniture for seamless online purchases.
+
+The frontend interacts with a robust backend API built with Express.js and TypeScript, ensuring dynamic product data management. It supports features like customer product exploration and efficient admin tools for product management, all secured with proper authentication mechanisms.
+
+This project, developed during the internship at Integrify Academy 2024, also supports both light mode and dark mode, enhancing the overall user experience.
 
 ## Table of Contents
 
