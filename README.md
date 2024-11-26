@@ -49,7 +49,7 @@ This project, developed during the internship at Integrify Academy 2024, also su
 
 ## Explore Shoplyst Live
 
-[![Shoplyst](https://img.shields.io/badge/Shoplyst-006400?style=for-the-badge&logo=google-chrome&logoColor=000000)](https://fullstack-ecommerce-frontend-sage.vercel.app/)
+[![Shoplyst](https://img.shields.io/badge/Shoplyst-006400?style=for-the-badge&logo=google-chrome&logoColor=000000)](https://shoplyst.vercel.app/)
 
 ## APP Images
 
@@ -302,5 +302,5 @@ Total 34 tests runs and passed in 4 test suites.
 
 ## Deployment
 
-The application is deployed on vercel. Clicke here to see the [Live Demo](https://fullstack-ecommerce-frontend-sage.vercel.app/).
+The application is deployed on vercel. Clicke here to see the [Live Demo](https://shoplyst.vercel.app/).
 The Backend of the application can be found here. [Backend Demo](https://fullstack-ecommerce-backend-sx23.onrender.com/api/v1/products)
